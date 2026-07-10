@@ -34,8 +34,9 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
   const nonTaperWeeks = alloc.base + alloc.build + alloc.peak;
 
   // 1. Continuous microcycle progression across the non-taper weeks.
-  const startMi = startingMileage(input.runningExp);
-  const startCa = startingCardioMinutes(startMi);
+  //    User-supplied starting volume overrides the experience-derived defaults.
+  const startMi = input.startMileage ?? startingMileage(input.runningExp);
+  const startCa = input.startCardioMinutes ?? startingCardioMinutes(startMi);
   const seq = sequenceMicrocycles(nonTaperWeeks, input.trainingClass, startMi, startCa);
 
   // 2. Assemble full-length base arrays; apply the peak-phase volume drop.
@@ -157,6 +158,8 @@ export function toEngineInput(input: GenerationInput, startDate?: string): Engin
     durationWeeks,
     trainingDays: input.profile.trainingDays,
     races,
+    startMileage: input.startMileage,
+    startCardioMinutes: input.startCardioMinutes,
   };
 }
 

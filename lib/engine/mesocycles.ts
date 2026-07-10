@@ -24,15 +24,15 @@ const ANCHORS: Record<TrainingClassName, MesocycleAllocation> = {
 
 const PRIORITY_RANK: Record<RacePriorityName, number> = { A: 3, B: 2, C: 1 };
 
-/** Taper mesocycle length by race priority (spec §6). */
+/** Taper mesocycle length by race priority (spec §6, A/B/C taper philosophy). */
 export function taperWeeksForPriority(priority: RacePriorityName | null): number {
   switch (priority) {
     case "A":
-      return 2; // 2-week taper
+      return 2; // 2-week taper (maximum freshness)
     case "B":
-      return 1; // 1-week deload-equivalent
+      return 1; // 1-week mini-taper (race week cut ~40%)
     case "C":
-      return 1; // 3–4 days, labeled as a single taper week
+      return 0; // no formal taper — train through; race is a hard workout
     default:
       return 0;
   }

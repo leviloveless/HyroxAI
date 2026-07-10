@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useRef, useState, type KeyboardEvent } from "react";
 import { submitOnboarding, type OnboardingState } from "./actions";
 import type { ProfileRow } from "@/lib/supabase/queries";
 
@@ -80,6 +80,19 @@ export default function OnboardingForm({ profile }: { profile: ProfileRow | null
     setRaces((rs) => rs.filter((_, idx) => idx !== i));
   }
 
+  /**
+   * Block implicit form submission on Enter: in a multi-step form a stray
+   * Enter keypress would otherwise submit and jump straight to generation
+   * before the user finishes (e.g. while typing benchmarks). Submission only
+   * happens via the explicit "Generate program" button.
+   */
+  function handleKeyDown(e: KeyboardEvent<HTMLFormElement>) {
+    const target = e.target as HTMLElement;
+    if (e.key === "Enter" && target.tagName !== "TEXTAREA") {
+      e.preventDefault();
+    }
+  }
+
   /** Validate the current step against the live form values before advancing. */
   function validateStep(current: number): string | null {
     const fd = formRef.current ? new FormData(formRef.current) : null;
@@ -117,7 +130,7 @@ export default function OnboardingForm({ profile }: { profile: ProfileRow | null
   }
 
   return (
-    <form ref={formRef} action={formAction} className="flex flex-col gap-6">
+    <form ref={formRef} action={formAction} onKeyDown={handleKeyDown} className="flex flex-col gap-6">
       {/* Progress indicator */}
       <ol className="flex items-center gap-2 text-xs">
         {STEPS.map((label, i) => (
@@ -206,6 +219,11 @@ export default function OnboardingForm({ profile }: { profile: ProfileRow | null
 
       {/* Step 3 — Schedule & goal */}
       <fieldset className={`flex flex-col gap-6 ${step === 2 ? "" : "hidden"}`}>
+        <label className="flex flex-col gap-1 text-sm">
+          Program name <span className="text-xs text-zinc-400">(optional)</span>
+          <input name="programName" placeholder="e.g. Spring HYROX build" className={inputClass} />
+        </label>
+
         <fieldset className="flex flex-col gap-2 text-sm">
           <legend className="mb-1 font-medium">Training days (pick at least 3)</legend>
           <div className="flex flex-wrap gap-2">
@@ -239,6 +257,23 @@ export default function OnboardingForm({ profile }: { profile: ProfileRow | null
             <legend className="mb-1 font-medium">
               Races {programType === "goal_event" ? "(at least one, main race = A)" : "(optional)"}
             </legend>
+
+            {/* A/B/C race definitions */}
+            <div className="flex flex-col gap-1 rounded-md bg-zinc-50 p-3 text-xs text-zinc-600">
+              <p>
+                <span className="font-semibold text-zinc-800">A race</span> — your peak goal. Gets a full 2-week taper for
+                maximum freshness (volume drops to ~60–70% then ~40–50% on race week; intensity stays sharp).
+              </p>
+              <p>
+                <span className="font-semibold text-zinc-800">B race</span> — secondary. A mini-taper: the race week is cut
+                ~40% while you keep your hard efforts, protecting training rhythm.
+              </p>
+              <p>
+                <span className="font-semibold text-zinc-800">C race</span> — a tune-up or fitness test. No taper — you
+                train right through it and treat the race itself as a hard workout.
+              </p>
+            </div>
+
             {races.map((r, i) => (
               <div key={i} className="flex items-end gap-2">
                 <label className="flex flex-1 flex-col gap-1">
@@ -284,6 +319,25 @@ export default function OnboardingForm({ profile }: { profile: ProfileRow | null
             </span>
           </label>
         )}
+
+        {/* Starting volume overrides (optional) */}
+        <fieldset className="flex flex-col gap-2 text-sm">
+          <legend className="mb-1 font-medium">Starting volume <span className="text-xs font-normal text-zinc-400">(optional)</span></legend>
+          <p className="text-xs text-zinc-500">
+            Leave blank to start from your running-experience default. Set these if you know your current weekly load and
+            want the program to build from it.
+          </p>
+          <div className="flex gap-4">
+            <label className="flex flex-1 flex-col gap-1">
+              Starting weekly mileage
+              <input name="startMileage" type="number" min={0} step="0.1" placeholder="e.g. 22" className={inputClass} />
+            </label>
+            <label className="flex flex-1 flex-col gap-1">
+              Starting weekly cardio (min)
+              <input name="startCardioMinutes" type="number" min={0} step="1" placeholder="e.g. 200" className={inputClass} />
+            </label>
+          </div>
+        </fieldset>
       </fieldset>
 
       {/* Step 4 — Benchmarks */}
@@ -318,7 +372,12 @@ export default function OnboardingForm({ profile }: { profile: ProfileRow | null
 
       {/* Navigation */}
       <div className="flex items-center justify-between">
-        <button type="button" onClick={back} disabled={step === 0} className="rounded-full px-4 py-2 text-sm text-zinc-600 disabled:opacity-0">
+        <button
+          type="button"
+          onClick={back}
+          disabled={step === 0}
+          className="rounded-full border border-zinc-300 px-4 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-50 disabled:opacity-0"
+        >
           ← Back
         </button>
         {step < STEPS.length - 1 ? (

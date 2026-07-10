@@ -97,6 +97,8 @@ export async function submitOnboarding(
     programType,
     durationWeeks,
     races: races.length > 0 ? races : undefined,
+    startMileage: num(formData, "startMileage"),
+    startCardioMinutes: num(formData, "startCardioMinutes"),
   };
 
   const parsed = GenerationInputSchema.safeParse(candidate);
@@ -116,6 +118,16 @@ export async function submitOnboarding(
   const start = todayISO();
   const engineInput = toEngineInput(input, start);
   const skeleton = buildSkeleton(engineInput);
+
+  // Program name: user-supplied, or a sensible default.
+  const TYPE_LABEL: Record<string, string> = {
+    goal_event: "goal event",
+    fixed_duration: "fixed duration",
+    general_fitness: "general fitness",
+  };
+  const programName =
+    str(formData, "programName") ??
+    `${engineInput.durationWeeks}-week ${TYPE_LABEL[input.programType] ?? input.programType} program`;
 
   // --- Persist profile ---
   const { error: profileError } = await supabase.from("profiles").upsert({
@@ -139,6 +151,7 @@ export async function submitOnboarding(
     .from("programs")
     .insert({
       user_id: user.id,
+      name: programName,
       program_type: input.programType,
       duration_weeks: engineInput.durationWeeks,
       start_date: start,

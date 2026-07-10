@@ -40,6 +40,10 @@ export interface EngineInput {
   durationWeeks: number; // 4–24
   trainingDays: TrainingDayName[]; // ≥3
   races: EngineRace[]; // may be empty (general fitness / fixed duration)
+  /** Optional user overrides for starting weekly volume. When omitted the
+   *  engine derives these from running experience (see volume.ts). */
+  startMileage?: number;
+  startCardioMinutes?: number;
 }
 
 // --- Allocation ---

@@ -24,9 +24,11 @@ export async function POST(request: Request) {
   }
 
   let programId: string | undefined;
+  let force = false;
   try {
     const body = await request.json();
     programId = typeof body?.programId === "string" ? body.programId : undefined;
+    force = body?.force === true;
   } catch {
     /* fall through to 400 below */
   }
@@ -43,8 +45,13 @@ export async function POST(request: Request) {
   if (!program) {
     return NextResponse.json({ error: "Program not found" }, { status: 404 });
   }
-  if (program.status === "ready") {
+  // Already done and this isn't an explicit recalculate → no-op.
+  if (program.status === "ready" && !force) {
     return NextResponse.json({ status: "ready" });
+  }
+  // Recalculate: reset to generating and clear the old program before re-running.
+  if (force) {
+    await supabase.from("programs").update({ status: "generating", program_data: null }).eq("id", programId);
   }
 
   const result = await generateProgram(supabase, programId);

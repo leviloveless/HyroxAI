@@ -1,0 +1,81 @@
+import type { Session } from "@/lib/schemas";
+import {
+  LIFT_TYPE_LABEL,
+  elementLine,
+  hybridHeader,
+  movementLine,
+  raceLabel,
+  runLine,
+} from "./format";
+
+const KIND_TAG: Record<Session["kind"], { label: string; className: string }> = {
+  run: { label: "Run", className: "bg-sky-100 text-sky-800" },
+  lift: { label: "Lift", className: "bg-zinc-200 text-zinc-800" },
+  hybrid: { label: "Hybrid", className: "bg-orange-100 text-orange-800" },
+  race: { label: "Race", className: "bg-red-100 text-red-800" },
+};
+
+function Tag({ kind }: { kind: Session["kind"] }) {
+  const t = KIND_TAG[kind];
+  return (
+    <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${t.className}`}>
+      {t.label}
+    </span>
+  );
+}
+
+/** Renders one session in the spec §5 output format. */
+export default function SessionCard({ session }: { session: Session }) {
+  if (session.kind === "run") {
+    return (
+      <div className="flex items-start gap-2">
+        <Tag kind="run" />
+        <p className="text-sm text-zinc-800">{runLine(session)}</p>
+      </div>
+    );
+  }
+
+  if (session.kind === "lift") {
+    return (
+      <div className="flex items-start gap-2">
+        <Tag kind="lift" />
+        <div className="text-sm text-zinc-800">
+          <p className="font-medium">{LIFT_TYPE_LABEL[session.liftType]}</p>
+          <ul className="mt-0.5 flex flex-col gap-0.5">
+            {session.movements.map((m, i) => (
+              <li key={i} className="text-zinc-700">
+                {movementLine(m)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  if (session.kind === "hybrid") {
+    return (
+      <div className="flex items-start gap-2">
+        <Tag kind="hybrid" />
+        <div className="text-sm text-zinc-800">
+          <p className="font-medium">{hybridHeader(session)}</p>
+          <ul className="mt-0.5 flex flex-col gap-0.5">
+            {session.elements.map((el, i) => (
+              <li key={i} className="text-zinc-700">
+                {elementLine(el)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  // race
+  return (
+    <div className="flex items-start gap-2">
+      <Tag kind="race" />
+      <p className="text-sm font-medium text-red-700">{raceLabel(session.priority)}</p>
+    </div>
+  );
+}

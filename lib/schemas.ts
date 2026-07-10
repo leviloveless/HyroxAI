@@ -47,6 +47,9 @@ export const GenerationInputSchema = z.object({
   programType: ProgramType,
   durationWeeks: z.number().int().min(4).max(24).optional(),
   races: z.array(RaceSchema).optional(),
+  /** Optional overrides for the engine's experience-derived starting volume. */
+  startMileage: z.number().positive().max(200).optional(),
+  startCardioMinutes: z.number().positive().max(2000).optional(),
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;

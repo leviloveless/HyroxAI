@@ -53,6 +53,12 @@ export const HYBRID_LIBRARY: Record<"base" | "build" | "peak" | "taper", string[
   taper: ["ski erg", "row erg", "wall balls"],
 };
 
+/** A/B/C race taper philosophy — how to fill sessions in a taper/race week. */
+export const TAPER_GUIDANCE = `Race tapers (the engine already sets the reduced volume; you fill the sessions to match its intent):
+- A race (peak priority): a 2-week taper for maximum freshness. Week 1 sits around 60–70% of the peak week; race week around 40–50%, with long workouts cut 50–70%. Keep intensity high but drop duration and frequency — do NOT remove hard efforts or speed work, that preserves sharpness. In race week cut heavy lifting/strength work, and include short "opener" sessions (e.g. 2 days out): brief, high-RPM bursts or quick strides so the legs feel snappy without fatigue.
+- B race (secondary): a mini-taper that protects training rhythm — the race week's planned duration is cut ~40–50%. Keep hard efforts in place but reduce the number of reps / time at high zones. Avoid deep, exhausting efforts 2–3 days before the race.
+- C race (tune-up): NO formal taper — train right through it. The day before can be off or a very short easy jog/spin, but don't sacrifice the training block. Treat the C race itself as a high-quality hard workout.`;
+
 /** Phase character (spec §4a, Q14/Q15). */
 export const PHASE_CHARACTER: Record<"base" | "build" | "peak" | "taper", string> = {
   base: "High volume, low intensity, aerobic foundation. Easy running dominant; runs are fartleks/progression runs. Strength base in lifting; minimal hybrid.",
@@ -77,6 +83,8 @@ export function philosophyRules(): string {
     LIFT_GUIDANCE,
     "",
     HYBRID_GUIDANCE,
+    "",
+    TAPER_GUIDANCE,
     "",
     "Target overall cardio-time zone split across the whole program: ~20% Z1, 60% Z2, 10% Z3, 5% Z4, 5% Z5 (weightlifting excluded).",
   ].join("\n");

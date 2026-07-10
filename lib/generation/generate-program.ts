@@ -19,6 +19,7 @@ import {
   type ProgramData,
 } from "@/lib/schemas";
 import type { PhaseName, ProgramSkeleton, WeekSkeleton } from "@/lib/engine/types";
+import { buildSkeleton, toEngineInput } from "@/lib/engine";
 import { generateChunk } from "@/lib/ai/generate-week";
 import { assembleProgram, verifyProgram } from "./assemble";
 
@@ -49,7 +50,7 @@ export async function generateProgram(
 ): Promise<GenerateResult> {
   const { data: row, error } = await supabase
     .from("programs")
-    .select("id, status, skeleton, input_snapshot")
+    .select("id, status, input_snapshot, start_date")
     .eq("id", programId)
     .single();
 
@@ -58,12 +59,13 @@ export async function generateProgram(
   }
 
   try {
-    if (!row.skeleton) throw new Error("Program has no stored skeleton");
-    const skeleton = row.skeleton as ProgramSkeleton;
-
     const parsedInput = GenerationInputSchema.safeParse(row.input_snapshot);
     if (!parsedInput.success) throw new Error("Stored input snapshot is invalid");
     const input: GenerationInput = parsedInput.data;
+
+    // Rebuild the skeleton from the saved inputs so a recalculate always
+    // reflects the current engine rules and any starting-volume overrides.
+    const skeleton = buildSkeleton(toEngineInput(input, row.start_date ?? undefined));
 
     // Fan out one Haiku call per mesocycle (independent given the skeleton).
     const chunkPlan = chunkByMesocycle(skeleton);
@@ -78,7 +80,7 @@ export async function generateProgram(
       throw new Error(`Verification failed: ${verdict.issues.join("; ")}`);
     }
 
-    await persist(supabase, programId, program);
+    await persist(supabase, programId, program, skeleton);
     return { ok: true, status: "ready", issues };
   } catch (err) {
     await supabase.from("programs").update({ status: "failed" }).eq("id", programId);
@@ -86,10 +88,15 @@ export async function generateProgram(
   }
 }
 
-async function persist(supabase: SupabaseClient, programId: string, program: ProgramData): Promise<void> {
+async function persist(
+  supabase: SupabaseClient,
+  programId: string,
+  program: ProgramData,
+  skeleton: ProgramSkeleton,
+): Promise<void> {
   const { error } = await supabase
     .from("programs")
-    .update({ program_data: program, status: "ready" })
+    .update({ program_data: program, skeleton, status: "ready" })
     .eq("id", programId);
   if (error) throw new Error(`Failed to persist program: ${error.message}`);
 }

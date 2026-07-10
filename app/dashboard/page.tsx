@@ -1,8 +1,29 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getCurrentProfile } from "@/lib/supabase/queries";
+import { getCurrentProfile, getUserPrograms, type ProgramSummaryRow } from "@/lib/supabase/queries";
 import { signOut } from "@/app/login/actions";
+import { deleteProgram } from "./actions";
+
+const TYPE_LABEL: Record<string, string> = {
+  goal_event: "Goal event",
+  fixed_duration: "Fixed duration",
+  general_fitness: "General fitness",
+};
+
+const STATUS_STYLE: Record<ProgramSummaryRow["status"], string> = {
+  ready: "bg-emerald-100 text-emerald-800",
+  generating: "bg-amber-100 text-amber-800",
+  failed: "bg-red-100 text-red-800",
+};
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+}
+
+function programTitle(p: ProgramSummaryRow): string {
+  return p.name ?? `${p.duration_weeks}-week ${TYPE_LABEL[p.program_type] ?? p.program_type} program`;
+}
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -11,7 +32,7 @@ export default async function DashboardPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const profile = await getCurrentProfile();
+  const [profile, programs] = await Promise.all([getCurrentProfile(), getUserPrograms()]);
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-16">
@@ -30,12 +51,40 @@ export default async function DashboardPage() {
         href="/onboarding"
         className="self-start rounded-full bg-black px-6 py-3 text-white transition-colors hover:bg-zinc-800"
       >
-        {profile ? "Build a new program" : "Build your program"}
+        {programs.length > 0 ? "Build a new program" : "Build your program"}
       </Link>
 
-      <p className="text-zinc-600">
-        Your program list renders here — Milestone 6.
-      </p>
+      {programs.length === 0 ? (
+        <p className="text-zinc-600">You haven&apos;t generated any programs yet.</p>
+      ) : (
+        <ul className="flex flex-col gap-2">
+          {programs.map((p) => (
+            <li key={p.id} className="flex items-center gap-2 rounded-lg border border-zinc-200 pr-3 transition-colors hover:bg-zinc-50">
+              <Link href={`/program/${p.id}`} className="flex flex-1 items-center justify-between px-4 py-3">
+                <span className="flex flex-col">
+                  <span className="font-medium">{programTitle(p)}</span>
+                  <span className="text-xs text-zinc-500">
+                    {p.duration_weeks} weeks · {TYPE_LABEL[p.program_type] ?? p.program_type} · created {formatDate(p.created_at)}
+                  </span>
+                </span>
+                <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLE[p.status]}`}>
+                  {p.status === "ready" ? "Ready" : p.status === "generating" ? "Generating…" : "Failed"}
+                </span>
+              </Link>
+              <form action={deleteProgram}>
+                <input type="hidden" name="programId" value={p.id} />
+                <button
+                  type="submit"
+                  className="rounded-md px-2 py-1 text-xs text-zinc-400 hover:bg-red-50 hover:text-red-600"
+                  aria-label={`Delete ${programTitle(p)}`}
+                >
+                  Delete
+                </button>
+              </form>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {profile && (
         <Link href="/profile" className="self-start text-sm underline">

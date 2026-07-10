@@ -76,9 +76,10 @@ describe("mesocycle allocation — taper by priority & general fitness", () => {
     expect(a.base + a.build + a.peak + a.taper).toBe(20);
   });
 
-  it("C race → 1-week taper", () => {
+  it("C race → no taper mesocycle (train through)", () => {
     const a = allocateMesocycles(makeInput({ races: [{ weekNumber: 20, priority: "C" }] }));
-    expect(a.taper).toBe(1);
+    expect(a.taper).toBe(0);
+    expect(a.base + a.build + a.peak + a.taper).toBe(20);
   });
 
   it("general fitness → no taper mesocycle", () => {
