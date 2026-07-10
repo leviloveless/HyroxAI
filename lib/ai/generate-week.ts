@@ -12,6 +12,18 @@ import { AiChunkSchema, type AiChunk, type GenerationInput } from "@/lib/schemas
 import type { PhaseName, WeekSkeleton } from "@/lib/engine/types";
 import { buildSystemPrompt, buildUserPrompt } from "./prompts";
 
+/** Token usage for one mesocycle call, summed across any retry attempts. */
+export interface ChunkUsage {
+  inputTokens: number;
+  outputTokens: number;
+}
+
+/** A generated chunk plus the tokens it cost (for cost tracking). */
+export interface ChunkResult {
+  chunk: AiChunk;
+  usage: ChunkUsage;
+}
+
 /** Haiku model; overridable via env for pinning/upgrades. */
 const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-haiku-4-5-20251001";
 const MAX_TOKENS = 8000;
@@ -58,12 +70,15 @@ export async function generateChunk(
   input: GenerationInput,
   phase: PhaseName,
   weeks: WeekSkeleton[],
-): Promise<AiChunk> {
+): Promise<ChunkResult> {
   const system = buildSystemPrompt();
   const user = buildUserPrompt(input, phase, weeks);
   const anthropic = getClient();
 
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: user }];
+
+  // Accumulate across attempts so a retry's tokens are counted too.
+  const usage: ChunkUsage = { inputTokens: 0, outputTokens: 0 };
 
   for (let attempt = 0; attempt < 2; attempt++) {
     const response = await anthropic.messages.create({
@@ -73,13 +88,16 @@ export async function generateChunk(
       messages,
     });
 
+    usage.inputTokens += response.usage.input_tokens;
+    usage.outputTokens += response.usage.output_tokens;
+
     const text = response.content
       .filter((b): b is Anthropic.TextBlock => b.type === "text")
       .map((b) => b.text)
       .join("");
 
     try {
-      return parseChunk(text);
+      return { chunk: parseChunk(text), usage };
     } catch (err) {
       if (attempt === 1) {
         throw new Error(`Session generation failed for ${phase} mesocycle after retry: ${(err as Error).message}`);

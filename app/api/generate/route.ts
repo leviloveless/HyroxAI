@@ -75,7 +75,12 @@ export async function POST(request: Request) {
   }
 
   // Log this run before starting so concurrent requests can't slip past the cap.
-  await supabase.from("generation_events").insert({ user_id: user.id, program_id: programId });
+  // Keep the id so we can stamp token usage onto this same row afterward.
+  const { data: event } = await supabase
+    .from("generation_events")
+    .insert({ user_id: user.id, program_id: programId })
+    .select("id")
+    .single();
 
   // Recalculate: reset to generating and clear the old program before re-running.
   if (force) {
@@ -83,8 +88,21 @@ export async function POST(request: Request) {
   }
 
   const result = await generateProgram(supabase, programId);
+
+  // Record actual token usage + estimated cost on this generation's event row.
+  if (event?.id && result.usage) {
+    await supabase
+      .from("generation_events")
+      .update({
+        input_tokens: result.usage.inputTokens,
+        output_tokens: result.usage.outputTokens,
+        cost_usd: result.usage.costUsd,
+      })
+      .eq("id", event.id);
+  }
+
   if (!result.ok) {
     return NextResponse.json({ status: "failed", issues: result.issues }, { status: 502 });
   }
-  return NextResponse.json({ status: result.status, issues: result.issues });
+  return NextResponse.json({ status: result.status, issues: result.issues, usage: result.usage });
 }

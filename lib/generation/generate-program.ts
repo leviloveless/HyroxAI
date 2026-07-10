@@ -23,11 +23,24 @@ import { buildSkeleton, toEngineInput } from "@/lib/engine";
 import { generateChunk } from "@/lib/ai/generate-week";
 import { assembleProgram, verifyProgram } from "./assemble";
 
+/** Token + cost totals for one full generation (all mesocycle calls). */
+export interface GenerationUsage {
+  inputTokens: number;
+  outputTokens: number;
+  costUsd: number;
+}
+
 export interface GenerateResult {
   ok: boolean;
   status: "ready" | "failed";
   issues: string[];
+  usage?: GenerationUsage;
 }
+
+// Claude Haiku 4.5 list price (USD per token). Update if pricing changes; this
+// is only used for at-a-glance cost logging, not billing.
+const INPUT_COST_PER_TOKEN = 1 / 1_000_000; // $1 / 1M input tokens
+const OUTPUT_COST_PER_TOKEN = 5 / 1_000_000; // $5 / 1M output tokens
 
 /** Split the skeleton weeks into contiguous same-phase mesocycle chunks. */
 export function chunkByMesocycle(skeleton: ProgramSkeleton): { phase: PhaseName; weeks: WeekSkeleton[] }[] {
@@ -69,8 +82,24 @@ export async function generateProgram(
 
     // Fan out one Haiku call per mesocycle (independent given the skeleton).
     const chunkPlan = chunkByMesocycle(skeleton);
-    const chunks: AiChunk[] = await Promise.all(
+    const results = await Promise.all(
       chunkPlan.map((c) => generateChunk(input, c.phase, c.weeks)),
+    );
+    const chunks: AiChunk[] = results.map((r) => r.chunk);
+
+    // Sum token usage across all mesocycle calls and price it (Haiku list rate).
+    const inputTokens = results.reduce((n, r) => n + r.usage.inputTokens, 0);
+    const outputTokens = results.reduce((n, r) => n + r.usage.outputTokens, 0);
+    const usage: GenerationUsage = {
+      inputTokens,
+      outputTokens,
+      costUsd:
+        Math.round(
+          (inputTokens * INPUT_COST_PER_TOKEN + outputTokens * OUTPUT_COST_PER_TOKEN) * 1e6,
+        ) / 1e6,
+    };
+    console.log(
+      `[generate] program=${programId} calls=${results.length} in=${inputTokens} out=${outputTokens} cost=$${usage.costUsd.toFixed(4)}`,
     );
 
     // Assemble (engine summaries + pattern patching) and verify.
@@ -81,7 +110,7 @@ export async function generateProgram(
     }
 
     await persist(supabase, programId, program, skeleton);
-    return { ok: true, status: "ready", issues };
+    return { ok: true, status: "ready", issues, usage };
   } catch (err) {
     await supabase.from("programs").update({ status: "failed" }).eq("id", programId);
     return { ok: false, status: "failed", issues: [(err as Error).message] };
