@@ -74,6 +74,55 @@ const TYPE_DOT: Record<Session["kind"], string> = {
   race: "bg-red-500",
 };
 
+/** Mobile layout: one stacked block per day (no horizontal scroll). */
+function MobileDayList({ week, startDate, maxHR }: { week: ProgramWeek; startDate: string; maxHR: number }) {
+  const byDay = new Map(week.days.map((d) => [d.day, d.sessions]));
+  return (
+    <ul className="flex flex-col divide-y divide-zinc-100 md:hidden">
+      {DAY_ORDER.map((dayKey) => {
+        const sessions = byDay.get(dayKey) ?? [];
+        const dateLabel = dayDateLabel(startDate, week.weekNumber, dayKey);
+        return (
+          <li key={dayKey} className="flex flex-col gap-2 px-4 py-3">
+            <div className="flex items-baseline gap-2">
+              <span className="text-sm font-semibold">{DAY_LABEL[dayKey]}</span>
+              <span className="text-xs text-zinc-400">{dateLabel}</span>
+              {sessions.length === 0 && <span className="ml-auto text-xs text-zinc-400">Rest</span>}
+            </div>
+            {sessions.map((s, si) => {
+              const t = sessionTiming(s);
+              const isRace = s.kind === "race";
+              return (
+                <div key={si} className="rounded-lg bg-zinc-50 px-3 py-2 text-sm">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="flex items-center gap-1.5 font-medium text-zinc-800">
+                      <span className={`h-2 w-2 shrink-0 rounded-full ${TYPE_DOT[s.kind]}`} />
+                      {sessionTypeLabel(s)}
+                    </span>
+                    {!isRace && <span className="shrink-0 text-xs tabular-nums text-zinc-500">{t.total}m total</span>}
+                  </div>
+                  <div className="mt-0.5 text-xs">
+                    <SessionDetail session={s} />
+                  </div>
+                  <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-zinc-500">
+                    {sessionPace(s) !== "—" && <span>Pace {sessionPace(s)}</span>}
+                    {sessionZoneLabel(s, maxHR) !== "—" && <span>{sessionZoneLabel(s, maxHR)}</span>}
+                    {!isRace && (
+                      <span className="tabular-nums">
+                        {t.warmup}/{t.work}/{t.cooldown} warmup·work·cooldown
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 /** One week: summary header + a Monday→Sunday table of that week's sessions. */
 export default function WeekCard({ week, startDate, maxHR }: { week: ProgramWeek; startDate: string; maxHR: number }) {
   const colors = PHASE_COLORS[week.phase];
@@ -112,8 +161,11 @@ export default function WeekCard({ week, startDate, maxHR }: { week: ProgramWeek
         </div>
       </div>
 
-      {/* Mon→Sun session table */}
-      <div className="overflow-x-auto">
+      {/* Mobile: stacked per-day list (no horizontal scroll) */}
+      <MobileDayList week={week} startDate={startDate} maxHR={maxHR} />
+
+      {/* Desktop: Mon→Sun session table */}
+      <div className="hidden overflow-x-auto md:block">
         <table className="w-full min-w-[720px] text-sm">
           <thead className="bg-zinc-50 text-xs text-zinc-500">
             <tr>
