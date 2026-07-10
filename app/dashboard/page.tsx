@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile, getUserPrograms, type ProgramSummaryRow } from "@/lib/supabase/queries";
 import { signOut } from "@/app/login/actions";
 import { deleteProgram } from "./actions";
+import RenameProgram from "./rename-program";
 
 const TYPE_LABEL: Record<string, string> = {
   goal_event: "Goal event",
@@ -71,6 +72,7 @@ export default async function DashboardPage() {
                   {p.status === "ready" ? "Ready" : p.status === "generating" ? "Generating…" : "Failed"}
                 </span>
               </Link>
+              <RenameProgram programId={p.id} currentName={programTitle(p)} />
               <form action={deleteProgram}>
                 <input type="hidden" name="programId" value={p.id} />
                 <button

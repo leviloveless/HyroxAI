@@ -23,10 +23,28 @@ export const STARTING_MILEAGE: Record<ExperienceLevel, number> = {
 /** Rough average easy-running pace used to seed a starting cardio-minute baseline. */
 export const AVG_MIN_PER_MILE = 9;
 
-/** Microcycle volume math (spec §4b). */
-export const INCREASE_MILEAGE_FACTOR = 1.075; // +7.5% mileage on an increase week
-export const INCREASE_CARDIO_FACTOR = 1.1; //   +10% total cardio on an increase week
-export const DELOAD_FACTOR = 0.6; //            −40% mileage & cardio on a deload week
+/**
+ * Microcycle volume math (spec §4b, refined).
+ *
+ * An increase week adds the LESSER of an absolute step or a percentage of the
+ * current held volume — so early/low-volume weeks grow by the percentage while
+ * higher-volume weeks are capped to a safe absolute bump:
+ *   mileage: +min(1.5 miles, 7.5%)   cardio: +min(15 minutes, 10%)
+ */
+export const INCREASE_MILEAGE_PCT = 0.075; //  +7.5% of current mileage
+export const INCREASE_MILEAGE_CAP = 1.5; //    …but no more than +1.5 miles/week
+export const INCREASE_CARDIO_PCT = 0.1; //     +10% of current cardio minutes
+export const INCREASE_CARDIO_CAP = 15; //      …but no more than +15 minutes/week
+export const DELOAD_FACTOR = 0.6; //           −40% mileage & cardio on a deload week
+
+// Kept for backward-compatible imports; the capped rule above is authoritative.
+export const INCREASE_MILEAGE_FACTOR = 1.075;
+export const INCREASE_CARDIO_FACTOR = 1.1;
+
+/** Increase step = min(absolute cap, percentage of current). */
+export function increaseStep(current: number, pct: number, cap: number): number {
+  return Math.min(cap, current * pct);
+}
 
 /**
  * Peak phase carries lower total volume at higher intensity (spec §4c).

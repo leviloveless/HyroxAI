@@ -3,8 +3,9 @@
  *
  * Tapers override the standard microcycle, working backward from each race:
  *   - A race: 2 weeks, −30% then −30% again (cumulative ≈ −51% from peak)
- *   - B race: 1 week,  −40% (a deload-equivalent)
- *   - C race: 3–4 days, −40% over those days ≈ −20% across the week
+ *   - B race: 1 week,  −40% (a mini-taper; quality work is retained)
+ *   - C race: none — train through; the week is unchanged and the race day
+ *             simply replaces that day's session
  *
  * Cuts reduce from the pre-taper progression level (the week before the taper
  * window). For multi-race programs, each race's taper is applied independently
@@ -14,7 +15,7 @@
  */
 
 import type { EngineRace, MicroWeekType, RacePriorityName } from "./types";
-import { A_TAPER_WEEK_FACTOR, B_TAPER_FACTOR, C_TAPER_FACTOR } from "./volume";
+import { A_TAPER_WEEK_FACTOR, B_TAPER_FACTOR } from "./volume";
 import { taperWeeksForPriority } from "./mesocycles";
 
 export interface TaperableWeeks {
@@ -54,6 +55,14 @@ export function applyTapers(
     const w = race.weekNumber; // 1-based
     if (w < 1 || w > mileage.length) continue;
 
+    // C race: no formal taper. Train right through — leave the week's volume
+    // and microcycle label untouched; the race just replaces that day's
+    // session (handled downstream in slot assignment). Register it only.
+    if (race.priority === "C") {
+      raceWeeks.set(w, { priority: race.priority, date: race.date });
+      continue;
+    }
+
     const len = taperWeeksForPriority(race.priority);
     const raceIdx = w - 1; // 0-based index of the race week
     const startIdx = raceIdx - (len - 1); // first taper-window index
@@ -66,7 +75,9 @@ export function applyTapers(
       setWeek(mileage, cardioMinutes, microLabels, startIdx, preMileage * A_TAPER_WEEK_FACTOR, preCardio * A_TAPER_WEEK_FACTOR, "taper");
       setWeek(mileage, cardioMinutes, microLabels, raceIdx, preMileage * A_TAPER_WEEK_FACTOR * A_TAPER_WEEK_FACTOR, preCardio * A_TAPER_WEEK_FACTOR * A_TAPER_WEEK_FACTOR, "race");
     } else {
-      const factor = race.priority === "B" ? B_TAPER_FACTOR : race.priority === "C" ? C_TAPER_FACTOR : B_TAPER_FACTOR;
+      // Only a B race reaches here: A is handled above and C trains through
+      // (returned early), so the single race week is cut by the B factor.
+      const factor = B_TAPER_FACTOR;
       // Any leading taper-window weeks (none for len 1) get the flat cut too.
       for (let idx = startIdx; idx < raceIdx; idx++) {
         setWeek(mileage, cardioMinutes, microLabels, idx, preMileage * factor, preCardio * factor, "taper");

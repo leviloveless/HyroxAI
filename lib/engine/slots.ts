@@ -132,6 +132,32 @@ function buildHybridSlots(count: number): SessionSlot[] {
 }
 
 /**
+ * Reduced race-week sessions for A and B priority (spec §6 A/B taper rules).
+ *   A: maximum freshness — cut lifting entirely; a short easy shakeout plus a
+ *      sharp "opener" (short, high-RPM strides / intervals) to keep the legs
+ *      snappy without fatigue.
+ *   B: mini-taper — keep one quality session (tempo) and a single reduced lift.
+ * C races are NOT routed here: they train through as a normal week, with the
+ * race simply replacing the race-day session.
+ */
+function raceWeekSlots(priority: RacePriorityName): SessionSlot[] {
+  if (priority === "A") {
+    return [
+      { kind: "run", runType: "easy", goalZone: GOAL_ZONE.easy },
+      { kind: "run", runType: "interval", goalZone: GOAL_ZONE.interval }, // opener
+    ];
+  }
+  if (priority === "B") {
+    return [
+      { kind: "run", runType: "easy", goalZone: GOAL_ZONE.easy },
+      { kind: "run", runType: "tempo", goalZone: GOAL_ZONE.tempo }, // retained quality
+      { kind: "lift", liftType: "full" },
+    ];
+  }
+  return [];
+}
+
+/**
  * Assign a week's sessions across the training days. Sessions are interleaved
  * round-robin so hard days spread out; days with no session get an explicit
  * rest slot; when there are more sessions than days, days double up.
@@ -144,14 +170,21 @@ export function assignDays(
   hybridExp: ExperienceLevel,
   race?: { priority: RacePriorityName; date?: string },
 ): DaySlot[] {
-  const plan = planWeek(phase, microWeek, runningExp, hybridExp);
-
-  // Interleave kinds (run, lift, hybrid, run, lift, …) so similar sessions
-  // don't cluster on adjacent days.
-  const runs = buildRunSlots(phase, plan.runs);
-  const lifts = buildLiftSlots(plan.lifts);
-  const hybrids = buildHybridSlots(plan.hybrids);
-  const ordered = interleave(runs, lifts, hybrids);
+  // An A/B race week (microWeek "race") uses the reduced taper sessions; a C
+  // race keeps its normal microcycle label and trains through, so it falls to
+  // the normal plan below and just has the race overlaid on the race day.
+  let ordered: SessionSlot[];
+  if (race && microWeek === "race") {
+    ordered = raceWeekSlots(race.priority);
+  } else {
+    const plan = planWeek(phase, microWeek, runningExp, hybridExp);
+    // Interleave kinds (run, lift, hybrid, run, lift, …) so similar sessions
+    // don't cluster on adjacent days.
+    const runs = buildRunSlots(phase, plan.runs);
+    const lifts = buildLiftSlots(plan.lifts);
+    const hybrids = buildHybridSlots(plan.hybrids);
+    ordered = interleave(runs, lifts, hybrids);
+  }
 
   const days: DaySlot[] = trainingDays.map((day) => ({ day, sessions: [] as SessionSlot[] }));
 
@@ -162,8 +195,8 @@ export function assignDays(
   }
 
   if (race) {
-    // Race goes on the last training day of the week; keep only a light
-    // shakeout run before it.
+    // The race takes the last training day of the week, replacing that day's
+    // session (for a C race this is the only change to an otherwise normal week).
     const last = days[days.length - 1];
     last.sessions = [{ kind: "race", priority: race.priority }];
   }

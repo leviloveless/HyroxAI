@@ -142,18 +142,20 @@ describe("microcycle volume math (NHT)", () => {
     expect(seq.mileage[3]).toBeGreaterThan(seq.mileage[0]);
   });
 
-  it("cardio rises +10% on increase weeks (diverging from mileage's +7.5%)", () => {
+  it("cardio rises on increase weeks, capped at +15 min (min of 15 or 10%)", () => {
     expect(seq.cardioMinutes[1]).toBeGreaterThan(seq.cardioMinutes[0]);
-    expect(seq.cardioMinutes[1]).toBe(Math.round(200 * 1.1));
+    // 10% of 200 = 20, capped to +15 → 215
+    expect(seq.cardioMinutes[1]).toBe(215);
   });
 });
 
 describe("microcycle volume math (HT — two increase weeks)", () => {
   const seq = sequenceMicrocycles(8, "highly_trained", 30, 300);
-  it("compounds two increases before deloading", () => {
+  it("compounds two capped increases before deloading", () => {
     expect(seq.labels.slice(0, 4)).toEqual(["rebound", "increase", "increase", "deload"]);
-    expect(seq.mileage[2]).toBeCloseTo(30 * 1.075 * 1.075, 1);
-    expect(seq.mileage[3]).toBeCloseTo(30 * 1.075 * 1.075 * DELOAD_FACTOR, 1);
+    // 30 → +min(1.5, 7.5%=2.25)=1.5 → 31.5 → +1.5 → 33.0
+    expect(seq.mileage[2]).toBeCloseTo(33.0, 1);
+    expect(seq.mileage[3]).toBeCloseTo(33.0 * DELOAD_FACTOR, 1);
   });
 });
 
@@ -223,6 +225,34 @@ describe("multi-race taper (mid-program B, resume, end A)", () => {
   });
 });
 
+describe("C race trains through (no taper, no volume cut)", () => {
+  const D = 12;
+  const base = {
+    mileage: new Array(D).fill(40),
+    cardioMinutes: new Array(D).fill(400),
+    microLabels: new Array(D).fill("increase") as any,
+  };
+  const res = applyTapers(base, [{ weekNumber: 12, priority: "C" }]);
+  it("leaves the race week's volume and label unchanged", () => {
+    expect(res.mileage[11]).toBe(40);
+    expect(res.microLabels[11]).toBe("increase");
+    expect(res.raceWeeks.get(12)?.priority).toBe("C");
+  });
+
+  it("a C-race skeleton keeps a full training week (not a rest week)", () => {
+    const skeleton = buildSkeleton(
+      makeInput({ durationWeeks: 12, races: [{ weekNumber: 12, priority: "C" }] }),
+    );
+    const raceWeek = skeleton.weeks[11];
+    const sessions = raceWeek.days.flatMap((d) => d.sessions);
+    const restDays = raceWeek.days.filter((d) => d.sessions.every((s) => s.kind === "rest")).length;
+    // trains through: has real training + the race, not 5 days of rest
+    expect(sessions.some((s) => s.kind === "race")).toBe(true);
+    expect(sessions.filter((s) => s.kind === "run" || s.kind === "lift" || s.kind === "hybrid").length).toBeGreaterThanOrEqual(3);
+    expect(restDays).toBeLessThanOrEqual(2);
+  });
+});
+
 // ============================================================
 // Full skeleton integration
 // ============================================================
@@ -260,8 +290,9 @@ describe("buildSkeleton — structural integrity", () => {
             expect(w.targetMileage).toBeGreaterThanOrEqual(0);
             expect(w.targetCardioMinutes).toBeGreaterThanOrEqual(0);
 
-            // non-race, non-taper weeks carry exactly 3 lift sessions
-            if (w.microWeek !== "race" && w.microWeek !== "taper" && w.microWeek !== "deload") {
+            // full training weeks carry exactly 3 lift sessions; race weeks
+            // (incl. a C race that trains through) replace a day with the race
+            if (w.microWeek !== "race" && w.microWeek !== "taper" && w.microWeek !== "deload" && !w.raceDay) {
               const lifts = countKind(w, "lift");
               expect(lifts).toBe(3);
               // run count within the spec's 3–8 band

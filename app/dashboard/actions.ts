@@ -20,3 +20,22 @@ export async function deleteProgram(formData: FormData): Promise<void> {
   await supabase.from("programs").delete().eq("id", id).eq("user_id", user.id);
   revalidatePath("/dashboard");
 }
+
+/**
+ * Rename one of the signed-in user's programs (Tasks addition #1).
+ */
+export async function renameProgram(formData: FormData): Promise<void> {
+  const id = formData.get("programId");
+  const raw = formData.get("name");
+  const name = typeof raw === "string" ? raw.trim() : "";
+  if (typeof id !== "string" || !id || !name) return;
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  await supabase.from("programs").update({ name }).eq("id", id).eq("user_id", user.id);
+  revalidatePath("/dashboard");
+}

@@ -53,6 +53,9 @@ const inputClass = "rounded-md border border-zinc-300 px-3 py-2 focus:border-bla
 export default function OnboardingForm({ profile }: { profile: ProfileRow | null }) {
   const [state, formAction, pending] = useActionState(submitOnboarding, initialState);
   const formRef = useRef<HTMLFormElement>(null);
+  // Timestamp of when the user reached the final step — used to ignore an
+  // accidental click that lands on "Generate" right after advancing.
+  const enteredLastStepAt = useRef(0);
 
   const [step, setStep] = useState(0);
   const [stepError, setStepError] = useState<string | null>(null);
@@ -122,15 +125,39 @@ export default function OnboardingForm({ profile }: { profile: ProfileRow | null
       return;
     }
     setStepError(null);
-    setStep((s) => Math.min(s + 1, STEPS.length - 1));
+    setStep((s) => {
+      const nextStep = Math.min(s + 1, STEPS.length - 1);
+      if (nextStep === STEPS.length - 1) enteredLastStepAt.current = Date.now();
+      return nextStep;
+    });
   }
   function back() {
     setStepError(null);
     setStep((s) => Math.max(s - 1, 0));
   }
 
+  /**
+   * The ONLY path that starts generation. The form itself never submits
+   * (native submit is blocked), so program creation can't be triggered by
+   * Enter or by advancing into the Benchmarks step — only by a deliberate
+   * click here, on the last step.
+   */
+  function handleGenerate() {
+    if (step !== STEPS.length - 1) return;
+    // Ignore a click that arrives within 300ms of reaching the last step
+    // (guards against a double-click on "Next" carrying through to "Generate").
+    if (Date.now() - enteredLastStepAt.current < 300) return;
+    if (!formRef.current) return;
+    formAction(new FormData(formRef.current));
+  }
+
   return (
-    <form ref={formRef} action={formAction} onKeyDown={handleKeyDown} className="flex flex-col gap-6">
+    <form
+      ref={formRef}
+      onSubmit={(e) => e.preventDefault()}
+      onKeyDown={handleKeyDown}
+      className="flex flex-col gap-6"
+    >
       {/* Progress indicator */}
       <ol className="flex items-center gap-2 text-xs">
         {STEPS.map((label, i) => (
@@ -385,7 +412,7 @@ export default function OnboardingForm({ profile }: { profile: ProfileRow | null
             Next
           </button>
         ) : (
-          <button type="submit" disabled={pending} className="rounded-full bg-black px-6 py-2.5 text-white transition-colors hover:bg-zinc-800 disabled:opacity-50">
+          <button type="button" onClick={handleGenerate} disabled={pending} className="rounded-full bg-black px-6 py-2.5 text-white transition-colors hover:bg-zinc-800 disabled:opacity-50">
             {pending ? "Building your program…" : "Generate program"}
           </button>
         )}
