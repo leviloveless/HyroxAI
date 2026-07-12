@@ -156,11 +156,26 @@ export const RaceSessionSchema = z.object({
   priority: RacePriority,
 });
 
+/**
+ * Non-running Zone 1–2 cardio (bike / row / ski / elliptical), added by the
+ * volume reconciler to make a week's total cardio time hit the engine target
+ * once the running (sized to the mileage target at fixed paces) is placed.
+ * Contributes cardio minutes but no running mileage.
+ */
+export const CardioSessionSchema = z.object({
+  kind: z.literal("cardio"),
+  durationMin: z.number(),
+  goalZone: z.number().int().min(1).max(5),
+  modality: z.string().optional(),
+  description: z.string().optional(),
+});
+
 export const SessionSchema = z.discriminatedUnion("kind", [
   RunSessionSchema,
   LiftSessionSchema,
   HybridSessionSchema,
   RaceSessionSchema,
+  CardioSessionSchema,
 ]);
 
 export type Session = z.infer<typeof SessionSchema>;

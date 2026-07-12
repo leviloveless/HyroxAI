@@ -32,7 +32,7 @@ const RUN_DESCRIPTIONS: Record<Exclude<RunType, "progression">, string> = {
   threshold:
     "Zone 4 running at true lactate threshold — 'comfortably hard,' about 20–30 sec/mile slower than 5K pace. The primary quality run of the peak phase, it lifts the pace you can sustain on race day.",
   interval:
-    "Warm up with a 5-minute easy jog, then run 6–8 rounds of 800m at your goal 5K pace with a 1-minute slow jog recovery between reps, and finish with a 5-minute easy walk cool-down.",
+    "Warm up with a 5-minute easy jog, then run 6–8 rounds of 800m at your interval pace (about your 5K pace or a touch faster) with a 1-minute slow jog recovery between reps, and finish with a 5-minute easy walk cool-down.",
   hybrid_run:
     "A threshold-pace (Zone 4) run performed inside a hybrid session, alternating with HYROX stations. Run it at the same controlled, hard effort you'd hold on the HYROX course.",
 };

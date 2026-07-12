@@ -125,6 +125,10 @@ function parseGenerationInput(
   }
   const input = parsed.data;
 
+  if (!input.profile.benchmarks?.fiveKTime) {
+    return { error: "Enter your 5K time so run paces can be calculated — a best guess is fine if you don't know it." };
+  }
+
   if (input.programType === "goal_event" && (!input.races || input.races.length === 0)) {
     return { error: "Add at least one race date for a goal-event program." };
   }

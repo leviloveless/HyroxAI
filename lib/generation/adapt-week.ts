@@ -203,7 +203,13 @@ export function buildAdaptationContext(
       if (s.kind === "race") return;
       const log = byKey.get(`${day.day}:${i}`);
       const label =
-        s.kind === "run" ? `${s.runType} run` : s.kind === "lift" ? `${s.liftType} lift` : "hybrid";
+        s.kind === "run"
+          ? `${s.runType} run`
+          : s.kind === "lift"
+            ? `${s.liftType} lift`
+            : s.kind === "cardio"
+              ? "zone 1–2 cardio"
+              : "hybrid";
       const status = log?.status ?? "not logged";
       const rpe = log?.rpe != null ? `, RPE ${log.rpe}` : "";
       const note = log?.note ? ` — note: "${log.note}"` : "";
@@ -270,7 +276,12 @@ export async function applyAdaptation(
 
     // Assemble just this week through the same summary/pattern guarantees.
     const miniSkeleton: ProgramSkeleton = { ...loaded.skeleton, weeks: [revisedWeek] };
-    const { program: miniProgram } = assembleProgram(miniSkeleton, [result.chunk], loaded.input.profile.runningExp);
+    const { program: miniProgram } = assembleProgram(
+      miniSkeleton,
+      [result.chunk],
+      loaded.input.profile.runningExp,
+      loaded.input.profile.benchmarks?.fiveKTime,
+    );
     const newWeek = miniProgram.weeks[0];
     if (!newWeek) return { error: "Refill produced no week", status: 502 };
     // Keep the race-day marker if the original target week had one (it shouldn't — rule 1 —

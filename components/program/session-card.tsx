@@ -13,6 +13,7 @@ const KIND_TAG: Record<Session["kind"], { label: string; className: string }> = 
   lift: { label: "Lift", className: "bg-zinc-200 text-zinc-800" },
   hybrid: { label: "Hybrid", className: "bg-orange-100 text-orange-800" },
   race: { label: "Race", className: "bg-red-100 text-red-800" },
+  cardio: { label: "Cardio", className: "bg-teal-100 text-teal-800" },
 };
 
 function Tag({ kind }: { kind: Session["kind"] }) {
@@ -71,6 +72,20 @@ export default function SessionCard({ session }: { session: Session }) {
               </li>
             ))}
           </ul>
+        </div>
+      </div>
+    );
+  }
+
+  if (session.kind === "cardio") {
+    return (
+      <div className="flex items-start gap-2">
+        <Tag kind="cardio" />
+        <div className="text-sm text-zinc-800">
+          <p>
+            {session.modality ?? "Zone 1–2 cardio"} — {Math.round(session.durationMin)} min — Goal HR: Zone {session.goalZone}
+          </p>
+          {session.description && <p className="mt-0.5 text-xs text-zinc-500">{session.description}</p>}
         </div>
       </div>
     );

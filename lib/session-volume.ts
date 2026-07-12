@@ -85,6 +85,11 @@ export function sessionTiming(session: Session): SessionTiming {
     const work = clamp(Math.round(session.elements.length * 5), HYBRID_MIN_WORK, HYBRID_MAX_WORK);
     return { warmup: 10, work, cooldown: 5, total: 10 + work + 5 };
   }
+  if (session.kind === "cardio") {
+    // The block IS the cardio work; its duration is the whole session.
+    const work = Math.max(1, Math.round(session.durationMin));
+    return { warmup: 0, work, cooldown: 0, total: work };
+  }
   return { warmup: 0, work: 0, cooldown: 0, total: 0 };
 }
 
@@ -106,7 +111,7 @@ export function weekCardioMinutes(week: { days: { sessions: Session[] }[] }): nu
   let total = 0;
   for (const day of week.days) {
     for (const s of day.sessions) {
-      if (s.kind === "run" || s.kind === "hybrid") total += sessionTiming(s).total;
+      if (s.kind === "run" || s.kind === "hybrid" || s.kind === "cardio") total += sessionTiming(s).total;
     }
   }
   return total;

@@ -1,101 +1,108 @@
 import { describe, it, expect } from "vitest";
 import { reconcileWeekVolume } from "./reconcile";
 import { weekMileage, weekCardioMinutes, sessionTiming } from "@/lib/session-volume";
+import { computePaces, formatPace } from "@/lib/engine/paces";
 import type { ProgramDay, Session } from "@/lib/schemas";
 
-const run = (rt: string, miles: number, dur: number): Session => ({
+type RunS = Extract<Session, { kind: "run" }>;
+const P = computePaces("26:00")!; // 5K 26:00 → 5k pace ≈ 8:22/mi
+
+const run = (rt: string, mi = 4, dur = 32): Session => ({
   kind: "run",
-  runType: rt as Extract<Session, { kind: "run" }>["runType"],
-  distanceMiles: miles,
+  runType: rt as RunS["runType"],
+  distanceMiles: mi,
   durationMin: dur,
   paceMinMile: "8:00",
   goalZone: 2,
 });
-
 const hybrid = (): Session => ({
   kind: "hybrid",
   goalZone: 4,
   elements: [
-    { exercise: "run", prescription: "1000m @ 8:00 (threshold)" },
+    { exercise: "run", prescription: "1000m @ 8:00 min/mile (threshold)" },
     { exercise: "ski erg", prescription: "500m" },
-    { exercise: "run", prescription: "1000m @ 8:00 (threshold)" },
+    { exercise: "run", prescription: "1000m @ 8:00 min/mile (threshold)" },
     { exercise: "row erg", prescription: "500m" },
-    { exercise: "run", prescription: "1000m @ 8:00 (threshold)" },
+    { exercise: "run", prescription: "1000m @ 8:00 min/mile (threshold)" },
     { exercise: "assault bike", prescription: "40 cal" },
-    { exercise: "run", prescription: "1000m @ 8:00 (threshold)" },
+    { exercise: "run", prescription: "1000m @ 8:00 min/mile (threshold)" },
     { exercise: "wall balls", prescription: "30 reps" },
   ],
 });
+const lift = (): Session => ({ kind: "lift", liftType: "full", movements: [{ pattern: "squat", sets: 4, repRange: "5-7" }] });
+const daysOf = (...ss: Session[][]): ProgramDay[] =>
+  ss.map((x, i) => ({ day: (["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const)[i], sessions: x }));
+const runsOf = (days: ProgramDay[]): RunS[] =>
+  days.flatMap((d) => d.sessions).filter((s): s is RunS => s.kind === "run");
+const maxRunTotal = (days: ProgramDay[]) => Math.max(0, ...runsOf(days).map((s) => sessionTiming(s).total));
+const hasCardio = (days: ProgramDay[]) => days.some((d) => d.sessions.some((s) => s.kind === "cardio"));
+const paceOf = (days: ProgramDay[], t: string) => runsOf(days).find((r) => r.runType === t)?.paceMinMile;
 
-const lift = (): Session => ({
-  kind: "lift",
-  liftType: "full",
-  movements: [{ pattern: "squat", sets: 4, repRange: "5-7" }],
+describe("pace formulas (Levi's rules)", () => {
+  it("easy 162%, threshold 108%, interval 92% of 5K pace/mile", () => {
+    expect(P.easy / P.fiveKSecPerMile).toBeCloseTo(1.62, 3);
+    expect(P.threshold / P.fiveKSecPerMile).toBeCloseTo(1.08, 3);
+    expect(P.interval / P.fiveKSecPerMile).toBeCloseTo(0.92, 3);
+  });
 });
 
-const daysOf = (...sessions: Session[][]): ProgramDay[] =>
-  sessions.map((ss, i) => ({
-    day: (["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const)[i],
-    sessions: ss,
-  }));
-
-const maxRunTotal = (days: ProgramDay[]): number =>
-  Math.max(
-    0,
-    ...days.flatMap((d) => d.sessions.filter((s) => s.kind === "run").map((s) => sessionTiming(s).total)),
-  );
-
-describe("reconcileWeekVolume — exact weekly sums", () => {
-  it("fixes the reported example (11.5 mi / 250 min with an overshooting week)", () => {
-    const days = daysOf(
-      [run("easy", 3, 24)],
-      [hybrid()],
-      [lift()],
-      [run("fartlek", 5.5, 44)],
-      [run("long", 7.5, 60)],
-      [],
-    );
-    reconcileWeekVolume(days, 11.5, 250, "intermediate");
+describe("reconcile — fixed paces, mileage exact, cardio exact via non-running filler", () => {
+  it("reported example (11.5 mi / 250 min): both exact, non-running cardio added, no run > 90", () => {
+    const days = daysOf([run("easy")], [hybrid()], [lift()], [run("fartlek")], [run("long")], []);
+    reconcileWeekVolume(days, 11.5, 250, P, "intermediate");
     expect(weekMileage({ days })).toBe(11.5);
     expect(weekCardioMinutes({ days })).toBe(250);
     expect(maxRunTotal(days)).toBeLessThanOrEqual(90);
+    expect(hasCardio(days)).toBe(true);
   });
 
-  it("adds easy runs when volume can't fit existing runs under the 90-min cap", () => {
-    const days = daysOf([run("long", 8, 64)], [run("easy", 4, 32)], [lift()]);
-    const before = days.flatMap((d) => d.sessions).filter((s) => s.kind === "run").length;
-    reconcileWeekVolume(days, 55, 600, "advanced");
-    const after = days.flatMap((d) => d.sessions).filter((s) => s.kind === "run").length;
-    expect(weekMileage({ days })).toBe(55);
-    expect(weekCardioMinutes({ days })).toBe(600);
-    expect(maxRunTotal(days)).toBeLessThanOrEqual(90);
-    expect(after).toBeGreaterThan(before);
+  it("run paces follow the formulas", () => {
+    const days = daysOf([run("easy")], [run("long")], [run("fartlek")], [lift()]);
+    reconcileWeekVolume(days, 20, 320, P, "intermediate");
+    expect(paceOf(days, "easy")).toBe(formatPace(P.easy));
+    expect(paceOf(days, "long")).toBe(formatPace(P.long));
+    expect(paceOf(days, "fartlek")).toBe(`${formatPace(P.threshold)}–${formatPace(P.easy)}`);
   });
 
-  it("leaves race weeks untouched", () => {
-    const days = daysOf([run("easy", 3, 24)], [{ kind: "race", priority: "A" }]);
-    const snapshot = JSON.stringify(days);
-    reconcileWeekVolume(days, 11.5, 250, "intermediate");
-    expect(JSON.stringify(days)).toBe(snapshot);
+  it("rewrites hybrid run elements to threshold pace", () => {
+    const days = daysOf([hybrid()], [run("easy")], [lift()]);
+    reconcileWeekVolume(days, 15, 300, P, "intermediate");
+    const hy = days[0].sessions[0];
+    const el = hy.kind === "hybrid" ? hy.elements.find((e) => /run/i.test(e.exercise)) : undefined;
+    expect(el?.prescription).toContain(`@ ${formatPace(P.threshold)}`);
   });
 
-  it("hits both targets across a sweep of targets, run counts, and hybrids", () => {
-    const runTypes = ["easy", "long", "fartlek", "tempo", "threshold", "interval", "progression"];
-    for (const nRuns of [1, 2, 3, 4, 6]) {
-      for (const withHybrid of [false, true]) {
-        for (const mi of [8, 11.5, 20, 35, 60]) {
-          for (const min of [180, 250, 400, 650]) {
-            const sessions: Session[][] = [];
-            for (let i = 0; i < nRuns; i++) sessions.push([run(runTypes[i % runTypes.length], 3 + i, 24 + i * 5)]);
-            if (withHybrid) sessions.push([hybrid()]);
-            sessions.push([lift()]);
-            while (sessions.length < 7) sessions.push([]);
-            const days = daysOf(...sessions);
-            reconcileWeekVolume(days, mi, min, "intermediate");
-            expect(weekMileage({ days })).toBe(mi);
-            expect(weekCardioMinutes({ days })).toBe(min);
-            expect(maxRunTotal(days)).toBeLessThanOrEqual(90);
-          }
+  it("tight deload consolidates easy runs into the long run; mileage stays exact", () => {
+    const days = daysOf([run("easy")], [run("easy")], [run("long")], [lift()]);
+    reconcileWeekVolume(days, 6, 150, P, "beginner");
+    expect(weekMileage({ days })).toBe(6);
+    expect(weekCardioMinutes({ days })).toBe(150);
+    expect(runsOf(days).some((r) => r.runType === "long")).toBe(true);
+  });
+
+  it("race weeks untouched", () => {
+    const days = daysOf([run("easy")], [{ kind: "race", priority: "A" }]);
+    const snap = JSON.stringify(days);
+    reconcileWeekVolume(days, 11.5, 250, P, "intermediate");
+    expect(JSON.stringify(days)).toBe(snap);
+  });
+
+  it("sweep: mileage + cardio exact (generous targets), no run > 90", () => {
+    const rt = ["easy", "long", "fartlek", "tempo", "threshold", "interval", "progression"];
+    for (const n of [1, 2, 3, 4, 6]) {
+      for (const wh of [false, true]) {
+        for (const mi of [8, 11.5, 20, 35, 55]) {
+          const min = Math.round(mi * 22); // generous → always leftover for non-running cardio
+          const sessions: Session[][] = [];
+          for (let i = 0; i < n; i++) sessions.push([run(rt[i % rt.length])]);
+          if (wh) sessions.push([hybrid()]);
+          sessions.push([lift()]);
+          while (sessions.length < 7) sessions.push([]);
+          const days = daysOf(...sessions);
+          reconcileWeekVolume(days, mi, min, P, "intermediate");
+          expect(weekMileage({ days })).toBe(mi);
+          expect(weekCardioMinutes({ days })).toBe(min);
+          expect(maxRunTotal(days)).toBeLessThanOrEqual(90);
         }
       }
     }

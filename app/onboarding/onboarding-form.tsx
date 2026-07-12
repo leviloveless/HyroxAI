@@ -612,11 +612,14 @@ export default function OnboardingForm({
 
       {/* Step 4 — Benchmarks */}
       <fieldset className={`flex flex-col gap-5 ${step === 3 ? "" : "hidden"}`}>
-        <p className="text-sm text-zinc-500">Optional. Providing these lets the program calibrate paces and starting weights. Skip any you don&apos;t know.</p>
+        <p className="text-sm text-zinc-500">
+          Your <span className="font-medium text-zinc-700">5K time is required</span> — all run paces are calculated from it.
+          If you don&apos;t know it, enter your best guess. The rest are optional and help calibrate starting weights.
+        </p>
         <div className="grid grid-cols-2 gap-4 text-sm">
           {[
             ["mileTime", "1-mile time (mm:ss)", "text"],
-            ["fiveKTime", "5K time (mm:ss)", "text"],
+            ["fiveKTime", "5K time (mm:ss) — required", "text"],
             ["tenKTime", "10K time (mm:ss)", "text"],
             ["ski2kTime", "2000m ski erg (mm:ss)", "text"],
             ["row2kTime", "2000m row erg (mm:ss)", "text"],

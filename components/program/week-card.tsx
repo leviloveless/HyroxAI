@@ -65,6 +65,9 @@ function SessionDetail({ session }: { session: Session }) {
       </ul>
     );
   }
+  if (session.kind === "cardio") {
+    return <span className="text-zinc-500">{session.modality ?? "Zone 1–2 cross-training"}</span>;
+  }
   return null;
 }
 
@@ -73,6 +76,7 @@ const TYPE_DOT: Record<Session["kind"], string> = {
   lift: "bg-zinc-500",
   hybrid: "bg-orange-500",
   race: "bg-red-500",
+  cardio: "bg-teal-500",
 };
 
 /** Extra props for Phase 2 logging (all optional so the print view stays clean). */

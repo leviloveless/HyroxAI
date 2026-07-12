@@ -26,6 +26,7 @@ import type { ExperienceLevel, ProgramSkeleton, WeekSkeleton } from "@/lib/engin
 import { runDescription } from "@/lib/engine/run-descriptions";
 import { reconcileWeekVolume } from "./reconcile";
 import { weekCardioMinutes, weekMileage } from "@/lib/session-volume";
+import { computePaces, type RunPaces } from "@/lib/engine/paces";
 
 type MovementPattern = (typeof REQUIRED_MOVEMENT_PATTERNS)[number];
 
@@ -109,6 +110,8 @@ function sessionPriority(session: Session): number {
       }
     case "lift":
       return 50;
+    case "cardio":
+      return 25;
     default:
       return 40;
   }
@@ -135,6 +138,7 @@ function buildWeek(
   aiWeek: AiWeek | undefined,
   issues: string[],
   runningExp: ExperienceLevel,
+  paces: RunPaces | null,
 ): ProgramWeek {
   const days: ProgramDay[] = skel.days.map((d) => ({
     day: d.day,
@@ -145,10 +149,12 @@ function buildWeek(
   }));
 
   // Rewrite the AI-filled run volume so the week's running mileage and cardio
-  // time equal the engine's prescribed targets exactly (runs capped at 90 min;
-  // extra easy runs added when needed). The summary is then read back from the
-  // reconciled sessions, so the header can never disagree with the workouts.
-  reconcileWeekVolume(days, skel.targetMileage, skel.targetCardioMinutes, runningExp);
+  // time equal the engine's prescribed targets exactly: running is sized to the
+  // mileage at fixed formula paces (min 3 mi easy/long, min 45 min per cardio
+  // session, 90-min run cap) and a non-running Zone 1–2 cardio block absorbs the
+  // remaining cardio time. The summary is then read back from the reconciled
+  // sessions, so the header can never disagree with the workouts.
+  reconcileWeekVolume(days, skel.targetMileage, skel.targetCardioMinutes, paces, runningExp);
 
   return {
     weekNumber: skel.weekNumber,
@@ -213,12 +219,14 @@ export function assembleProgram(
   skeleton: ProgramSkeleton,
   chunks: AiChunk[],
   runningExp: ExperienceLevel = "intermediate",
+  fiveKTime?: string,
 ): AssembleResult {
   const issues: string[] = [];
   const aiByWeek = indexAiWeeks(chunks);
+  const paces = computePaces(fiveKTime);
 
   const weeks = skeleton.weeks.map((skel) => {
-    const week = buildWeek(skel, aiByWeek.get(skel.weekNumber), issues, runningExp);
+    const week = buildWeek(skel, aiByWeek.get(skel.weekNumber), issues, runningExp, paces);
     const patched = patchMovementPatterns(week);
     if (patched.length) issues.push(`week ${week.weekNumber}: patched missing patterns ${patched.join(", ")}`);
     return week;

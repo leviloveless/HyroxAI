@@ -44,7 +44,7 @@ type LogKey = string;
 const logKey = (day: string, sessionIndex: number): LogKey => `${day}:${sessionIndex}`;
 
 function isEasySession(session: ProgramWeek["days"][number]["sessions"][number]): boolean {
-  return session.kind === "run" && session.goalZone <= 2;
+  return (session.kind === "run" || session.kind === "cardio") && session.goalZone <= 2;
 }
 
 /** Compute the review signals for one program week from its logs. */
@@ -98,6 +98,7 @@ export function computeWeekSignals(week: ProgramWeek, logs: WorkoutLog[]): WeekS
       // Planned vs actual volume (best effort; logged actuals win).
       const plannedMin =
         session.kind === "run" ? session.durationMin
+        : session.kind === "cardio" ? session.durationMin
         : session.kind === "hybrid" ? ADAPT.DEFAULT_HYBRID_MINUTES
         : 0;
       const plannedMi = session.kind === "run" ? session.distanceMiles : 0;
