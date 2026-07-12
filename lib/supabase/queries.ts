@@ -17,8 +17,13 @@ export type ProfileRow = {
   max_hr: number | null;
   /** Optional custom HR zone bands as % of max HR (new-additions #3). */
   hr_zones: Record<"z1" | "z2" | "z3" | "z4" | "z5", { low: number; high: number }> | null;
-  /** Optional day-placement preferences (new-additions #4). */
-  day_preferences: { longRunDay?: string; restDays?: string[] } | null;
+  /** Optional day-placement preferences (new-additions #4; lift/hybrid days Tasks #1). */
+  day_preferences: {
+    longRunDay?: string;
+    restDays?: string[];
+    liftDays?: string[];
+    hybridDays?: string[];
+  } | null;
   created_at: string;
   updated_at: string;
 };

@@ -22,7 +22,8 @@ type Movement = LiftSession["movements"][number];
 
 export const RUN_TYPE_LABEL: Record<RunSession["runType"], string> = {
   easy: "Easy run",
-  fartlek: "Fartlek / progression run",
+  fartlek: "Fartlek run",
+  progression: "Progression run",
   long: "Long run",
   tempo: "Tempo run",
   threshold: "Threshold run",
@@ -114,6 +115,7 @@ const RUN_WARMUP_COOLDOWN: Record<RunSession["runType"], [number, number]> = {
   easy: [5, 5],
   long: [5, 5],
   fartlek: [8, 5],
+  progression: [10, 5],
   tempo: [12, 8],
   threshold: [12, 8],
   interval: [15, 10],

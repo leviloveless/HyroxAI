@@ -19,7 +19,7 @@ export type MicroWeekType = "rebound" | "increase" | "deload" | "taper" | "race"
 export type RacePriorityName = "A" | "B" | "C";
 
 export type RunType =
-  | "easy" | "fartlek" | "long" | "tempo" | "threshold" | "interval" | "hybrid_run";
+  | "easy" | "fartlek" | "progression" | "long" | "tempo" | "threshold" | "interval" | "hybrid_run";
 
 // --- Engine input ---
 
@@ -48,6 +48,10 @@ export interface EngineInput {
   longRunDay?: TrainingDayName;
   /** Optional days the athlete prefers to keep as full rest (new-additions #4). */
   restDays?: TrainingDayName[];
+  /** Optional preferred days for strength / lifting sessions (Tasks #1). */
+  liftDays?: TrainingDayName[];
+  /** Optional preferred days for hybrid (HYROX) sessions (Tasks #1). */
+  hybridDays?: TrainingDayName[];
 }
 
 // --- Allocation ---

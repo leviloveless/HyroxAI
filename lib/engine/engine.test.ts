@@ -4,6 +4,9 @@ import { allocateMesocycles, expandPhases } from "./mesocycles";
 import { sequenceMicrocycles, microcyclePattern } from "./microcycles";
 import { applyTapers } from "./taper";
 import { buildSkeleton } from "./skeleton";
+import { buildRunSlots, assignDays } from "./slots";
+import { runDescription } from "./run-descriptions";
+import type { PhaseName, RunType, TrainingDayName } from "./types";
 import { INCREASE_MILEAGE_FACTOR, DELOAD_FACTOR, STARTING_MILEAGE } from "./volume";
 
 // ---- helpers ----
@@ -350,6 +353,153 @@ describe("buildSkeleton — spec anchor end-to-end (20wk NHT A race)", () => {
   });
   it("starting mileage matches the intermediate runner anchor", () => {
     expect(skeleton.weeks[0].targetMileage).toBe(STARTING_MILEAGE.intermediate);
+  });
+});
+
+// ============================================================
+// Run-type placement by phase (Tasks #3, #4, #5)
+// ============================================================
+
+function runTypesOf(phase: PhaseName, count: number, pos?: { index: number; length: number }): RunType[] {
+  return buildRunSlots(phase, count, pos).map((r) => r.runType);
+}
+
+/** All run types the engine programs across a full built skeleton, by phase. */
+function runTypesByPhase(skeleton: ReturnType<typeof buildSkeleton>): Record<PhaseName, Set<RunType>> {
+  const out: Record<PhaseName, Set<RunType>> = {
+    base: new Set(),
+    build: new Set(),
+    peak: new Set(),
+    taper: new Set(),
+  };
+  for (const w of skeleton.weeks) {
+    for (const d of w.days) {
+      for (const s of d.sessions) {
+        if (s.kind === "run") out[w.phase].add(s.runType);
+      }
+    }
+  }
+  return out;
+}
+
+describe("run-type placement — buildRunSlots", () => {
+  it("always anchors the week with exactly one long run", () => {
+    for (const phase of ["base", "build", "peak", "taper"] as PhaseName[]) {
+      const types = runTypesOf(phase, 5);
+      expect(types.filter((t) => t === "long")).toHaveLength(1);
+      expect(types[0]).toBe("long");
+    }
+  });
+
+  it("fartlek only appears in base and build (Tasks #3)", () => {
+    expect(runTypesOf("base", 6)).toContain("fartlek");
+    expect(runTypesOf("build", 6, { index: 0, length: 6 })).toContain("fartlek");
+    expect(runTypesOf("peak", 6)).not.toContain("fartlek");
+    expect(runTypesOf("taper", 6)).not.toContain("fartlek");
+  });
+
+  it("progression only appears in peak and taper (Tasks #4)", () => {
+    expect(runTypesOf("base", 7)).not.toContain("progression");
+    expect(runTypesOf("build", 7, { index: 5, length: 6 })).not.toContain("progression");
+    expect(runTypesOf("peak", 4)).toContain("progression");
+    expect(runTypesOf("taper", 4)).toContain("progression");
+  });
+
+  it("interval enters the 2nd half of build, not the 1st (Tasks #5)", () => {
+    expect(runTypesOf("build", 6, { index: 0, length: 6 })).not.toContain("interval");
+    expect(runTypesOf("build", 6, { index: 1, length: 6 })).not.toContain("interval");
+    expect(runTypesOf("build", 6, { index: 3, length: 6 })).toContain("interval");
+    expect(runTypesOf("build", 4, { index: 5, length: 6 })).toContain("interval");
+  });
+
+  it("interval appears throughout peak and in higher-count taper weeks (Tasks #5)", () => {
+    expect(runTypesOf("peak", 3)).toContain("interval");
+    expect(runTypesOf("taper", 3)).toContain("interval"); // long + progression + interval
+    expect(runTypesOf("base", 8)).not.toContain("interval");
+  });
+});
+
+describe("run-type placement — full skeleton respects phase rules", () => {
+  const skeleton = buildSkeleton(makeInput({ durationWeeks: 20, trainingClass: "highly_trained" }));
+  const byPhase = runTypesByPhase(skeleton);
+
+  it("no fartlek in peak or taper; no progression in base or build", () => {
+    expect(byPhase.peak.has("fartlek")).toBe(false);
+    expect(byPhase.taper.has("fartlek")).toBe(false);
+    expect(byPhase.base.has("progression")).toBe(false);
+    expect(byPhase.build.has("progression")).toBe(false);
+  });
+
+  it("no interval in base; interval present in peak", () => {
+    expect(byPhase.base.has("interval")).toBe(false);
+    expect(byPhase.peak.has("interval")).toBe(true);
+  });
+});
+
+// ============================================================
+// Workout-type day preferences (Tasks #1)
+// ============================================================
+
+describe("day preferences pin workout types to days (Tasks #1)", () => {
+  const days: TrainingDayName[] = ["mon", "tue", "wed", "thu", "fri", "sat"];
+  const dayWith = (assigned: ReturnType<typeof assignDays>, kind: string) =>
+    assigned.filter((d) => d.sessions.some((s) => s.kind === kind)).map((d) => d.day);
+
+  it("places the long run on the preferred day", () => {
+    const assigned = assignDays(days, "build", "increase", "intermediate", "intermediate", undefined, {
+      longRunDay: "sat",
+    });
+    const sat = assigned.find((d) => d.day === "sat")!;
+    expect(sat.sessions.some((s) => s.kind === "run" && s.isLong)).toBe(true);
+  });
+
+  it("pins lift and hybrid sessions onto their preferred days when there is room", () => {
+    const assigned = assignDays(days, "build", "increase", "intermediate", "intermediate", undefined, {
+      longRunDay: "sat",
+      liftDays: ["mon"],
+      hybridDays: ["wed"],
+    });
+    expect(dayWith(assigned, "lift")).toContain("mon");
+    expect(dayWith(assigned, "hybrid")).toContain("wed");
+    // long run preference still honored alongside the others
+    const sat = assigned.find((d) => d.day === "sat")!;
+    expect(sat.sessions.some((s) => s.kind === "run" && s.isLong)).toBe(true);
+  });
+
+  it("never drops sessions when honoring preferences (count is preserved)", () => {
+    const plain = assignDays(days, "peak", "increase", "advanced", "advanced");
+    const pref = assignDays(days, "peak", "increase", "advanced", "advanced", undefined, {
+      longRunDay: "sun",
+      liftDays: ["mon", "tue"],
+      hybridDays: ["thu"],
+    });
+    const count = (a: ReturnType<typeof assignDays>) =>
+      a.reduce((n, d) => n + d.sessions.filter((s) => s.kind !== "rest").length, 0);
+    expect(count(pref)).toBe(count(plain));
+  });
+});
+
+// ============================================================
+// Run descriptions (Tasks #2, #4)
+// ============================================================
+
+describe("run descriptions (Tasks #2)", () => {
+  it("gives every run type a non-empty explanation", () => {
+    const types: RunType[] = ["easy", "fartlek", "progression", "long", "tempo", "threshold", "interval", "hybrid_run"];
+    for (const t of types) {
+      expect(runDescription(t, "intermediate").length).toBeGreaterThan(20);
+    }
+  });
+
+  it("progression description differs by running experience (Tasks #4)", () => {
+    const beg = runDescription("progression", "beginner");
+    const adv = runDescription("progression", "advanced");
+    expect(beg).not.toBe(adv);
+    expect(adv.toLowerCase()).toContain("race pace");
+  });
+
+  it("interval description references the 800m repeat protocol (Tasks #5)", () => {
+    expect(runDescription("interval", "intermediate").toLowerCase()).toContain("800m");
   });
 });
 

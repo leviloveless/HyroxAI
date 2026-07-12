@@ -29,6 +29,7 @@ import type {
 const GOAL_ZONE: Record<RunType, number> = {
   easy: 2,
   fartlek: 2,
+  progression: 3, // builds from easy to a threshold finish
   long: 2,
   tempo: 3,
   threshold: 4,
@@ -90,26 +91,53 @@ export function planWeek(
   return { runs, lifts, hybrids };
 }
 
-/** Build the ordered list of run slots for a week (always exactly one long run). */
-export function buildRunSlots(phase: PhaseName, count: number): RunSlot[] {
-  if (count <= 0) return [];
-  const types: RunType[] = ["long"]; // long run anchors every week
+/**
+ * Position of a week inside its own mesocycle, used to pick phase-appropriate
+ * run types (Tasks #5 — "2nd half of build"). `index` is 0-based within the
+ * phase; `length` is the phase's total week count.
+ */
+export interface PhasePosition {
+  index: number;
+  length: number;
+}
 
-  const fillers: RunType[] = [];
+/** True when the week sits in the back half of its mesocycle. */
+function isSecondHalf(pos?: PhasePosition): boolean {
+  if (!pos || pos.length <= 0) return false;
+  return pos.index >= Math.floor(pos.length / 2);
+}
+
+/**
+ * Ordered run "filler" types (everything after the anchoring long run) for a
+ * phase. Run-type placement follows the periodization rules:
+ *   - Fartlek runs appear only in Base and Build (Tasks #3).
+ *   - Interval runs appear in the 2nd half of Build, all of Peak, and some of
+ *     the Taper (Tasks #5).
+ *   - Progression runs appear only in Peak and Taper (Tasks #4).
+ */
+function runFillers(phase: PhaseName, pos?: PhasePosition): RunType[] {
   switch (phase) {
     case "base":
-      fillers.push("fartlek", "easy", "fartlek", "easy", "easy", "easy", "easy");
-      break;
+      return ["fartlek", "easy", "fartlek", "easy", "easy", "easy", "easy"];
     case "build":
-      fillers.push("tempo", "easy", "fartlek", "easy", "easy", "easy", "easy");
-      break;
+      // Intervals join the rotation once the Build phase is half over.
+      return isSecondHalf(pos)
+        ? ["tempo", "interval", "fartlek", "easy", "easy", "easy", "easy"]
+        : ["tempo", "fartlek", "easy", "easy", "easy", "easy", "easy"];
     case "peak":
-      fillers.push("threshold", "interval", "easy", "easy", "easy", "easy", "easy");
-      break;
+      return ["threshold", "interval", "progression", "easy", "easy", "easy", "easy"];
     case "taper":
-      fillers.push("threshold", "easy", "easy", "easy", "easy", "easy", "easy");
-      break;
+      // Progression leads; an interval appears only on higher-count taper weeks
+      // ("some" of the taper, Tasks #5).
+      return ["progression", "interval", "threshold", "easy", "easy", "easy", "easy"];
   }
+}
+
+/** Build the ordered list of run slots for a week (always exactly one long run). */
+export function buildRunSlots(phase: PhaseName, count: number, pos?: PhasePosition): RunSlot[] {
+  if (count <= 0) return [];
+  const types: RunType[] = ["long"]; // long run anchors every week
+  const fillers = runFillers(phase, pos);
   for (let i = 0; types.length < count; i++) types.push(fillers[i % fillers.length]);
 
   return types.slice(0, count).map((rt) => ({
@@ -157,10 +185,15 @@ function raceWeekSlots(priority: RacePriorityName): SessionSlot[] {
   return [];
 }
 
-/** Optional day-placement preferences (new-additions #4). */
+/**
+ * Optional day-placement preferences: which workout types land on which days
+ * (new-additions #4; extended to lift + hybrid days in Tasks #1).
+ */
 export interface DayPreferences {
   longRunDay?: TrainingDayName;
   restDays?: TrainingDayName[];
+  liftDays?: TrainingDayName[];
+  hybridDays?: TrainingDayName[];
 }
 
 /**
@@ -185,6 +218,8 @@ export function slotPriority(slot: SessionSlot): number {
           return 76;
         case "tempo":
           return 74;
+        case "progression":
+          return 72;
         case "fartlek":
           return 60;
         case "hybrid_run":
@@ -211,37 +246,58 @@ function orderByPriority(sessions: SessionSlot[]): SessionSlot[] {
     .map((x) => x.s);
 }
 
-function isLongRun(slot: SessionSlot): boolean {
-  return slot.kind === "run" && slot.isLong === true;
+type SlotPredicate = (slot: SessionSlot) => boolean;
+
+const isLongRun: SlotPredicate = (s) => s.kind === "run" && s.isLong === true;
+const isHybrid: SlotPredicate = (s) => s.kind === "hybrid";
+const isLift: SlotPredicate = (s) => s.kind === "lift";
+
+/**
+ * Move a session matching `predicate` onto `targetDay` (new-additions #4;
+ * generalized for lift/hybrid days in Tasks #1). Keeps the total session count
+ * intact via a swap: if the target day already holds sessions, one is moved
+ * back to the source day. No-ops when the target already satisfies the
+ * preference, the target is protected (e.g. a rest day or an already-pinned
+ * day), or no movable source session exists on an unprotected day.
+ */
+function placeSessionOn(
+  days: DaySlot[],
+  targetDay: TrainingDayName,
+  predicate: SlotPredicate,
+  protectedDays: Set<TrainingDayName>,
+): void {
+  const targetIdx = days.findIndex((d) => d.day === targetDay);
+  if (targetIdx === -1 || protectedDays.has(targetDay)) return;
+  if (days[targetIdx].sessions.some(predicate)) return; // already satisfied
+
+  for (let i = 0; i < days.length; i++) {
+    if (i === targetIdx || protectedDays.has(days[i].day)) continue;
+    const j = days[i].sessions.findIndex(predicate);
+    if (j === -1) continue;
+    const [sess] = days[i].sessions.splice(j, 1);
+    if (days[targetIdx].sessions.length > 0) {
+      const displaced = days[targetIdx].sessions.shift()!;
+      days[i].sessions.push(displaced);
+    }
+    days[targetIdx].sessions.unshift(sess);
+    return;
+  }
 }
 
 /**
- * Move the weekly long run onto the preferred day (new-additions #4). Keeps the
- * total session count intact: if the target day already holds sessions, its
- * first session is swapped back to the long run's original day.
+ * Place matching sessions onto several preferred days in order, protecting each
+ * day once it's been assigned so the next target can't steal it back.
  */
-function placeLongRunOn(days: DaySlot[], targetDay: TrainingDayName): void {
-  let fromDay = -1;
-  let fromIdx = -1;
-  for (let i = 0; i < days.length; i++) {
-    const j = days[i].sessions.findIndex(isLongRun);
-    if (j !== -1) {
-      fromDay = i;
-      fromIdx = j;
-      break;
-    }
+function placeSessionsOn(
+  days: DaySlot[],
+  targetDays: TrainingDayName[],
+  predicate: SlotPredicate,
+  protectedDays: Set<TrainingDayName>,
+): void {
+  for (const day of targetDays) {
+    placeSessionOn(days, day, predicate, protectedDays);
+    protectedDays.add(day);
   }
-  if (fromDay === -1) return;
-
-  const targetIdx = days.findIndex((d) => d.day === targetDay);
-  if (targetIdx === -1 || targetIdx === fromDay) return;
-
-  const [longRun] = days[fromDay].sessions.splice(fromIdx, 1);
-  if (days[targetIdx].sessions.length > 0) {
-    const displaced = days[targetIdx].sessions.shift()!;
-    days[fromDay].sessions.push(displaced);
-  }
-  days[targetIdx].sessions.unshift(longRun);
 }
 
 /**
@@ -263,6 +319,7 @@ export function assignDays(
   hybridExp: ExperienceLevel,
   race?: { priority: RacePriorityName; date?: string },
   prefs?: DayPreferences,
+  pos?: PhasePosition,
 ): DaySlot[] {
   // An A/B race week (microWeek "race") uses the reduced taper sessions; a C
   // race keeps its normal microcycle label and trains through, so it falls to
@@ -274,7 +331,7 @@ export function assignDays(
     const plan = planWeek(phase, microWeek, runningExp, hybridExp);
     // Interleave kinds (run, lift, hybrid, run, lift, …) so similar sessions
     // don't cluster on adjacent days.
-    const runs = buildRunSlots(phase, plan.runs);
+    const runs = buildRunSlots(phase, plan.runs, pos);
     const lifts = buildLiftSlots(plan.lifts);
     const hybrids = buildHybridSlots(plan.hybrids);
     ordered = interleave(runs, lifts, hybrids);
@@ -305,9 +362,23 @@ export function assignDays(
     di += 1;
   }
 
-  // Pin the long run to the preferred day (skipped for A/B race weeks).
-  if (prefs?.longRunDay && !(race && microWeek === "race")) {
-    placeLongRunOn(days, prefs.longRunDay);
+  // Pin preferred workout types to their days (skipped for A/B race weeks whose
+  // taper structure is fixed). Order matters — the long run is placed first and
+  // protected, then hybrids (sport-specific), then lifts (Tasks #1). Rest-day
+  // preferences are protected throughout so nothing is pinned onto them.
+  if (!(race && microWeek === "race")) {
+    const inDays = (d: TrainingDayName) => trainingDays.includes(d);
+    const protectedDays = new Set<TrainingDayName>(restSet);
+    if (prefs?.longRunDay && inDays(prefs.longRunDay)) {
+      placeSessionOn(days, prefs.longRunDay, isLongRun, protectedDays);
+      protectedDays.add(prefs.longRunDay);
+    }
+    if (prefs?.hybridDays?.length) {
+      placeSessionsOn(days, prefs.hybridDays.filter(inDays), isHybrid, protectedDays);
+    }
+    if (prefs?.liftDays?.length) {
+      placeSessionsOn(days, prefs.liftDays.filter(inDays), isLift, protectedDays);
+    }
   }
 
   if (race) {

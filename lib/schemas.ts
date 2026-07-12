@@ -52,6 +52,10 @@ export const HrZonesSchema = z.object({
 export const DayPreferencesSchema = z.object({
   longRunDay: TrainingDay.optional(),
   restDays: z.array(TrainingDay).optional(),
+  /** Preferred days for strength / lifting sessions (Tasks #1). */
+  liftDays: z.array(TrainingDay).optional(),
+  /** Preferred days for hybrid (HYROX) sessions (Tasks #1). */
+  hybridDays: z.array(TrainingDay).optional(),
 });
 
 export const ProfileSchema = z.object({
@@ -113,11 +117,14 @@ export const MovementPattern = z.enum([
 
 export const RunSessionSchema = z.object({
   kind: z.literal("run"),
-  runType: z.enum(["easy", "fartlek", "long", "tempo", "threshold", "interval", "hybrid_run"]),
+  runType: z.enum(["easy", "fartlek", "progression", "long", "tempo", "threshold", "interval", "hybrid_run"]),
   durationMin: z.number(),
   paceMinMile: z.string(),
   distanceMiles: z.number(),
   goalZone: z.number().int().min(1).max(5),
+  /** 1–2 sentence explanation of the run + how to execute it (Tasks #2).
+   *  Attached deterministically during assembly, so it's optional on input. */
+  description: z.string().optional(),
 });
 
 export const LiftSessionSchema = z.object({

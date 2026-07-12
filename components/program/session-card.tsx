@@ -30,7 +30,12 @@ export default function SessionCard({ session }: { session: Session }) {
     return (
       <div className="flex items-start gap-2">
         <Tag kind="run" />
-        <p className="text-sm text-zinc-800">{runLine(session)}</p>
+        <div className="text-sm text-zinc-800">
+          <p>{runLine(session)}</p>
+          {session.description && (
+            <p className="mt-0.5 text-xs text-zinc-500">{session.description}</p>
+          )}
+        </div>
       </div>
     );
   }

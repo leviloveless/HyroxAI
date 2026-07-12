@@ -67,12 +67,19 @@ function parseGenerationInput(
     ? { z1: zoneBand(1), z2: zoneBand(2), z3: zoneBand(3), z4: zoneBand(4), z5: zoneBand(5) }
     : undefined;
 
-  // --- Day-placement preferences (optional) (new-additions #4) ---
+  // --- Day-placement preferences (optional) (new-additions #4; lift/hybrid Tasks #1) ---
   const longRunDay = str(formData, "longRunDay");
   const restDays = DAY_KEYS.filter((d) => formData.get(`restday_${d}`) === "on");
+  const liftDays = DAY_KEYS.filter((d) => formData.get(`liftday_${d}`) === "on");
+  const hybridDays = DAY_KEYS.filter((d) => formData.get(`hybridday_${d}`) === "on");
   const dayPreferences =
-    longRunDay || restDays.length > 0
-      ? { longRunDay: longRunDay || undefined, restDays: restDays.length > 0 ? restDays : undefined }
+    longRunDay || restDays.length > 0 || liftDays.length > 0 || hybridDays.length > 0
+      ? {
+          longRunDay: longRunDay || undefined,
+          restDays: restDays.length > 0 ? restDays : undefined,
+          liftDays: liftDays.length > 0 ? liftDays : undefined,
+          hybridDays: hybridDays.length > 0 ? hybridDays : undefined,
+        }
       : undefined;
 
   // --- Program type + conditional race / duration inputs ---

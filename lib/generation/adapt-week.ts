@@ -270,7 +270,7 @@ export async function applyAdaptation(
 
     // Assemble just this week through the same summary/pattern guarantees.
     const miniSkeleton: ProgramSkeleton = { ...loaded.skeleton, weeks: [revisedWeek] };
-    const { program: miniProgram } = assembleProgram(miniSkeleton, [result.chunk]);
+    const { program: miniProgram } = assembleProgram(miniSkeleton, [result.chunk], loaded.input.profile.runningExp);
     const newWeek = miniProgram.weeks[0];
     if (!newWeek) return { error: "Refill produced no week", status: 502 };
     // Keep the race-day marker if the original target week had one (it shouldn't — rule 1 —

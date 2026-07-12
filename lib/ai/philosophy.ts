@@ -24,13 +24,14 @@ export const ZONE_DEFINITIONS = `Heart-rate zones (max HR = 220 − age):
 - Zone 5 (90–100%): max effort / VO2 max`;
 
 /** Run-type character + pace guidance (spec §5a, Q14/Q17). */
-export const RUN_GUIDANCE = `Run types and how to prescribe them:
+export const RUN_GUIDANCE = `Run types and how to prescribe them (the engine decides WHICH type each day is; you fill in realistic paces/durations that match the protocol):
 - easy: Zone 1–2, conversational pace, aerobic base.
-- fartlek / progression: Zone 2 with a natural pace pickup over the final 10–15 min; the dominant quality run in the Base phase (no structured tempo in Base).
-- long: Zone 2, extended duration, aerobic development. Every week has exactly one long run.
+- fartlek: Zone 2 average with hard surges; programmed only in the Base and Build phases. Protocol: warm up 1–2 mi easy, then descending run intervals — 8, 7, 6, 5, 4, 3, 2, then 1 minute — at RPE 5 (~10–15K pace), each followed by a 1.5-minute easy jog, then cool down 1–2 mi easy. Set durationMin to cover warmup + the ~36 min of intervals + jogs + cooldown.
+- progression: programmed only in the Peak and Taper phases; builds from easy to a hard finish. BEGINNER runners: 10 min easy warm-up, 20–30 min at standard comfortable aerobic pace (1–2 min/mile faster than easy), then a comfortably hard threshold effort for the final 10–15%, 5 min easy cool-down. INTERMEDIATE/ADVANCED runners: 5 min easy warm-up, 20 min easy/warm-up pace, 20 min at marathon/half-marathon race pace, 20 min at comfortably hard tempo (threshold) pace, 5 min easy cool-down. Goal zone ~3.
+- long: Zone 2, extended duration, aerobic development. Every week has exactly one long run. Start Zone 1–2 and allow heart-rate drift toward the top of Zone 3 over a 75–90 min effort without entering Zone 4.
 - tempo: Zone 3–4, 20–35 min continuous at ~80–90% max HR (≈ half-marathon pace); introduced in the Build phase, one per week.
 - threshold: Zone 4, true lactate threshold, "comfortably hard," ~20–30 sec/mile slower than 5K pace; the primary quality run in the Peak phase.
-- interval: Zone 4–5, short hard repeats with rest.
+- interval: Zone 4–5; programmed in the 2nd half of Build, throughout Peak, and some Taper weeks. Protocol: 5-min easy jog warm-up, then 6–8 rounds of 800m at goal 5K pace with a 1-minute slow jog recovery between reps, 5-min easy walk cool-down.
 - hybrid_run: Zone 4 (threshold pace); these are the runs inside hybrid sessions and already count toward the weekly run total.
 
 Pace: if the athlete provided benchmarks (mile / 5K / 10K), derive paces from them. Threshold ≈ 20–30 s/mile slower than 5K pace; tempo ≈ half-marathon pace; easy ≈ 1.5–2.5 min/mile slower than 5K pace. If no benchmarks are given, prescribe by zone/effort and give a reasonable pace estimate in min/mile.`;
@@ -64,10 +65,10 @@ export const TAPER_GUIDANCE = `Race tapers (the engine already sets the reduced 
 
 /** Phase character (spec §4a, Q14/Q15). */
 export const PHASE_CHARACTER: Record<"base" | "build" | "peak" | "taper", string> = {
-  base: "High volume, low intensity, aerobic foundation. Easy running dominant; runs are fartleks/progression runs. Strength base in lifting; minimal hybrid.",
-  build: "Increasing specificity. Introduce one structured tempo run per week; more threshold and hybrid work at moderate volume.",
-  peak: "High intensity, HYROX-specific simulation, volume drops. One tempo/threshold session per week at true lactate threshold; maximum hybrid specificity.",
-  taper: "Reduced volume, intensity maintained until the final days. Minimal lifting and hybrid; keep some sharpening pace work.",
+  base: "High volume, low intensity, aerobic foundation. Easy running dominant; the quality run is a fartlek (no structured tempo in Base). Strength base in lifting; minimal hybrid.",
+  build: "Increasing specificity. Introduce one structured tempo run per week; fartleks continue, and interval work is added in the 2nd half of the phase. More threshold and hybrid work at moderate volume.",
+  peak: "High intensity, HYROX-specific simulation, volume drops. Threshold and interval runs plus a weekly progression run at true race-effort finishes; maximum hybrid specificity.",
+  taper: "Reduced volume, intensity maintained until the final days. Progression runs with some interval work keep the legs sharp; minimal lifting and hybrid.",
 };
 
 /**

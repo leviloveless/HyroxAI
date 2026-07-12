@@ -74,6 +74,21 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
     { mileage: basisMileage, cardioMinutes: basisCardio },
   );
 
+  // Contiguous mesocycles start at fixed offsets (Base→Build→Peak→Taper), used
+  // to tell the slot builder where a week sits inside its phase (Tasks #5).
+  const phaseStart: Record<string, number> = {
+    base: 0,
+    build: alloc.base,
+    peak: alloc.base + alloc.build,
+    taper: alloc.base + alloc.build + alloc.peak,
+  };
+  const phaseLength: Record<string, number> = {
+    base: alloc.base,
+    build: alloc.build,
+    peak: alloc.peak,
+    taper: alloc.taper,
+  };
+
   // 4. Build week objects with slots + zone targets.
   const weeks: WeekSkeleton[] = [];
   for (let i = 0; i < D; i++) {
@@ -81,6 +96,7 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
     const phase = phases[i];
     const microWeek = tapered.microLabels[i];
     const race = tapered.raceWeeks.get(weekNumber);
+    const pos = { index: i - phaseStart[phase], length: phaseLength[phase] };
 
     weeks.push({
       weekNumber,
@@ -89,10 +105,21 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
       targetMileage: tapered.mileage[i],
       targetCardioMinutes: tapered.cardioMinutes[i],
       zoneTargets: { ...PHASE_ZONE_TARGETS[phase] },
-      days: assignDays(input.trainingDays, phase, microWeek, input.runningExp, input.hybridExp, race, {
-        longRunDay: input.longRunDay,
-        restDays: input.restDays,
-      }),
+      days: assignDays(
+        input.trainingDays,
+        phase,
+        microWeek,
+        input.runningExp,
+        input.hybridExp,
+        race,
+        {
+          longRunDay: input.longRunDay,
+          restDays: input.restDays,
+          liftDays: input.liftDays,
+          hybridDays: input.hybridDays,
+        },
+        pos,
+      ),
       raceDay: race ? { priority: race.priority, date: race.date } : undefined,
     });
   }
@@ -183,6 +210,8 @@ export function toEngineInput(input: GenerationInput, startDate?: string): Engin
     startCardioMinutes: input.startCardioMinutes,
     longRunDay: input.profile.dayPreferences?.longRunDay,
     restDays: input.profile.dayPreferences?.restDays,
+    liftDays: input.profile.dayPreferences?.liftDays,
+    hybridDays: input.profile.dayPreferences?.hybridDays,
   };
 }
 

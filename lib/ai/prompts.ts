@@ -29,7 +29,7 @@ const OUTPUT_CONTRACT = `OUTPUT FORMAT — respond with a single JSON object and
 }
 
 A <Session> is exactly one of:
-- Run:    { "kind": "run", "runType": "easy|fartlek|long|tempo|threshold|interval|hybrid_run", "durationMin": <number>, "paceMinMile": "m:ss", "distanceMiles": <number>, "goalZone": <1-5> }
+- Run:    { "kind": "run", "runType": "easy|fartlek|progression|long|tempo|threshold|interval|hybrid_run", "durationMin": <number>, "paceMinMile": "m:ss", "distanceMiles": <number>, "goalZone": <1-5> }
 - Lift:   { "kind": "lift", "liftType": "upper|lower|full", "movements": [ { "pattern": "squat|hip_hinge|lunge|horizontal_press|vertical_press|horizontal_pull|vertical_pull", "sets": <int>, "repRange": "5-7", "suggestedWeight": "optional string" } ] }
 - Hybrid: { "kind": "hybrid", "goalZone": <1-5>, "elements": [ { "exercise": "row erg", "prescription": "500m" }, { "exercise": "run", "prescription": "400m @ 7:30 min/mile (threshold)" } ] }
 

@@ -110,9 +110,11 @@ export default function OnboardingForm({
     if (hz) return [hz.z1, hz.z2, hz.z3, hz.z4, hz.z5].map((b) => ({ low: b.low, high: b.high }));
     return DEFAULT_ZONE_PCTS.map((b) => ({ low: b.low, high: b.high }));
   });
-  // Day-placement preferences (new-additions #4).
+  // Day-placement preferences (new-additions #4; lift/hybrid days Tasks #1).
   const [longRunDay, setLongRunDay] = useState<string>(profile?.day_preferences?.longRunDay ?? "");
   const [restDays, setRestDays] = useState<string[]>(profile?.day_preferences?.restDays ?? []);
+  const [liftDays, setLiftDays] = useState<string[]>(profile?.day_preferences?.liftDays ?? []);
+  const [hybridDays, setHybridDays] = useState<string[]>(profile?.day_preferences?.hybridDays ?? []);
   const [programType, setProgramType] = useState<ProgramType>(initial?.programType ?? "goal_event");
   const [races, setRaces] = useState<Race[]>(
     initial && initial.races.length > 0 ? initial.races : [{ date: "", priority: "A" }],
@@ -133,6 +135,8 @@ export default function OnboardingForm({
     // Drop any day-preference that points at a day that's no longer selected.
     if (turningOff) {
       setRestDays((r) => r.filter((x) => x !== key));
+      setLiftDays((r) => r.filter((x) => x !== key));
+      setHybridDays((r) => r.filter((x) => x !== key));
       setLongRunDay((cur) => (cur === key ? "" : cur));
     }
   }
@@ -142,6 +146,12 @@ export default function OnboardingForm({
   }
   function toggleRestDay(key: string) {
     setRestDays((r) => (r.includes(key) ? r.filter((x) => x !== key) : [...r, key]));
+  }
+  function toggleLiftDay(key: string) {
+    setLiftDays((r) => (r.includes(key) ? r.filter((x) => x !== key) : [...r, key]));
+  }
+  function toggleHybridDay(key: string) {
+    setHybridDays((r) => (r.includes(key) ? r.filter((x) => x !== key) : [...r, key]));
   }
 
   function updateRace(i: number, patch: Partial<Race>) {
@@ -460,6 +470,43 @@ export default function OnboardingForm({
                 </div>
                 <span className="text-xs text-zinc-500">
                   Rest days are kept clear when your schedule leaves room. A long-run-day preference wins if the two conflict.
+                </span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span>Preferred strength / lifting day(s)</span>
+                <div className="flex flex-wrap gap-2">
+                  {DAYS.filter((d) => days.includes(d.key)).map((d) => {
+                    const on = liftDays.includes(d.key);
+                    return (
+                      <label
+                        key={d.key}
+                        className={`cursor-pointer rounded-full border px-4 py-1.5 ${on ? "border-black bg-black text-white" : "border-zinc-300 text-zinc-700"}`}
+                      >
+                        <input type="checkbox" name={`liftday_${d.key}`} checked={on} onChange={() => toggleLiftDay(d.key)} className="sr-only" />
+                        {d.label}
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span>Preferred hybrid (HYROX) day(s)</span>
+                <div className="flex flex-wrap gap-2">
+                  {DAYS.filter((d) => days.includes(d.key)).map((d) => {
+                    const on = hybridDays.includes(d.key);
+                    return (
+                      <label
+                        key={d.key}
+                        className={`cursor-pointer rounded-full border px-4 py-1.5 ${on ? "border-black bg-black text-white" : "border-zinc-300 text-zinc-700"}`}
+                      >
+                        <input type="checkbox" name={`hybridday_${d.key}`} checked={on} onChange={() => toggleHybridDay(d.key)} className="sr-only" />
+                        {d.label}
+                      </label>
+                    );
+                  })}
+                </div>
+                <span className="text-xs text-zinc-500">
+                  We pin these workout types to your chosen days when the week has room — the long-run day is placed first, then hybrid, then lifting.
                 </span>
               </div>
             </>

@@ -133,7 +133,7 @@ export async function generateProgram(
     );
 
     // Assemble (engine summaries + pattern patching) and verify.
-    const { program, issues } = assembleProgram(skeleton, chunks);
+    const { program, issues } = assembleProgram(skeleton, chunks, input.profile.runningExp);
     const verdict = verifyProgram(program);
     if (!verdict.ok) {
       throw new Error(`Verification failed: ${verdict.issues.join("; ")}`);

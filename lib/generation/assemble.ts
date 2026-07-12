@@ -22,7 +22,8 @@ import {
   type ProgramWeek,
   type Session,
 } from "@/lib/schemas";
-import type { ProgramSkeleton, WeekSkeleton } from "@/lib/engine/types";
+import type { ExperienceLevel, ProgramSkeleton, WeekSkeleton } from "@/lib/engine/types";
+import { runDescription } from "@/lib/engine/run-descriptions";
 
 type MovementPattern = (typeof REQUIRED_MOVEMENT_PATTERNS)[number];
 
@@ -93,6 +94,8 @@ function sessionPriority(session: Session): number {
           return 76;
         case "tempo":
           return 74;
+        case "progression":
+          return 72;
         case "fartlek":
           return 60;
         case "hybrid_run":
@@ -118,10 +121,25 @@ function orderSessionsByPriority(sessions: Session[]): Session[] {
     .map((x) => x.s);
 }
 
-function buildWeek(skel: WeekSkeleton, aiWeek: AiWeek | undefined, issues: string[]): ProgramWeek {
+/** Attach the canonical run-workout description to every run session (Tasks #2). */
+function describeRuns(sessions: Session[], runningExp: ExperienceLevel): Session[] {
+  return sessions.map((s) =>
+    s.kind === "run" ? { ...s, description: runDescription(s.runType, runningExp) } : s,
+  );
+}
+
+function buildWeek(
+  skel: WeekSkeleton,
+  aiWeek: AiWeek | undefined,
+  issues: string[],
+  runningExp: ExperienceLevel,
+): ProgramWeek {
   const days: ProgramDay[] = skel.days.map((d) => ({
     day: d.day,
-    sessions: orderSessionsByPriority(daySessions(d, aiWeek, issues, skel.weekNumber)),
+    sessions: describeRuns(
+      orderSessionsByPriority(daySessions(d, aiWeek, issues, skel.weekNumber)),
+      runningExp,
+    ),
   }));
 
   return {
@@ -180,13 +198,19 @@ export function patchMovementPatterns(week: ProgramWeek): MovementPattern[] {
   return [...missing];
 }
 
-/** Build ProgramData from the skeleton + AI chunks, patching pattern gaps. */
-export function assembleProgram(skeleton: ProgramSkeleton, chunks: AiChunk[]): AssembleResult {
+/** Build ProgramData from the skeleton + AI chunks, patching pattern gaps.
+ *  `runningExp` selects the experience-appropriate run descriptions (Tasks #2/#4);
+ *  it defaults to "intermediate" for callers that don't have the profile handy. */
+export function assembleProgram(
+  skeleton: ProgramSkeleton,
+  chunks: AiChunk[],
+  runningExp: ExperienceLevel = "intermediate",
+): AssembleResult {
   const issues: string[] = [];
   const aiByWeek = indexAiWeeks(chunks);
 
   const weeks = skeleton.weeks.map((skel) => {
-    const week = buildWeek(skel, aiByWeek.get(skel.weekNumber), issues);
+    const week = buildWeek(skel, aiByWeek.get(skel.weekNumber), issues, runningExp);
     const patched = patchMovementPatterns(week);
     if (patched.length) issues.push(`week ${week.weekNumber}: patched missing patterns ${patched.join(", ")}`);
     return week;
