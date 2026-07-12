@@ -24,6 +24,8 @@ import {
 } from "@/lib/schemas";
 import type { ExperienceLevel, ProgramSkeleton, WeekSkeleton } from "@/lib/engine/types";
 import { runDescription } from "@/lib/engine/run-descriptions";
+import { reconcileWeekVolume } from "./reconcile";
+import { weekCardioMinutes, weekMileage } from "@/lib/session-volume";
 
 type MovementPattern = (typeof REQUIRED_MOVEMENT_PATTERNS)[number];
 
@@ -142,13 +144,19 @@ function buildWeek(
     ),
   }));
 
+  // Rewrite the AI-filled run volume so the week's running mileage and cardio
+  // time equal the engine's prescribed targets exactly (runs capped at 90 min;
+  // extra easy runs added when needed). The summary is then read back from the
+  // reconciled sessions, so the header can never disagree with the workouts.
+  reconcileWeekVolume(days, skel.targetMileage, skel.targetCardioMinutes, runningExp);
+
   return {
     weekNumber: skel.weekNumber,
     phase: skel.phase,
     microWeek: skel.microWeek,
     summary: {
-      totalCardioMinutes: skel.targetCardioMinutes,
-      totalMileage: skel.targetMileage,
+      totalCardioMinutes: weekCardioMinutes({ days }),
+      totalMileage: weekMileage({ days }),
       zoneDistribution: { ...skel.zoneTargets },
     },
     days,

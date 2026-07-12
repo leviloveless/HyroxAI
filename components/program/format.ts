@@ -12,6 +12,20 @@ import type {
   Session,
 } from "@/lib/schemas";
 import type { PhaseName } from "@/lib/engine/types";
+import {
+  sessionTiming,
+  weekMileage,
+  weekCardioMinutes,
+  HYBRID_MIN_WORK,
+  HYBRID_MAX_WORK,
+  type SessionTiming,
+} from "@/lib/session-volume";
+
+// Re-exported so existing importers of these from ./format keep working; the
+// canonical implementations now live in lib/session-volume.ts (shared with the
+// deterministic volume reconciler so display and reconciliation always agree).
+export { sessionTiming, weekMileage, weekCardioMinutes, HYBRID_MIN_WORK, HYBRID_MAX_WORK };
+export type { SessionTiming };
 
 type RunSession = Extract<Session, { kind: "run" }>;
 type LiftSession = Extract<Session, { kind: "lift" }>;
@@ -101,64 +115,6 @@ export function raceLabel(priority: "A" | "B" | "C"): string {
   return `Race day — ${priority} race`;
 }
 
-// --- Session length estimate (Tasks additions #1, #2) ---
-
-export interface SessionTiming {
-  warmup: number;
-  work: number;
-  cooldown: number;
-  total: number;
-}
-
-/** Warmup/cooldown minutes by run type (quality runs need a longer warmup). */
-const RUN_WARMUP_COOLDOWN: Record<RunSession["runType"], [number, number]> = {
-  easy: [5, 5],
-  long: [5, 5],
-  fartlek: [8, 5],
-  progression: [10, 5],
-  tempo: [12, 8],
-  threshold: [12, 8],
-  interval: [15, 10],
-  hybrid_run: [8, 5],
-};
-
-/** Hybrid work-time bounds (spec addition: 25–60 min of work). */
-export const HYBRID_MIN_WORK = 25;
-export const HYBRID_MAX_WORK = 60;
-
-function clamp(n: number, lo: number, hi: number): number {
-  return Math.min(hi, Math.max(lo, n));
-}
-
-/**
- * Estimated session length, split into warmup / work / cooldown / total.
- * Deterministic (no AI) so every session — including already-generated ones —
- * gets a consistent estimate. A race session returns zeros (event day).
- */
-export function sessionTiming(session: Session): SessionTiming {
-  if (session.kind === "run") {
-    const [warmup, cooldown] = RUN_WARMUP_COOLDOWN[session.runType];
-    const work = Math.max(1, Math.round(session.durationMin));
-    return { warmup, work, cooldown, total: warmup + work + cooldown };
-  }
-  if (session.kind === "lift") {
-    // ~2.5 min per working set (lift + rest); fall back to a sensible default.
-    const sets = session.movements.reduce((n, m) => n + m.sets, 0);
-    const work = sets > 0 ? Math.round(sets * 2.5) : 40;
-    const warmup = 10;
-    const cooldown = 5;
-    return { warmup, work, cooldown, total: warmup + work + cooldown };
-  }
-  if (session.kind === "hybrid") {
-    // Keep hybrid work time within the 25–60 min band.
-    const work = clamp(Math.round(session.elements.length * 5), HYBRID_MIN_WORK, HYBRID_MAX_WORK);
-    const warmup = 10;
-    const cooldown = 5;
-    return { warmup, work, cooldown, total: warmup + work + cooldown };
-  }
-  return { warmup: 0, work: 0, cooldown: 0, total: 0 };
-}
-
 /** Short workout-type label for the weekly table. */
 export function sessionTypeLabel(session: Session): string {
   if (session.kind === "run") return RUN_TYPE_LABEL[session.runType];
@@ -212,63 +168,6 @@ export function sessionZoneLabel(session: Session, maxHR: number, bands: ZoneBan
     return `Zone ${session.goalZone} · ${zoneHrRange(session.goalZone, maxHR, bands)}`;
   }
   return "—";
-}
-
-// --- Weekly totals derived from the actual sessions (Tasks additions #2,#3,#6) ---
-//
-// The engine's targets guide generation, but the numbers shown must MATCH the
-// sessions in the week: cardio = warmup+work+cooldown of every run/hybrid
-// session (weightlifting excluded); mileage = every run's distance plus the
-// runs inside hybrid sessions.
-
-const METERS_PER_MILE = 1609.34;
-const DEFAULT_HYBRID_RUN_MILES = 1000 / METERS_PER_MILE; // 1000 m per hybrid run
-
-/** Parse a distance ("1000m", "1 km", "0.6 mi") to miles, or null. */
-function parseDistanceMiles(text: string): number | null {
-  const t = text.toLowerCase();
-  let m = t.match(/(\d+(?:\.\d+)?)\s*(?:miles|mile|mi)\b/);
-  if (m) return parseFloat(m[1]);
-  m = t.match(/(\d+(?:\.\d+)?)\s*km\b/);
-  if (m) return parseFloat(m[1]) * 0.621371;
-  m = t.match(/(\d+(?:\.\d+)?)\s*(?:meters|metres|meter|metre|m)\b/);
-  if (m) return parseFloat(m[1]) / METERS_PER_MILE;
-  return null;
-}
-
-/** Running miles contained in a hybrid session's run elements. */
-function hybridRunMiles(hybrid: HybridSession): number {
-  let miles = 0;
-  for (const el of hybrid.elements) {
-    const isRun = /run/i.test(el.exercise) || /run/i.test(el.prescription);
-    if (!isRun) continue;
-    miles += parseDistanceMiles(el.prescription) ?? DEFAULT_HYBRID_RUN_MILES;
-  }
-  return miles;
-}
-
-/** Total weekly cardio minutes = warmup+work+cooldown of run + hybrid sessions
- *  (weightlifting excluded, per spec). */
-export function weekCardioMinutes(week: ProgramWeek): number {
-  let total = 0;
-  for (const day of week.days) {
-    for (const s of day.sessions) {
-      if (s.kind === "run" || s.kind === "hybrid") total += sessionTiming(s).total;
-    }
-  }
-  return total;
-}
-
-/** Total weekly running mileage = every run's distance + hybrid run distances. */
-export function weekMileage(week: ProgramWeek): number {
-  let miles = 0;
-  for (const day of week.days) {
-    for (const s of day.sessions) {
-      if (s.kind === "run") miles += s.distanceMiles;
-      else if (s.kind === "hybrid") miles += hybridRunMiles(s);
-    }
-  }
-  return Math.round(miles * 10) / 10;
 }
 
 // --- Weekly summary (spec §7) ---
