@@ -21,6 +21,13 @@ export const maxDuration = 60;
 const DAILY_GENERATION_LIMIT = 3;
 const RATE_WINDOW_MS = 24 * 60 * 60 * 1000;
 
+// Accounts exempt from the daily generation cap (e.g. for testing). Set the
+// GENERATION_UNLIMITED_EMAILS env var to a comma-separated list of emails.
+const UNLIMITED_EMAILS = (process.env.GENERATION_UNLIMITED_EMAILS ?? "")
+  .split(",")
+  .map((e) => e.trim().toLowerCase())
+  .filter(Boolean);
+
 export async function POST(request: Request) {
   const supabase = await createClient();
   const {
@@ -58,21 +65,25 @@ export async function POST(request: Request) {
   }
   // Rate limit: count this user's real generation runs in the trailing 24h.
   // (RLS scopes the count to the caller; this runs before any expensive work.)
-  const since = new Date(Date.now() - RATE_WINDOW_MS).toISOString();
-  const { count, error: countError } = await supabase
-    .from("generation_events")
-    .select("id", { count: "exact", head: true })
-    .eq("user_id", user.id)
-    .neq("kind", "adapt") // weekly adaptations have their own separate limit
-    .gte("created_at", since);
-  if (!countError && (count ?? 0) >= DAILY_GENERATION_LIMIT) {
-    return NextResponse.json(
-      {
-        error: "rate_limited",
-        message: `You've reached the limit of ${DAILY_GENERATION_LIMIT} generations per day. Please try again later.`,
-      },
-      { status: 429 },
-    );
+  // Allowlisted testing accounts skip the cap entirely.
+  const unlimited = !!user.email && UNLIMITED_EMAILS.includes(user.email.toLowerCase());
+  if (!unlimited) {
+    const since = new Date(Date.now() - RATE_WINDOW_MS).toISOString();
+    const { count, error: countError } = await supabase
+      .from("generation_events")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .neq("kind", "adapt") // weekly adaptations have their own separate limit
+      .gte("created_at", since);
+    if (!countError && (count ?? 0) >= DAILY_GENERATION_LIMIT) {
+      return NextResponse.json(
+        {
+          error: "rate_limited",
+          message: `You've reached the limit of ${DAILY_GENERATION_LIMIT} generations per day. Please try again later.`,
+        },
+        { status: 429 },
+      );
+    }
   }
 
   // Log this run before starting so concurrent requests can't slip past the cap.
