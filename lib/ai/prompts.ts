@@ -11,6 +11,7 @@
 import type { GenerationInput } from "@/lib/schemas";
 import type { PhaseName, WeekSkeleton } from "@/lib/engine/types";
 import { philosophyRules, PHASE_CHARACTER, HYBRID_LIBRARY } from "./philosophy";
+import { analyzeNeeds } from "@/lib/engine/needs";
 
 const OUTPUT_CONTRACT = `OUTPUT FORMAT — respond with a single JSON object and nothing else (no prose, no markdown fences):
 
@@ -117,7 +118,16 @@ export function buildUserPrompt(
   weeks: WeekSkeleton[],
   adaptationContext?: string,
 ): string {
-  const library = HYBRID_LIBRARY[phase].join(", ");
+  // Review #1: bias the station library toward the athlete's limiter. Stations
+  // the needs analysis prioritizes (and that exist in this mesocycle's library)
+  // are listed first; the AI still fills the same 4-run/4-event structure.
+  const needs = analyzeNeeds(input.profile);
+  const emphasis = needs.bias.stationEmphasis;
+  const phaseLib = HYBRID_LIBRARY[phase];
+  const prioritized = emphasis.filter((st) => phaseLib.includes(st));
+  const orderedLib = [...prioritized, ...phaseLib.filter((st) => !prioritized.includes(st))];
+  const library = orderedLib.join(", ");
+
   const parts = [
     "ATHLETE PROFILE",
     profileBlock(input),
@@ -126,6 +136,14 @@ export function buildUserPrompt(
     PHASE_CHARACTER[phase],
     `Hybrid station library for this mesocycle: ${library}.`,
   ];
+  if (needs.informative) {
+    parts.push(`Athlete needs focus: ${needs.summary}`);
+    if (prioritized.length) {
+      parts.push(
+        `When choosing this week's hybrid stations, prioritize the athlete's limiter stations first: ${prioritized.join(", ")}. Still cover the week's HYROX stations across sessions, but weight selection and volume toward these.`,
+      );
+    }
+  }
   if (adaptationContext) {
     parts.push(
       "",

@@ -23,6 +23,7 @@ import { sequenceMicrocycles } from "./microcycles";
 import { applyTapers } from "./taper";
 import { assignDays } from "./slots";
 import { PEAK_VOLUME_FACTOR, PHASE_ZONE_TARGETS, startingCardioMinutes, startingMileage } from "./volume";
+import { analyzeNeeds } from "./needs";
 
 /**
  * Build the full deterministic program skeleton from a normalized EngineInput.
@@ -119,6 +120,7 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
           hybridDays: input.hybridDays,
         },
         pos,
+        input.needs?.bias,
       ),
       raceDay: race ? { priority: race.priority, date: race.date } : undefined,
     });
@@ -133,6 +135,7 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
     trainingClass: input.trainingClass,
     allocation: alloc,
     weeks,
+    needs: input.needs,
   };
 }
 
@@ -212,6 +215,7 @@ export function toEngineInput(input: GenerationInput, startDate?: string): Engin
     restDays: input.profile.dayPreferences?.restDays,
     liftDays: input.profile.dayPreferences?.liftDays,
     hybridDays: input.profile.dayPreferences?.hybridDays,
+    needs: analyzeNeeds(input.profile),
   };
 }
 

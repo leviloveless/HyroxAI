@@ -15,6 +15,7 @@
  */
 
 import type { EngineInput, EngineRace, MesocycleAllocation, PhaseName, RacePriorityName, TrainingClassName } from "./types";
+import type { ProgramBias } from "./needs";
 
 /** 20-week reference anchors (A race, taper = 2). Non-taper portion sums to 18. */
 const ANCHORS: Record<TrainingClassName, MesocycleAllocation> = {
@@ -69,7 +70,40 @@ export function allocateMesocycles(input: EngineInput): MesocycleAllocation {
   const working = D - taper;
   const { base, build, peak } = distributeWorking(anchor, working);
 
-  return { base, build, peak, taper };
+  // Review #1: apply the needs-analysis phase nudge (±1 week, zero-sum),
+  // guarded so Base stays the largest phase and no phase is starved.
+  const nudged = applyPhaseBias({ base, build, peak }, working, input.needs?.bias);
+
+  return { ...nudged, taper };
+}
+
+/**
+ * Apply a bounded, zero-sum phase nudge from the needs analysis. Moves at most
+ * one week between phases and only when there is room (working ≥ 8 weeks), every
+ * phase keeps ≥ 1 week, and Base remains the largest phase. Any violation ⇒ the
+ * original allocation is returned unchanged (fail-safe).
+ */
+export function applyPhaseBias(
+  alloc: { base: number; build: number; peak: number },
+  working: number,
+  bias?: ProgramBias,
+): { base: number; build: number; peak: number } {
+  if (!bias) return alloc;
+  const dBase = bias.baseWeeksDelta ?? 0;
+  const dBuild = bias.buildWeeksDelta ?? 0;
+  const dPeak = bias.peakWeeksDelta ?? 0;
+  if (dBase === 0 && dBuild === 0 && dPeak === 0) return alloc;
+  if (dBase + dBuild + dPeak !== 0) return alloc; // must be zero-sum
+  if (working < 8) return alloc; // too short to reshape safely
+
+  const cand = { base: alloc.base + dBase, build: alloc.build + dBuild, peak: alloc.peak + dPeak };
+  const ok =
+    cand.base >= 1 &&
+    cand.build >= 1 &&
+    cand.peak >= 1 &&
+    cand.base >= cand.build &&
+    cand.base >= cand.peak;
+  return ok ? cand : alloc;
 }
 
 /**

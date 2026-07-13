@@ -4,6 +4,19 @@ export { allocateMesocycles, expandPhases, taperWeeksForPriority, topPriority } 
 export { sequenceMicrocycles, microcyclePattern } from "./microcycles";
 export { applyTapers } from "./taper";
 export { assignDays, planWeek, buildRunSlots } from "./slots";
+export {
+  analyzeNeeds,
+  NEUTRAL_BIAS,
+  ERG_STATIONS,
+  STRENGTH_STATIONS,
+  type NeedsAnalysis,
+  type NeedsProfile,
+  type NeedsDomain,
+  type ProgramBias,
+  type RunEmphasis,
+  type Durability,
+} from "./needs";
+export { applyPhaseBias } from "./mesocycles";
 export { buildSkeleton, toEngineInput } from "./skeleton";
 export {
   computeWeekSignals,

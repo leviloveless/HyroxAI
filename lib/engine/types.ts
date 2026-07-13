@@ -8,6 +8,8 @@
  * (see toEngineInput in skeleton.ts), not the core math's.
  */
 
+import type { NeedsAnalysis } from "./needs";
+
 export type ExperienceLevel = "beginner" | "intermediate" | "advanced";
 export type TrainingClassName = "non_highly_trained" | "highly_trained";
 export type ProgramTypeName = "goal_event" | "fixed_duration" | "general_fitness";
@@ -52,6 +54,10 @@ export interface EngineInput {
   liftDays?: TrainingDayName[];
   /** Optional preferred days for hybrid (HYROX) sessions (Tasks #1). */
   hybridDays?: TrainingDayName[];
+  /** Needs analysis + program bias derived from the athlete's benchmarks
+   *  (Review #1). When omitted the engine runs with a neutral (unbiased)
+   *  program, exactly as before this feature. */
+  needs?: NeedsAnalysis;
 }
 
 // --- Allocation ---
@@ -120,4 +126,6 @@ export interface ProgramSkeleton {
   trainingClass: TrainingClassName;
   allocation: MesocycleAllocation;
   weeks: WeekSkeleton[];
+  /** Needs analysis behind this program's biasing, for UI / audit (Review #1). */
+  needs?: NeedsAnalysis;
 }

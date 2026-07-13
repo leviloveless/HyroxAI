@@ -25,6 +25,7 @@ import type {
   SessionSlot,
   TrainingDayName,
 } from "./types";
+import type { ProgramBias, RunEmphasis } from "./needs";
 
 const GOAL_ZONE: Record<RunType, number> = {
   easy: 2,
@@ -69,6 +70,7 @@ export function planWeek(
   microWeek: MicroWeekType,
   runningExp: ExperienceLevel,
   hybridExp: ExperienceLevel,
+  bias?: ProgramBias,
 ): SlotPlan {
   if (microWeek === "race") {
     return { runs: 1, lifts: 0, hybrids: 0 }; // shakeout only; race is added separately
@@ -82,6 +84,16 @@ export function planWeek(
   // Hybrid-inexperienced athletes get more HYROX-specific work earlier (§4c).
   if (hybridExp === "beginner" && phase === "base") hybrids += 1;
 
+  // Review #1: needs-analysis frequency nudges. Applied only on normal loading
+  // weeks (never deload/taper/race) so recovery is untouched, then clamped to
+  // the spec bounds (runs 3–8, hybrids 0–3). This changes training FREQUENCY of
+  // a quality, not weekly volume — the reconciler still hits the mileage/cardio
+  // targets exactly.
+  if (bias && (microWeek === "rebound" || microWeek === "increase")) {
+    runs = clampInt(runs + (bias.runCountDelta ?? 0), 3, 8);
+    hybrids = clampInt(hybrids + (bias.hybridCountDelta ?? 0), 0, 3);
+  }
+
   if (microWeek === "deload" || microWeek === "taper") {
     runs = Math.max(2, Math.round(runs * 0.6));
     hybrids = Math.max(0, hybrids - 1);
@@ -89,6 +101,10 @@ export function planWeek(
   }
 
   return { runs, lifts, hybrids };
+}
+
+function clampInt(n: number, lo: number, hi: number): number {
+  return Math.min(hi, Math.max(lo, Math.round(n)));
 }
 
 /**
@@ -133,11 +149,19 @@ function runFillers(phase: PhaseName, pos?: PhasePosition): RunType[] {
   }
 }
 
-/** Build the ordered list of run slots for a week (always exactly one long run). */
-export function buildRunSlots(phase: PhaseName, count: number, pos?: PhasePosition): RunSlot[] {
+/** Build the ordered list of run slots for a week (always exactly one long run).
+ *  `emphasis` (Review #1) reorders the filler pool so, at low run counts, the
+ *  athlete's needed quality leads: "aerobic" fronts easy running, "threshold"
+ *  fronts tempo/threshold/interval. "none" leaves the default order untouched. */
+export function buildRunSlots(
+  phase: PhaseName,
+  count: number,
+  pos?: PhasePosition,
+  emphasis: RunEmphasis = "none",
+): RunSlot[] {
   if (count <= 0) return [];
   const types: RunType[] = ["long"]; // long run anchors every week
-  const fillers = runFillers(phase, pos);
+  const fillers = applyRunEmphasis(runFillers(phase, pos), emphasis);
   for (let i = 0; types.length < count; i++) types.push(fillers[i % fillers.length]);
 
   return types.slice(0, count).map((rt) => ({
@@ -146,6 +170,21 @@ export function buildRunSlots(phase: PhaseName, count: number, pos?: PhasePositi
     goalZone: GOAL_ZONE[rt],
     isLong: rt === "long",
   }));
+}
+
+const QUALITY_RUN_TYPES: ReadonlySet<RunType> = new Set(["tempo", "threshold", "interval"]);
+
+/** Stable-reorder the filler pool by emphasis (default "none" = identity). */
+function applyRunEmphasis(fillers: RunType[], emphasis: RunEmphasis): RunType[] {
+  if (emphasis === "none") return fillers;
+  const rank = (t: RunType): number => {
+    if (emphasis === "aerobic") return t === "easy" ? 0 : 1;
+    return QUALITY_RUN_TYPES.has(t) ? 0 : 1; // "threshold"
+  };
+  return fillers
+    .map((t, i) => ({ t, i }))
+    .sort((a, b) => rank(a.t) - rank(b.t) || a.i - b.i)
+    .map((x) => x.t);
 }
 
 function buildLiftSlots(count: number): SessionSlot[] {
@@ -320,6 +359,7 @@ export function assignDays(
   race?: { priority: RacePriorityName; date?: string },
   prefs?: DayPreferences,
   pos?: PhasePosition,
+  bias?: ProgramBias,
 ): DaySlot[] {
   // An A/B race week (microWeek "race") uses the reduced taper sessions; a C
   // race keeps its normal microcycle label and trains through, so it falls to
@@ -328,10 +368,10 @@ export function assignDays(
   if (race && microWeek === "race") {
     ordered = raceWeekSlots(race.priority);
   } else {
-    const plan = planWeek(phase, microWeek, runningExp, hybridExp);
+    const plan = planWeek(phase, microWeek, runningExp, hybridExp, bias);
     // Interleave kinds (run, lift, hybrid, run, lift, …) so similar sessions
     // don't cluster on adjacent days.
-    const runs = buildRunSlots(phase, plan.runs, pos);
+    const runs = buildRunSlots(phase, plan.runs, pos, bias?.runEmphasis ?? "none");
     const lifts = buildLiftSlots(plan.lifts);
     const hybrids = buildHybridSlots(plan.hybrids);
     ordered = interleave(runs, lifts, hybrids);
