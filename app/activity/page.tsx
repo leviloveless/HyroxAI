@@ -2,15 +2,13 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getUserActivities } from "@/lib/wearables/activities";
+import { getLinkableSessions } from "@/lib/wearables/link-data";
 import {
   formatDurationS,
   formatDistanceMiles,
   formatActivityType,
 } from "@/lib/wearables/format";
-
-const DAY_LABEL: Record<string, string> = {
-  mon: "Mon", tue: "Tue", wed: "Wed", thu: "Thu", fri: "Fri", sat: "Sat", sun: "Sun",
-};
+import ActivityLinker from "@/components/activity/activity-linker";
 
 function formatDate(iso: string | null): string {
   if (!iso) return "—";
@@ -26,15 +24,18 @@ export default async function ActivityPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const activities = await getUserActivities();
+  const [activities, programs] = await Promise.all([
+    getUserActivities(),
+    getLinkableSessions(),
+  ]);
 
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-16">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-semibold">Activity</h1>
         <p className="text-sm text-zinc-500">
-          Workouts synced from your connected wearables. Link them to planned sessions from your
-          program view.
+          Workouts synced from your connected wearables. Link each one to a planned session so it
+          counts toward your training and feeds your weekly adjustments.
         </p>
       </div>
 
@@ -51,7 +52,7 @@ export default async function ActivityPage() {
           {activities.map((a) => (
             <li
               key={a.id}
-              className="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 px-4 py-3"
+              className="flex flex-wrap items-start justify-between gap-3 rounded-lg border border-zinc-200 px-4 py-3"
             >
               <span className="flex flex-col">
                 <span className="font-medium">{formatActivityType(a.type)}</span>
@@ -61,15 +62,7 @@ export default async function ActivityPage() {
                   {a.avg_hr ? ` · ${Math.round(a.avg_hr)} bpm` : ""} · {a.provider}
                 </span>
               </span>
-              {a.linked && a.link ? (
-                <span className="shrink-0 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-800">
-                  Linked · Wk {a.link.week_number} {DAY_LABEL[a.link.day] ?? a.link.day}
-                </span>
-              ) : (
-                <span className="shrink-0 rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">
-                  Unlinked
-                </span>
-              )}
+              <ActivityLinker activityId={a.id} programs={programs} link={a.link} />
             </li>
           ))}
         </ul>
