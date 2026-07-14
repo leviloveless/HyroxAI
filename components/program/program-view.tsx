@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ProgramData, WorkoutLog } from "@/lib/schemas";
 import type { ZoneBands } from "./format";
-import type { SyncSuggestion } from "@/lib/wearables/suggest-data";
+import type { SyncSuggestion, SyncActivitySummary } from "@/lib/wearables/suggest-data";
 import PhaseTimeline from "./phase-timeline";
 import WeekNav from "./week-nav";
 import WeekCard from "./week-card";
@@ -45,12 +45,18 @@ export default function ProgramView({
   meta,
   activity,
   suggestions,
+  linking,
 }: {
   program: ProgramData;
   meta: ProgramMeta;
   activity?: ProgramActivity;
   /** Same-day link suggestions for synced-but-unlinked activities (Increment 3). */
   suggestions?: SyncSuggestion[];
+  /** In-view sync-linking data: attachable workouts + per-session linked state. */
+  linking?: {
+    linkableActivities: SyncActivitySummary[];
+    linkedBySession: Record<string, SyncActivitySummary>;
+  };
 }) {
   const logsByWeek = new Map<number, WorkoutLog[]>();
   for (const l of activity?.logs ?? []) {
@@ -112,6 +118,8 @@ export default function ProgramView({
                       logs: logsByWeek.get(w.weekNumber) ?? [],
                       frozen: activity.frozenWeeks.includes(w.weekNumber),
                       adapted: activity.adaptedWeeks.includes(w.weekNumber),
+                      linkableActivities: linking?.linkableActivities ?? [],
+                      linkedBySession: linking?.linkedBySession ?? {},
                     }
                   : undefined
               }

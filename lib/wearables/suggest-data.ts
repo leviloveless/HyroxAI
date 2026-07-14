@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import type { ProgramData } from "@/lib/schemas";
-import { getUserActivities } from "./activities";
+import { getUserActivities, type ActivityRow } from "./activities";
 import { programDayForDate, sessionLabel, type LinkableSession } from "./link";
 import { formatDurationS, formatDistanceMiles, formatActivityType } from "./format";
 
@@ -19,6 +19,30 @@ export type SyncSuggestion = {
   candidates: LinkableSession[];
 };
 
+/** Compact synced-activity descriptor for the in-program-view link control. */
+export type SyncActivitySummary = {
+  activityId: string;
+  title: string;
+  detail: string;
+};
+
+/**
+ * Everything the program view needs for sync-linking, computed from a single
+ * activities load:
+ *  - `suggestions`: same-day match cards (top-of-view banner);
+ *  - `linkableActivities`: unlinked synced workouts the athlete can attach to
+ *    any planned session directly from the week table;
+ *  - `linkedBySession`: which synced activity is already linked to each session,
+ *    keyed `${weekNumber}:${day}:${sessionIndex}` (for the "Synced" state + unlink).
+ */
+export type ProgramSyncData = {
+  suggestions: SyncSuggestion[];
+  linkableActivities: SyncActivitySummary[];
+  linkedBySession: Record<string, SyncActivitySummary>;
+};
+
+const EMPTY: ProgramSyncData = { suggestions: [], linkableActivities: [], linkedBySession: {} };
+
 function detailLine(startTime: string, durationS: number | null, distanceM: number | null): string {
   const parts: string[] = [];
   const d = new Date(startTime);
@@ -34,17 +58,28 @@ function detailLine(startTime: string, durationS: number | null, distanceM: numb
   return parts.join(" · ");
 }
 
+function toSummary(a: ActivityRow): SyncActivitySummary {
+  return {
+    activityId: a.id,
+    title: formatActivityType(a.type),
+    detail: detailLine(a.start_time ?? "", a.duration_s, a.distance_m),
+  };
+}
+
+export function sessionKey(weekNumber: number, day: string, sessionIndex: number): string {
+  return `${weekNumber}:${day}:${sessionIndex}`;
+}
+
 /**
- * Suggestions for a single program: unlinked synced activities matched to a
- * same-day planned session. Newest activity first (getUserActivities order).
- * Returns [] for non-ready programs or when nothing matches.
+ * All sync-linking data for a program (suggestions + in-view link maps).
+ * Returns empty data for non-ready programs. Reads programs + activities via RLS.
  */
-export async function getSyncSuggestions(programId: string): Promise<SyncSuggestion[]> {
+export async function getProgramSyncData(programId: string): Promise<ProgramSyncData> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return [];
+  if (!user) return EMPTY;
 
   const { data: program } = await supabase
     .from("programs")
@@ -52,20 +87,29 @@ export async function getSyncSuggestions(programId: string): Promise<SyncSuggest
     .eq("id", programId)
     .eq("user_id", user.id)
     .maybeSingle();
-  if (!program || program.status !== "ready") return [];
+  if (!program || program.status !== "ready") return EMPTY;
   const pdata = program.program_data as ProgramData | null;
-  if (!pdata) return [];
+  if (!pdata) return EMPTY;
 
   const activities = await getUserActivities();
-  const unlinked = activities.filter((a) => !a.linked && a.start_time);
-  if (unlinked.length === 0) return [];
 
+  // Which synced activity (if any) is linked to each session of THIS program.
+  const linkedBySession: Record<string, SyncActivitySummary> = {};
+  for (const a of activities) {
+    if (a.linked && a.link && a.link.program_id === programId) {
+      linkedBySession[sessionKey(a.link.week_number, a.link.day, a.link.session_index)] = toSummary(a);
+    }
+  }
+
+  // Unlinked synced workouts — attachable to any planned session, newest first.
+  const linkableActivities = activities.filter((a) => !a.linked).map(toSummary);
+
+  // Same-day suggestions (rules #2.1 / #2.2) from the unlinked, dated activities.
   const suggestions: SyncSuggestion[] = [];
-  for (const a of unlinked) {
-    const when = new Date(a.start_time as string);
-    const match = programDayForDate(program.start_date, program.duration_weeks, when);
+  for (const a of activities) {
+    if (a.linked || !a.start_time) continue;
+    const match = programDayForDate(program.start_date, program.duration_weeks, new Date(a.start_time));
     if (!match) continue;
-
     const week = pdata.weeks.find((w) => w.weekNumber === match.weekNumber);
     const dayObj = week?.days.find((d) => d.day === match.day);
     if (!dayObj) continue;
@@ -85,11 +129,12 @@ export async function getSyncSuggestions(programId: string): Promise<SyncSuggest
     suggestions.push({
       activityId: a.id,
       title: formatActivityType(a.type),
-      detail: detailLine(a.start_time as string, a.duration_s, a.distance_m),
+      detail: detailLine(a.start_time, a.duration_s, a.distance_m),
       weekNumber: match.weekNumber,
       day: match.day,
       candidates,
     });
   }
-  return suggestions;
+
+  return { suggestions, linkableActivities, linkedBySession };
 }

@@ -9,7 +9,7 @@ import ProgramView, { type ProgramActivity } from "@/components/program/program-
 import PacingCard from "@/components/program/pacing-card";
 import ReadinessForm from "@/components/program/readiness-form";
 import { computePacingPlan } from "@/lib/engine/pacing";
-import { getSyncSuggestions } from "@/lib/wearables/suggest-data";
+import { getProgramSyncData } from "@/lib/wearables/suggest-data";
 import GenerateTrigger from "./generate-trigger";
 
 /** Snapshot profile fields we read for HR personalization (new-additions #2, #3). */
@@ -128,11 +128,11 @@ export default async function ProgramPage({
   if (status === "ready" && data) {
     // Phase 2: logs + adaptation state for the review banner, badges and actuals.
     // Sync-Linking Increment 3: same-day suggestions for unlinked synced activities.
-    const [logRows, adaptations, readinessRows, suggestions] = await Promise.all([
+    const [logRows, adaptations, readinessRows, syncData] = await Promise.all([
       getProgramLogs(program.id),
       getProgramAdaptations(program.id),
       getProgramReadiness(program.id),
-      getSyncSuggestions(program.id),
+      getProgramSyncData(program.id),
     ]);
     const logs: WorkoutLog[] = logRows.map((r) => ({
       weekNumber: r.week_number,
@@ -214,7 +214,11 @@ export default async function ProgramPage({
             zoneBands,
           }}
           activity={activity}
-          suggestions={suggestions}
+          suggestions={syncData.suggestions}
+          linking={{
+            linkableActivities: syncData.linkableActivities,
+            linkedBySession: syncData.linkedBySession,
+          }}
         />
       </main>
     );

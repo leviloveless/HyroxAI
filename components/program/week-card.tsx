@@ -1,6 +1,8 @@
 import type { ProgramWeek, Session, WorkoutLog } from "@/lib/schemas";
 import { computeWeekSignals } from "@/lib/engine/adapt";
 import LogSession from "./log-session";
+import SessionLink from "./session-link";
+import { sessionKey, type SyncActivitySummary } from "@/lib/wearables/suggest-data";
 import {
   DAY_LABEL,
   MICRO_LABEL,
@@ -85,10 +87,23 @@ export interface WeekLogging {
   logs: WorkoutLog[];
   frozen: boolean;
   adapted: boolean;
+  /** Unlinked synced workouts attachable to any session (in-view linking). */
+  linkableActivities?: SyncActivitySummary[];
+  /** Synced activity linked to each session, keyed `${week}:${day}:${index}`. */
+  linkedBySession?: Record<string, SyncActivitySummary>;
 }
 
 function logFor(logging: WeekLogging | undefined, day: string, sessionIndex: number): WorkoutLog | null {
   return logging?.logs.find((l) => l.day === day && l.sessionIndex === sessionIndex) ?? null;
+}
+
+function linkFor(
+  logging: WeekLogging | undefined,
+  weekNumber: number,
+  day: string,
+  sessionIndex: number,
+): SyncActivitySummary | null {
+  return logging?.linkedBySession?.[sessionKey(weekNumber, day, sessionIndex)] ?? null;
 }
 
 /** Mobile layout: one stacked block per day (no horizontal scroll). */
@@ -130,6 +145,17 @@ function MobileDayList({
                     </span>
                     <span className="flex shrink-0 items-center gap-2">
                       {!isRace && <span className="text-xs tabular-nums text-zinc-500">{t.total}m total</span>}
+                      {logging && !isRace && (
+                        <SessionLink
+                          programId={logging.programId}
+                          weekNumber={week.weekNumber}
+                          day={dayKey}
+                          sessionIndex={si}
+                          linked={linkFor(logging, week.weekNumber, dayKey, si)}
+                          activities={logging.linkableActivities ?? []}
+                          frozen={logging.frozen}
+                        />
+                      )}
                       {logging && (
                         <LogSession
                           programId={logging.programId}
@@ -308,15 +334,28 @@ export default function WeekCard({
                     <td className="px-3 py-3 text-right align-top font-medium tabular-nums">{isRace ? "—" : `${t.total}m`}</td>
                     {logging && (
                       <td className="px-3 py-3 text-right align-top print:hidden">
-                        <LogSession
-                          programId={logging.programId}
-                          weekNumber={week.weekNumber}
-                          day={dayKey}
-                          sessionIndex={si}
-                          isRace={isRace}
-                          existing={logFor(logging, dayKey, si)}
-                          frozen={logging.frozen}
-                        />
+                        <div className="flex flex-col items-end gap-1">
+                          <LogSession
+                            programId={logging.programId}
+                            weekNumber={week.weekNumber}
+                            day={dayKey}
+                            sessionIndex={si}
+                            isRace={isRace}
+                            existing={logFor(logging, dayKey, si)}
+                            frozen={logging.frozen}
+                          />
+                          {!isRace && (
+                            <SessionLink
+                              programId={logging.programId}
+                              weekNumber={week.weekNumber}
+                              day={dayKey}
+                              sessionIndex={si}
+                              linked={linkFor(logging, week.weekNumber, dayKey, si)}
+                              activities={logging.linkableActivities ?? []}
+                              frozen={logging.frozen}
+                            />
+                          )}
+                        </div>
                       </td>
                     )}
                   </tr>
