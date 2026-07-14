@@ -4,6 +4,7 @@ import {
   flattenProgramSessions,
   encodeSessionValue,
   decodeSessionValue,
+  programDayForDate,
 } from "./link";
 import type { ProgramData, Session } from "@/lib/schemas";
 
@@ -74,5 +75,40 @@ describe("encode/decode session value", () => {
     expect(decodeSessionValue("bad")).toBeNull();
     expect(decodeSessionValue("1:xyz:0")).toBeNull();
     expect(decodeSessionValue("1:mon:x")).toBeNull();
+  });
+});
+
+describe("programDayForDate", () => {
+  // Program starts Wed Jul 1 2026 → week 1 Monday is Jun 29 2026.
+  const start = "2026-07-01";
+  const at = (y: number, m: number, d: number, h = 12) => new Date(y, m - 1, d, h);
+
+  it("maps the start date to its weekday in week 1", () => {
+    // Jul 1 is a Wednesday.
+    expect(programDayForDate(start, 8, at(2026, 7, 1))).toEqual({ weekNumber: 1, day: "wed" });
+  });
+  it("maps the week-1 Monday (before the start date) to week 1 Monday", () => {
+    expect(programDayForDate(start, 8, at(2026, 6, 29))).toEqual({ weekNumber: 1, day: "mon" });
+  });
+  it("rolls into week 2 the following Monday", () => {
+    expect(programDayForDate(start, 8, at(2026, 7, 6))).toEqual({ weekNumber: 2, day: "mon" });
+  });
+  it("maps a Sunday to the end of its week", () => {
+    // Jul 5 2026 is a Sunday, still in week 1.
+    expect(programDayForDate(start, 8, at(2026, 7, 5))).toEqual({ weekNumber: 1, day: "sun" });
+  });
+  it("returns null before the program's first week", () => {
+    expect(programDayForDate(start, 8, at(2026, 6, 28))).toBeNull();
+  });
+  it("returns null past the final week", () => {
+    // Week 8's Sunday is Aug 23 2026; Aug 24 starts week 9 → out of an 8-week program.
+    expect(programDayForDate(start, 8, at(2026, 8, 24))).toBeNull();
+  });
+  it("ignores time-of-day (uses local calendar date)", () => {
+    expect(programDayForDate(start, 8, at(2026, 7, 1, 23))).toEqual({ weekNumber: 1, day: "wed" });
+    expect(programDayForDate(start, 8, at(2026, 7, 1, 0))).toEqual({ weekNumber: 1, day: "wed" });
+  });
+  it("returns null on an invalid date", () => {
+    expect(programDayForDate(start, 8, new Date(NaN))).toBeNull();
   });
 });

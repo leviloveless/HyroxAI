@@ -97,3 +97,52 @@ export function decodeSessionValue(
   if (!["mon", "tue", "wed", "thu", "fri", "sat", "sun"].includes(day)) return null;
   return { weekNumber, day, sessionIndex };
 }
+
+// --- Same-day matching (Increment 3, rules #2.1 / #2.2) ---
+//
+// Program weeks are Monday-anchored: week 1 is the Mon–Sun week containing the
+// program's start date (same convention as components/program/format.ts). Given
+// a synced activity's calendar date, we invert that to find which program
+// (week, day) it lands on — used to suggest a same-day link. Reimplemented here
+// (rather than importing format.ts) so this module stays pure and free of the
+// engine import chain.
+
+const DAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+/** Parse "YYYY-MM-DD" as a LOCAL date at midnight (no timezone shift). */
+function parseLocalISODate(iso: string): Date {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y!, (m ?? 1) - 1, d ?? 1);
+}
+
+/** Local midnight of the Monday on or before `date` (Mon=0 … Sun=6). */
+function localMondayOf(date: Date): Date {
+  const weekdayFromMon = (date.getDay() + 6) % 7;
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() - weekdayFromMon);
+}
+
+/**
+ * Which program (week, day) a wearable activity falls on, or null if it's
+ * outside the program's calendar span. `activity` is the activity's start time;
+ * only its local calendar date is used (time-of-day is ignored).
+ */
+export function programDayForDate(
+  startISO: string,
+  durationWeeks: number,
+  activity: Date,
+): { weekNumber: number; day: string } | null {
+  if (Number.isNaN(activity.getTime())) return null;
+  const week1Monday = localMondayOf(parseLocalISODate(startISO));
+  const activityMidnight = new Date(
+    activity.getFullYear(),
+    activity.getMonth(),
+    activity.getDate(),
+  );
+  const diffDays = Math.round((activityMidnight.getTime() - week1Monday.getTime()) / MS_PER_DAY);
+  if (diffDays < 0) return null;
+  const weekNumber = Math.floor(diffDays / 7) + 1;
+  if (weekNumber > durationWeeks) return null;
+  const dayIndex = diffDays % 7;
+  return { weekNumber, day: DAY_KEYS[dayIndex]! };
+}

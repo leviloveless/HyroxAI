@@ -1,11 +1,13 @@
 import Link from "next/link";
 import type { ProgramData, WorkoutLog } from "@/lib/schemas";
 import type { ZoneBands } from "./format";
+import type { SyncSuggestion } from "@/lib/wearables/suggest-data";
 import PhaseTimeline from "./phase-timeline";
 import WeekNav from "./week-nav";
 import WeekCard from "./week-card";
 import WeekSummaryTable from "./week-summary-table";
 import AdaptReview from "./adapt-review";
+import SyncSuggestions from "./sync-suggestions";
 import RegenerateButton from "@/app/program/[id]/regenerate-button";
 
 export interface ProgramMeta {
@@ -42,10 +44,13 @@ export default function ProgramView({
   program,
   meta,
   activity,
+  suggestions,
 }: {
   program: ProgramData;
   meta: ProgramMeta;
   activity?: ProgramActivity;
+  /** Same-day link suggestions for synced-but-unlinked activities (Increment 3). */
+  suggestions?: SyncSuggestion[];
 }) {
   const logsByWeek = new Map<number, WorkoutLog[]>();
   for (const l of activity?.logs ?? []) {
@@ -82,6 +87,10 @@ export default function ProgramView({
 
       {activity?.reviewWeek != null && (
         <AdaptReview programId={meta.programId} weekNumber={activity.reviewWeek} />
+      )}
+
+      {suggestions && suggestions.length > 0 && (
+        <SyncSuggestions programId={meta.programId} suggestions={suggestions} />
       )}
 
       <WeekNav weeks={program.weeks} />
