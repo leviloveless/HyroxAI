@@ -71,6 +71,8 @@ export type WorkoutLogRow = {
   rpe: number | null;
   actuals: { durationMin?: number; distanceMiles?: number; avgHr?: number } | null;
   note: string | null;
+  /** Day the session was actually done when moved off the planned day (#5); null = as planned. */
+  actual_day: "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun" | null;
   logged_at: string;
   updated_at: string;
 };
@@ -79,7 +81,7 @@ export async function getProgramLogs(programId: string): Promise<WorkoutLogRow[]
   const supabase = await createClient();
   const { data } = await supabase
     .from("workout_logs")
-    .select("id, program_id, week_number, day, session_index, status, rpe, actuals, note, logged_at, updated_at")
+    .select("id, program_id, week_number, day, session_index, status, rpe, actuals, note, actual_day, logged_at, updated_at")
     .eq("program_id", programId)
     .order("week_number", { ascending: true });
   return (data as WorkoutLogRow[] | null) ?? [];

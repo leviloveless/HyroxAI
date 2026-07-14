@@ -146,3 +146,13 @@ export function programDayForDate(
   const dayIndex = diffDays % 7;
   return { weekNumber, day: DAY_KEYS[dayIndex]! };
 }
+
+/**
+ * The value to store in workout_logs.actual_day (Increment 4, rule #5). A
+ * session's planned day/session_index never move — actual_day only records that
+ * the work happened on a different day-of-week. Returns the selected day when it
+ * differs from the planned day, else null ("done as planned").
+ */
+export function resolveActualDay(plannedDay: string, selectedDay: string): string | null {
+  return selectedDay && selectedDay !== plannedDay ? selectedDay : null;
+}

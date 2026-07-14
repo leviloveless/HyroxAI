@@ -142,6 +142,7 @@ export default async function ProgramPage({
       rpe: r.rpe,
       actuals: r.actuals,
       note: r.note,
+      actualDay: r.actual_day,
     }));
 
     // The review candidate: the most recent unreviewed week that still has a

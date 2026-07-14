@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { WorkoutLogInputSchema, type ProgramData } from "@/lib/schemas";
+import { resolveActualDay } from "@/lib/wearables/link";
 
 /**
  * POST /api/logs — upsert one session log (Phase 2, phase2-spec.md §6).
@@ -83,6 +84,8 @@ export async function POST(request: Request) {
       rpe: input.status === "skipped" ? null : (input.rpe ?? null),
       actuals: input.actuals ?? null,
       note: input.note?.trim() || null,
+      // Rule #5: record the actual day only when it differs from the planned day.
+      actual_day: resolveActualDay(input.day, input.actualDay ?? input.day),
       updated_at: new Date().toISOString(),
     },
     { onConflict: "program_id,week_number,day,session_index" },

@@ -319,6 +319,8 @@ export const WorkoutLogInputSchema = z
     rpe: z.number().int().min(1).max(10).optional(),
     actuals: LogActualsSchema.optional(),
     note: z.string().max(280).optional(),
+    /** Day the session was actually done, when moved off the planned day (#5). */
+    actualDay: TrainingDay.optional(),
   })
   .refine((v) => v.status === "skipped" || v.rpe !== undefined, {
     message: "RPE is required unless the session was skipped",
@@ -350,6 +352,9 @@ export interface WorkoutLog {
   rpe: number | null;
   actuals: LogActuals | null;
   note: string | null;
+  /** Day the session was actually completed when moved off the planned day (#5).
+   *  null/absent = done as planned. Planned day/sessionIndex never change. */
+  actualDay?: z.infer<typeof TrainingDay> | null;
 }
 
 /** The 7 non-negotiable lifting movement patterns (spec §5b). */

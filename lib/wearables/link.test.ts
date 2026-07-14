@@ -5,6 +5,7 @@ import {
   encodeSessionValue,
   decodeSessionValue,
   programDayForDate,
+  resolveActualDay,
 } from "./link";
 import type { ProgramData, Session } from "@/lib/schemas";
 
@@ -110,5 +111,17 @@ describe("programDayForDate", () => {
   });
   it("returns null on an invalid date", () => {
     expect(programDayForDate(start, 8, new Date(NaN))).toBeNull();
+  });
+});
+
+describe("resolveActualDay", () => {
+  it("returns null when the session was done on its planned day", () => {
+    expect(resolveActualDay("mon", "mon")).toBeNull();
+  });
+  it("returns the selected day when moved", () => {
+    expect(resolveActualDay("mon", "wed")).toBe("wed");
+  });
+  it("returns null when the selected day is empty", () => {
+    expect(resolveActualDay("mon", "")).toBeNull();
   });
 });

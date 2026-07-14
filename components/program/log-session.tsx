@@ -3,7 +3,23 @@
 import { useEffect, useRef, useState } from "react";
 import type { WorkoutLog } from "@/lib/schemas";
 import { usePostAction } from "@/lib/hooks/use-post-action";
+import { resolveActualDay } from "@/lib/wearables/link";
 import { Button } from "@/components/ui/button";
+
+const DAY_OPTIONS: { key: WorkoutLog["day"]; label: string }[] = [
+  { key: "mon", label: "Mon" },
+  { key: "tue", label: "Tue" },
+  { key: "wed", label: "Wed" },
+  { key: "thu", label: "Thu" },
+  { key: "fri", label: "Fri" },
+  { key: "sat", label: "Sat" },
+  { key: "sun", label: "Sun" },
+];
+
+/** Exact recovery-awareness copy shown before a session is moved off its
+ *  planned day (rule #5 — do not alter this wording). */
+const MOVE_DAY_CONFIRM_COPY =
+  "Please confirm that you have completed or plan to complete this workout on the selected day. Be aware that completing workouts in a different order or on different days throughout the week may impact your ability to recover from workout to workout and from week to week.";
 
 /**
  * Quick session logger (Phase 2, Milestone 8 — phase2-spec.md §3a).
@@ -43,9 +59,16 @@ export default function LogSession(props: LogSessionProps) {
   const [showActuals, setShowActuals] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [override, setOverride] = useState<WorkoutLog | null>(null);
+  // Rule #5: the day the session was actually done. Defaults to the planned day;
+  // choosing another day triggers the recovery-awareness confirmation on save.
+  const [actualDay, setActualDay] = useState<WorkoutLog["day"]>(
+    props.existing?.actualDay ?? props.day,
+  );
+  const [showMoveConfirm, setShowMoveConfirm] = useState(false);
 
   const existing = override ?? props.existing;
   const needsRpe = status !== null && status !== "skipped";
+  const isMoved = resolveActualDay(props.day, actualDay) !== null;
 
   // Accessible dialog behaviour (roadmap #1.2): focus the panel on open, trap
   // Tab inside it, close on Escape, and restore focus to the trigger on close.
@@ -91,13 +114,26 @@ export default function LogSession(props: LogSessionProps) {
     };
   }, [open]);
 
-  async function save() {
+  function save() {
     if (!status) return;
     if (needsRpe && rpe === null) {
       setFormError("Pick an RPE (1–10) — how hard did it feel?");
       return;
     }
     setFormError(null);
+    // Rule #5: moving the session off its planned day requires an explicit
+    // recovery-awareness confirmation before we persist.
+    if (isMoved) {
+      setShowMoveConfirm(true);
+      return;
+    }
+    void persist();
+  }
+
+  async function persist() {
+    if (!status) return;
+    setShowMoveConfirm(false);
+    const movedDay = resolveActualDay(props.day, actualDay);
     const actuals: NonNullable<WorkoutLog["actuals"]> = {};
     if (durationMin && !Number.isNaN(Number(durationMin))) actuals.durationMin = Number(durationMin);
     if (distanceMiles && !Number.isNaN(Number(distanceMiles))) actuals.distanceMiles = Number(distanceMiles);
@@ -114,6 +150,7 @@ export default function LogSession(props: LogSessionProps) {
       rpe: status === "skipped" ? null : rpe,
       actuals: hasActuals ? actuals : null,
       note: note.trim() || null,
+      actualDay: movedDay as WorkoutLog["day"] | null,
     };
     const prev = override;
     setOverride(optimistic);
@@ -128,6 +165,7 @@ export default function LogSession(props: LogSessionProps) {
       rpe: status === "skipped" ? undefined : (rpe ?? undefined),
       actuals: hasActuals ? actuals : undefined,
       note: note.trim() || undefined,
+      actualDay: movedDay ?? undefined,
     });
     if (!r?.ok) {
       setOverride(prev);
@@ -147,6 +185,11 @@ export default function LogSession(props: LogSessionProps) {
       <span>{STATUS_META[existing.status].badge}</span>
       <span>{STATUS_META[existing.status].label}</span>
       {existing.rpe != null && <span className="font-normal">· RPE {existing.rpe}</span>}
+      {existing.actualDay && existing.actualDay !== existing.day && (
+        <span className="font-normal" title="Completed on a different day than planned">
+          · {DAY_OPTIONS.find((d) => d.key === existing.actualDay)?.label ?? existing.actualDay}
+        </span>
+      )}
     </button>
   ) : (
     <button
@@ -264,6 +307,41 @@ export default function LogSession(props: LogSessionProps) {
             </div>
           )}
 
+          {/* Day completed (rule #5) — defaults to the planned day; a different
+              choice records actual_day after the recovery-awareness confirm. */}
+          <div className="mt-4">
+            <p className="text-xs font-medium text-zinc-500">Day completed</p>
+            <div className="mt-1.5 grid grid-cols-7 gap-1">
+              {DAY_OPTIONS.map((d) => {
+                const selected = actualDay === d.key;
+                const planned = props.day === d.key;
+                return (
+                  <button
+                    key={d.key}
+                    type="button"
+                    aria-pressed={selected}
+                    aria-label={`Completed ${d.label}${planned ? " (planned)" : ""}`}
+                    onClick={() => setActualDay(d.key)}
+                    className={`rounded-md py-1.5 text-[11px] font-semibold transition-colors ${
+                      selected
+                        ? "bg-black text-white"
+                        : planned
+                          ? "bg-zinc-200 text-zinc-700 hover:bg-zinc-300"
+                          : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+                    }`}
+                  >
+                    {d.label}
+                  </button>
+                );
+              })}
+            </div>
+            {isMoved && (
+              <p className="mt-1 text-[11px] text-amber-700">
+                Moved off the planned day — you’ll confirm before saving.
+              </p>
+            )}
+          </div>
+
           {/* Note */}
           <textarea
             value={note}
@@ -287,6 +365,41 @@ export default function LogSession(props: LogSessionProps) {
           </div>
         </div>
       </div>
+
+      {/* Move-day confirmation (rule #5) — exact recovery-awareness copy. */}
+      {showMoveConfirm && (
+        <div
+          className="fixed inset-0 z-[60] flex items-end justify-center bg-black/50 p-0 sm:items-center sm:p-4"
+          onClick={() => setShowMoveConfirm(false)}
+        >
+          <div
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="move-day-title"
+            className="w-full max-w-sm rounded-t-2xl bg-white p-5 shadow-xl sm:rounded-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 id="move-day-title" className="text-sm font-semibold">
+              Confirm day change
+            </h3>
+            <p className="mt-2 text-sm text-zinc-600">{MOVE_DAY_CONFIRM_COPY}</p>
+            <div className="mt-4 flex items-center justify-end gap-2">
+              <Button variant="ghost" size="sm" onClick={() => setShowMoveConfirm(false)}>
+                Go back
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => void persist()}
+                disabled={pending}
+                className="px-5"
+              >
+                {pending ? "Saving…" : "Confirm"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </span>
   );
 }
