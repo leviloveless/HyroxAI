@@ -59,7 +59,7 @@ Core product (Phase 1 + Phase 2):
 
 This was the most recent body of work. It lets an athlete connect a wearable, see synced workouts, and link each to a planned session so it counts toward training and adaptation. There are **three entry points**, all sharing the same server actions (`linkActivityToSession`, `unlinkActivity` in `app/activity/actions.ts`):
 
-1. **Activity dashboard** (`/activity`, "Activity" nav tab) — lists all synced workouts with Linked/Unlinked state; link/unlink manually via a program → session picker (rules #2.3 manual selection, #2.4 placement on any day).
+1. **Activity dashboard** (`/activity`, "Activity" nav tab) — lists all synced workouts with Linked/Unlinked state; link/unlink manually via a program → session picker (rules #2.3 manual selection, #2.4 placement on any day). Has a **"Sync now"** button in the header (shown when Strava is connected) that pulls recent Strava activity on demand — via the same `POST /api/wearables/strava/sync` endpoint the Connections panel uses — and refreshes the page so newly imported workouts and their suggestions appear immediately. Shows the last-sync time beneath it.
 2. **Same-day suggestions banner** (top of the program view) — surfaces unlinked synced workouts whose calendar date lands on a planned day; confirm the match, with a picker when the day has multiple sessions (rules #2.1, #2.2).
 3. **In-view per-session control** (in the week table, next to each session's Log button) — link any unlinked synced workout to any session, or view/unlink the one already attached. This is the most direct path and covers "link directly from the program view."
 
@@ -74,6 +74,7 @@ Plus **move-day logging (rule #5):** when logging a session, a "Day completed" s
 - `lib/wearables/suggest-data.ts` — `getProgramSyncData()` returns suggestions + in-view linking maps from a single activities load.
 - `app/activity/{page,actions}.tsx` — dashboard + server actions.
 - `components/activity/activity-linker.tsx` — dashboard link control.
+- `components/activity/sync-now-button.tsx` — on-demand "Sync now" control on the Activity page.
 - `components/program/sync-suggestions.tsx` — suggestions banner.
 - `components/program/session-link.tsx` — in-view per-session link control.
 - `components/program/log-session.tsx` — logging modal incl. the move-day confirmation.
