@@ -57,7 +57,11 @@ async function upsertFromSubscription(sub: Stripe.Subscription) {
       current_period_end: periodEndUnix
         ? new Date(periodEndUnix * 1000).toISOString()
         : null,
-      cancel_at_period_end: sub.cancel_at_period_end,
+      // Flexible billing mode (new API default) records a portal cancellation in
+      // `cancel_at` and leaves `cancel_at_period_end` false; classic mode uses the
+      // boolean. Treat either as "scheduled to cancel".
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cancel_at_period_end: Boolean(sub.cancel_at_period_end) || (sub as any).cancel_at != null,
       updated_at: new Date().toISOString(),
     },
     { onConflict: "user_id" },

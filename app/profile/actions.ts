@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getStripe } from "@/lib/stripe";
 import { ProfileSchema } from "@/lib/schemas";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -73,9 +74,10 @@ export type DeleteState = { error: string | null };
  * Requires SUPABASE_SERVICE_ROLE_KEY (the same key the Stripe webhook uses). If it
  * isn't configured, the action fails cleanly rather than half-deleting anything.
  *
- * NOTE: once BILLING_ENABLED is on, also cancel any live Stripe subscription for
- * this user (call the Stripe API here) so deletion doesn't leave an orphaned
- * paid subscription. Not needed while billing is off.
+ * Also cancels the user's Stripe subscription (if any) before deletion, so a
+ * removed account never leaves an orphaned subscription that keeps billing a
+ * card. That step is best-effort: a Stripe error is logged but never blocks the
+ * deletion. (The FK to auth.users also stops the webhook re-creating the row.)
  */
 export async function deleteAccount(
   _prev: DeleteState,
@@ -92,6 +94,32 @@ export async function deleteAccount(
     admin = createAdminClient();
   } catch {
     return { error: "Account deletion isn't available right now. Please contact support." };
+  }
+
+  // Cancel any Stripe subscription before removing the account, so deletion never
+  // leaves an orphaned subscription that keeps billing a card. Best-effort: a
+  // Stripe failure (or billing not configured) is logged, not fatal — we don't
+  // want to trap a user who wants out.
+  const { data: sub } = await supabase
+    .from("subscriptions")
+    .select("stripe_subscription_id, status")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  const subRow = sub as { stripe_subscription_id?: string | null; status?: string } | null;
+  if (
+    subRow?.stripe_subscription_id &&
+    subRow.status &&
+    !["canceled", "incomplete_expired"].includes(subRow.status)
+  ) {
+    try {
+      await getStripe().subscriptions.cancel(subRow.stripe_subscription_id);
+    } catch (e) {
+      console.error(
+        `[account] failed to cancel Stripe subscription ${subRow.stripe_subscription_id} for ${user.id}: ${
+          e instanceof Error ? e.message : "unknown error"
+        }`,
+      );
+    }
   }
 
   const { error } = await admin.auth.admin.deleteUser(user.id);
