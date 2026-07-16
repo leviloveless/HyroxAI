@@ -26,7 +26,7 @@
  *     the mixed-reference anchors below; a true sex normalization is Review #10).
  *
  * The reference anchors are deliberately coarse and centralized here so they
- * are a one-file edit. They map a median HYROX age-grouper to ≈50 and a strong
+ * are a one-file edit. They map a median HYROX amateur to ≈50 and a strong
  * one to ≈85. Absolute calibration matters little; cross-domain COMPARABILITY
  * (finding the limiter) is the job.
  */

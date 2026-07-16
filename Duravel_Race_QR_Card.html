@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Duravel — Race QR Card</title>
+<style>
+  :root{
+    --ink:#0E1116; --paper:#F7F5F2; --accent:#FF5A1F; --muted:#8A8F98; --line:#252A31;
+  }
+  *{box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  html,body{margin:0; background:#3a3f47; font-family:"Helvetica Neue",Arial,sans-serif; color:var(--ink);}
+  .sheet{max-width:760px; margin:28px auto; padding:0 16px;}
+  .note{color:#cdd2d8; font-size:13px; text-align:center; margin:0 0 18px; line-height:1.5;}
+  .note b{color:#fff;}
+  .cards{display:flex; flex-direction:column; gap:22px; align-items:center;}
+
+  /* 6in x 4in postcard */
+  .card{width:6in; height:4in; border-radius:14px; overflow:hidden; position:relative;
+    box-shadow:0 18px 40px rgba(0,0,0,.35); background:var(--ink); color:#fff;}
+
+  /* ---------- FRONT ---------- */
+  .front{display:grid; grid-template-columns:1.15fr .85fr;}
+  .front .left{padding:.42in .34in; display:flex; flex-direction:column; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:9px; font-weight:800; letter-spacing:.14em; font-size:13px;}
+  .brand .dot{width:11px; height:11px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(255,90,31,.18);}
+  .kicker{color:var(--accent); font-weight:800; letter-spacing:.18em; font-size:10.5px; text-transform:uppercase; margin-bottom:9px;}
+  .headline{font-size:31px; line-height:1.02; font-weight:800; letter-spacing:-.01em; margin:0;}
+  .headline .hl{color:var(--accent);}
+  .sub{color:#c4c9d0; font-size:12.5px; line-height:1.45; margin-top:10px; max-width:3in;}
+  .foot{color:var(--muted); font-size:10.5px; letter-spacing:.03em;}
+  .front .right{background:linear-gradient(160deg,#161B22,#0E1116); border-left:1px solid var(--line);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:11px; padding:.3in;}
+  .qrwrap{background:#fff; padding:11px; border-radius:12px; line-height:0;}
+  .qrwrap img{width:1.78in; height:1.78in; display:block;}
+  .scan{font-weight:800; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#fff;}
+  .scan span{color:var(--accent);}
+  .url{color:var(--muted); font-size:10.5px; letter-spacing:.02em;}
+
+  /* ---------- BACK ---------- */
+  .back{padding:.42in .44in; display:flex; flex-direction:column; justify-content:space-between; background:var(--paper); color:var(--ink);}
+  .back .top{display:flex; align-items:center; justify-content:space-between;}
+  .brand.dark{color:var(--ink);}
+  .btag{color:var(--muted); font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700;}
+  .back h2{font-size:20px; font-weight:800; margin:.06in 0 .04in; letter-spacing:-.01em;}
+  .back .lede{color:#4a5058; font-size:12px; line-height:1.45; margin:0 0 .10in; max-width:4.6in;}
+  .steps{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;}
+  .step{background:#fff; border:1px solid #E7E3DC; border-radius:10px; padding:11px 12px;}
+  .step .n{width:19px; height:19px; border-radius:50%; background:var(--ink); color:#fff; font-size:11px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; margin-bottom:7px;}
+  .step b{font-size:12px; display:block; margin-bottom:2px;}
+  .step p{margin:0; font-size:10.5px; color:#5b616a; line-height:1.35;}
+  .backfoot{display:flex; align-items:center; justify-content:space-between; color:var(--muted); font-size:10.5px;}
+  .pill{background:var(--ink); color:#fff; font-weight:800; font-size:10.5px; letter-spacing:.05em; padding:6px 12px; border-radius:999px;}
+  .pill span{color:var(--accent);}
+
+  @media print{
+    html,body{background:#fff;}
+    .note{display:none;}
+    .sheet{margin:0; max-width:none; padding:0;}
+    .cards{gap:0;}
+    .card{box-shadow:none; border-radius:0; page-break-after:always;}
+    @page{size:6in 4in; margin:0;}
+  }
+</style></head>
+<body>
+  <div class="sheet">
+    <p class="note"><b>Duravel race handout — 6&times;4in postcard.</b> Front = hook + scannable QR &middot; Back = what they get. Print double-sided (flip on short edge). Colors/logo are placeholders — swap for your brand. Regenerate the QR per race with a tagged link (e.g. <b>duravel.app/pace?src=slc</b>) for clean attribution.</p>
+    <div class="cards">
+
+      <!-- FRONT -->
+      <div class="card front">
+        <div class="left">
+          <div class="brand"><span class="dot"></span>DURAVEL</div>
+          <div>
+            <div class="kicker">Your HYROX time isn't a mystery</div>
+            <h1 class="headline">Know your <span class="hl">goal-time splits</span> before the gun.</h1>
+            <p class="sub">Free pacing calculator. Enter your benchmarks, get the run/station splits that hit your target — in 60 seconds.</p>
+          </div>
+          <div class="foot">Built by an amateur, for amateurs.</div>
+        </div>
+        <div class="right">
+          <div class="qrwrap"><img src="data:image/png;base64,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" alt="Scan for the free Duravel pacing tool"/></div>
+          <div class="scan">SCAN <span>&rarr;</span> FREE TOOL</div>
+          <div class="url">duravel.app/pace</div>
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card back">
+        <div class="top">
+          <div class="brand dark"><span class="dot"></span>DURAVEL</div>
+          <div class="btag">AI HYROX Training</div>
+        </div>
+        <div>
+          <h2>Scan the code. Race smarter.</h2>
+          <p class="lede">The free pacing tool is the front door. Behind it: an engine that builds and adapts a full periodized HYROX block around your real numbers.</p>
+          <div class="steps">
+            <div class="step"><div class="n">1</div><b>Get your splits</b><p>Free goal-time calculator — no account needed.</p></div>
+            <div class="step"><div class="n">2</div><b>Get a plan</b><p>Start a 14-day free trial. No credit card.</p></div>
+            <div class="step"><div class="n">3</div><b>It adapts</b><p>Log sessions; next week adjusts to you.</p></div>
+          </div>
+        </div>
+        <div class="backfoot">
+          <div class="pill">SCAN &middot; <span>14-day free trial</span></div>
+          <div>duravel.app &middot; @duravel</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body></html>

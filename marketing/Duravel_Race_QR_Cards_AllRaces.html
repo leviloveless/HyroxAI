@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Duravel — Per-Race QR Cards</title>
+<style>
+  :root{--ink:#0E1116;--paper:#F7F5F2;--accent:#FF5A1F;--muted:#8A8F98;--line:#252A31;}
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  html,body{margin:0;background:#3a3f47;font-family:"Helvetica Neue",Arial,sans-serif;color:var(--ink);}
+  .sheet{max-width:760px;margin:28px auto;padding:0 16px;}
+  .note{color:#cdd2d8;font-size:13px;text-align:center;margin:0 0 18px;line-height:1.5;}
+  .note b{color:#fff;}
+  .cards{display:flex;flex-direction:column;gap:22px;align-items:center;}
+  .card{width:6in;height:4in;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 18px 40px rgba(0,0,0,.35);background:var(--ink);color:#fff;}
+  .front{display:grid;grid-template-columns:1.15fr .85fr;}
+  .front .left{padding:.36in .34in;display:flex;flex-direction:column;justify-content:space-between;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.14em;font-size:13px;}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(255,90,31,.18);}
+  .racebadge{display:inline-block;background:var(--accent);color:#fff;font-weight:800;font-size:9.5px;letter-spacing:.10em;padding:4px 10px;border-radius:999px;margin-bottom:11px;}
+  .racebadge span{color:#0E1116;}
+  .kicker{color:var(--accent);font-weight:800;letter-spacing:.16em;font-size:10px;text-transform:uppercase;margin-bottom:8px;}
+  .headline{font-size:29px;line-height:1.03;font-weight:800;letter-spacing:-.01em;margin:0;}
+  .headline .hl{color:var(--accent);}
+  .sub{color:#c4c9d0;font-size:12px;line-height:1.45;margin-top:9px;max-width:3in;}
+  .foot{color:var(--muted);font-size:10.5px;letter-spacing:.03em;}
+  .front .right{background:linear-gradient(160deg,#161B22,#0E1116);border-left:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;padding:.3in;}
+  .qrwrap{background:#fff;padding:11px;border-radius:12px;line-height:0;}
+  .qrwrap img{width:1.72in;height:1.72in;display:block;}
+  .scan{font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#fff;}
+  .scan span{color:var(--accent);}
+  .url{color:var(--muted);font-size:9.5px;letter-spacing:.01em;}
+  .back{padding:.42in .44in;display:flex;flex-direction:column;justify-content:space-between;background:var(--paper);color:var(--ink);}
+  .back .top{display:flex;align-items:center;justify-content:space-between;}
+  .brand.dark{color:var(--ink);}
+  .btag{color:var(--muted);font-size:10px;letter-spacing:.10em;text-transform:uppercase;font-weight:700;}
+  .back h2{font-size:20px;font-weight:800;margin:.06in 0 .04in;letter-spacing:-.01em;}
+  .back .lede{color:#4a5058;font-size:12px;line-height:1.45;margin:0 0 .10in;max-width:4.6in;}
+  .steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+  .step{background:#fff;border:1px solid #E7E3DC;border-radius:10px;padding:11px 12px;}
+  .step .n{width:19px;height:19px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:7px;}
+  .step b{font-size:12px;display:block;margin-bottom:2px;}
+  .step p{margin:0;font-size:10.5px;color:#5b616a;line-height:1.35;}
+  .backfoot{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:10.5px;}
+  .pill{background:var(--ink);color:#fff;font-weight:800;font-size:10.5px;letter-spacing:.05em;padding:6px 12px;border-radius:999px;}
+  .pill span{color:var(--accent);}
+  .rlabel{color:#fff;font-weight:800;letter-spacing:.06em;font-size:13px;margin:8px 0 -6px;text-align:center;}
+  @media print{
+    html,body{background:#fff;}
+    .note,.rlabel{display:none;}
+    .sheet{margin:0;max-width:none;padding:0;}
+    .cards{gap:0;}
+    .card{box-shadow:none;border-radius:0;page-break-after:always;}
+    @page{size:6in 4in;margin:0;}
+  }
+</style></head>
+<body>
+  <div class="sheet">
+    <p class="note"><b>Duravel per-race QR cards — 4 variants, print-ready 6&times;4in.</b> Each front carries a race badge and a QR tagged to that race (<b>?src=slc</b>, <b>?src=bos</b>, etc.) for clean per-race attribution. Print each race's pair double-sided (flip on short edge). Standalone QR PNGs are delivered separately if you'd rather drop them into your own design.</p>
+    <div class="cards">
+      
+    <!-- DekaFit FRONT -->
+    <div class="card front">
+      <div class="left">
+        <div class="brand"><span class="dot"></span>DURAVEL</div>
+        <div>
+          <div class="racebadge">RACING DEKAFIT &middot; <span>JUL 25</span></div>
+          <div class="kicker">Your HYROX time isn't a mystery</div>
+          <h1 class="headline">Know your <span class="hl">goal-time splits</span> before the gun.</h1>
+          <p class="sub">Free pacing calculator. Enter your benchmarks, get the run/station splits that hit your target — in 60 seconds.</p>
+        </div>
+        <div class="foot">Built by an amateur, for amateurs.</div>
+      </div>
+      <div class="right">
+        <div class="qrwrap"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAzQAAAM0CAIAAADiEPAgAAAUo0lEQVR4nO3YO44Cy5ZA0a4WPhIO8x9eOkiMgOe01NbTrSLqcnZUruWn4puwlV+v1+t/AABo+N/pCQAA8P/EGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAkMvUwNfbfWpovun5ON5+dup8V+a8o5V9njpf435m3ClnewdX7Hi+ZzN1n305AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACDkMj2Bdzwfx/QUtnG93UfGXTmjlTmfbb0rzjbulJX1nu23zl5939nWu2LH3xxfzgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIuUxP4NOut/v0FH7s+Timp/BjK/u8st6p83Wvvm/Hu7HjO3g2zvf7/F71+XIGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQMhlegL8Tc/H8faz19v9F2fyfVNz3nGvptY75Wznu+O7sGLHOfO3+XIGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQMhlegL8TdfbfWTc5+N4+9mpOe9oap9Xxt3xbqzMme+zz9T4cgYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAyGV6Ap/2fBzTUziFlX2+3u6/OJPv2/Fu2OfPmJrzyhnteDd2XK/7zL/BlzMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQi7TE3jH9XafngL/YOWMno/DuH943BU7rndl3B3teK92ZK/+Nl/OAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAi5TA38fBxTQxN3vd3ffnblXk2Nu8J6qdnx/Z3iPvPf+HIGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQMjX6/WangP/4Hq7j4z7fBwj466wV5+xss8rezU17ood92rFjudrXOP+G+Ou8OUMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgJDL1MDX231q6FN5Po63n105o5Vxp5xtr6beQe/+3+Z8P2PqN2fH893x/8iXMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCLtMTeMfzcbz97PV2327cFVPrPZupvdrxfM/2Dk7t847nu+O4U3Z8F1ac7f315QwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAkMvUwM/H8faz19v9F2fymXGn1rsy7oqpM5oytV7n+3077tWOv5Nn+62bcrZ3cMf1rvDlDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAICQy/QEzuJ6u7/97PNxjIy7YmrOO467YsfzXbHjeqf2akdne39XnO0dPBtfzgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIuUwNfL3d3372+Th+cSZ/29n2aupeTY07db47vr9nexem7vPZ+M35vh1/N6b4cgYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAyGV6Au+43u7TU/ix5+N4+9mzrde4fWdb74qV99d9/owdf2NXTK13x//BqXfBlzMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQi7TE3jH83G8/ez1dv/FmXxm3JX1rliZ89R6p853xY7nOzXnKWe7zzveySlnO98d/xd25MsZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACGX6Qns5Pk4Rsa93u4j4+5o5YxW9nnqbkzZ8U5OzXnHvVox9R6dbZ93/K3b8R2c+m335QwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAkMv0BN5xvd3ffvb5OLYbd8XUes9maq9Wzvds78KOZzRlx/Pd0dnewbONu8KXMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCvl6v18jA19t9ZNwVz8fx9rMr691x3Ck73qspU+e7453c8V7tuFc7/tZN3Y2z7dWO467w5QwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAkK/X6zU9hx+73u7TU/ix5+OYnsJHTZ3Ryj6f7V6trHfHfZ56B3fc57P9Xq042/nueK92nLMvZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEXKYnsJPn43j72evt/osz6VvZqxVT+zy13ik77vOOc54a1+/VZ0zt88q47tVn+HIGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQMjX6/WansM2rrf7288+H8cvzuQzVtbLZ0zdq6m7seN7NGXHMzrbb86OezU157O9+76cAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABDy9Xq9Rga+3u4j4z4fx8i4K6b26mym7sbZ3oWV9e445yk7/tatONu92vF8vUff58sZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACGXqYGfj2Nq6Lddb/fpKfzYyj5PrXfHOa+w3u9bWe/KuGc7o6l9PtteTY274zu4491Y4csZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACGXqYGvt/vIuM/HMfLsynqnxp0ytVdTdrwbO457Njue74od5zzlbOvdkS9nAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAIRcpidwFs/H8faz19vduB94dmrOU8623qk5r+zzFO9Rn3v1t/lyBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAEDI1+v1Ghn4eru//ezzcfziTL7vbHM+m6kzmuI+f9/Kenfc5yln26uzrXfFju/+Cl/OAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAi5TE/gLK63+8i4z8cxMu6OznZGK+NO7dXZrOzz1PlO3eez7dXZ3sGz7ZUvZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEXKYn8GnX2/3tZ5+PY2TcFVPrXbHjnKfuxtnWO+Vsvxsrpua84z7veL477vOOfDkDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIOTr9XpNz4E/6Hq7T0/hx56P4+1nV9a7Mu6KHc9ohX3+vql3YcXZ3t8VzqjPlzMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQr5er9fIwNfbfWRcvu/5OKan8GNnu1crZ7SyV1N3Y+p8rfdvm3oXdhx3yo77vMKXMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCLtMTeMfzcUxPYRvX2/1U467cjZU5T42745yn3t8dfzfcq79txzu5wt34Pl/OAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAi5TE/g0663+/QUfuz5OKan8GNTcz7b+e643hU7vgtnOyPr/dv8Xn2GL2cAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhFymJwBnd73dp6fwY8/HMT2Fbdgr/pupd3/lTu445x35cgYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAyGV6AlDxfBzTU/ixqTlfb/eRcVes7NXUes35M6bmvONvzo52PCNfzgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIuUxP4NOej2N6CvyD6+0+PYWPWrmTU3t1tvdo6oyc7/ft+B6tWJnz1PnueK+m+HIGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQMhlegLvuN7u01PgX/R8HCPjTt2rlfWuPDu13h33ecqO78LUfT6bHd99vs+XMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCvl6v1/QcAAD4P76cAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACHiDAAgRJwBAISIMwCAEHEGABAizgAAQsQZAECIOAMACBFnAAAh4gwAIEScAQCEiDMAgBBxBgAQIs4AAELEGQBAiDgDAAgRZwAAIeIMACBEnAEAhIgzAIAQcQYAECLOAABCxBkAQIg4AwAIEWcAACH/AWeo2zgL5lrZAAAAAElFTkSuQmCC" alt="Scan for the free Duravel pacing tool"/></div>
+        <div class="scan">SCAN <span>&rarr;</span> FREE TOOL</div>
+        <div class="url">duravel.app/pace?src=dekafit</div>
+      </div>
+    </div>
+
+    <!-- DekaFit BACK -->
+    <div class="card back">
+      <div class="top">
+        <div class="brand dark"><span class="dot"></span>DURAVEL</div>
+        <div class="btag">DekaFit &middot; JUL 25</div>
+      </div>
+      <div>
+        <h2>Scan the code. Race smarter.</h2>
+        <p class="lede">The free pacing tool is the front door. Behind it: an engine that builds and adapts a full periodized HYROX block around your real numbers.</p>
+        <div class="steps">
+          <div class="step"><div class="n">1</div><b>Get your splits</b><p>Free goal-time calculator — no account needed.</p></div>
+          <div class="step"><div class="n">2</div><b>Get a plan</b><p>Start a 14-day free trial. No credit card.</p></div>
+          <div class="step"><div class="n">3</div><b>It adapts</b><p>Log sessions; next week adjusts to you.</p></div>
+        </div>
+      </div>
+      <div class="backfoot">
+        <div class="pill">SCAN &middot; <span>14-day free trial</span></div>
+        <div>duravel.app &middot; @duravel</div>
+      </div>
+    </div>
+
+    <!-- HYROX Salt Lake City FRONT -->
+    <div class="card front">
+      <div class="left">
+        <div class="brand"><span class="dot"></span>DURAVEL</div>
+        <div>
+          <div class="racebadge">RACING HYROX SALT LAKE CITY &middot; <span>SEP 19</span></div>
+          <div class="kicker">Your HYROX time isn't a mystery</div>
+          <h1 class="headline">Know your <span class="hl">goal-time splits</span> before the gun.</h1>
+          <p class="sub">Free pacing calculator. Enter your benchmarks, get the run/station splits that hit your target — in 60 seconds.</p>
+        </div>
+        <div class="foot">Built by an amateur, for amateurs.</div>
+      </div>
+      <div class="right">
+        <div class="qrwrap"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAuQAAALkCAIAAADIxrcyAAARh0lEQVR4nO3YQY4qO7ZA0Z9f9JHoMP/hRQeJEVAjePW4+BZnO2OtfsgnjCNzyz+v1+v/AACq/n96AACA/0asAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIC0y9TC19t9amne9Hwc0yN81cqZnNqrHWde4X3ft/K+O67Ld0x9R25WAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAg7TI9wCeej2N6hG1cb/fpEf7Y1Mwr52pl5pV1p2ZeseP3O/X78j77/L4d/y+4WQEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgLTL9ADfdr3dp0f4Y8/HMT3CH9txn3e0ss87nquVmaf2aupb8A2+b8e92vH7XeFmBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0i7TA8Df9Hwc2617vd3/4iTfMTXz1O+7428Ev4mbFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASLtMD8Dv9Hwc0yN81fV2//jZHfdqauaVfd7Ryj6fba/43dysAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBA2mV6gG97Po7pEfgX19t9ZN2ps7Hyvmb+zro7vu+KHWdecbb33ZGbFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASLtMD/CJ6+0+PQL/YuU3ej6OkXWnTL3vyrp8x47f0dS52vHb531uVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIO0ytfDzcUwtzRf4fd93vd0/fnbHfV55X9634z7veJ75DjcrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQdpkeYCfX231k3efj+PjZHWeesrJXO/5GU3bcqx3P8477vCNn8jvcrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQNpleoBvu97u0yN81fNxfPzs1F5NrbuyV2fjXH3H1D6fbd0VUzNP7fMUNysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJB2mR7gE9fbfXqEP/Z8HCPrnm2vpt53Zd0dz8bUzGfbK9/vd+w484odv303KwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkPbzer1GFr7e7iPrrng+jpF1V/ZqauYpU+dqZZ+nfl/f4Hec7UyuMPN31t2RmxUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEj7eb1eIwtfb/ePn30+jpF1p+z4vlMzr6y7wnl+39ned8WOe3W2b39HO+6zmxUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEi7TA+wk+fj+PjZ6+0+8uyOM6+YWndqn6fWXTG17ood93nFyvtOrTv1Ha3Y8e/VFDcrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQ9vN6vUYWvt7uI+s+H8fHz55t5rOtu2LHmaes7BV9U9/+ih1nPhs3KwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkPbzer2mZziF6+0+su7zcXz87MrMZ1t3yo7ve7azsbLu2ZztTK4423l2swIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGmXqYWvt/vIus/H8fGzKzOvrLtiauYd92qFmd/nTH7Hjvu84mwzn42bFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASPt5vV7TM2zjert//OzzcWy3LvwTZ/J9K3u1Yse/OVN7NWXHvZr6ft2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBA2s/r9Zqe4auut/vIus/HMbLuju+7MvPUulOmztWKHfd5xY7f/o7f0Y77vGLHv7Er3KwAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAEDaZWrh6+3+8bPPx/EXJ/nddtyrlZmnztWO53lq5h3P5Mpe7ehs5/lsdvwG3awAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAEDaZXqAT1xv94+ffT6OkXVXTK27YmWfz7bu1O87tVdTpv5uTNnxTE6Z2qsd153iZgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANIu0wPw756PY2Td6+2+3bpTe7Wjqd93xcrvu/Lsjnu14mzf0Y5/687GzQoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKT9vF6vkYWvt/vHzz4fx1+c5Dum3ndl3RVTv5F9/o6zfb9Tps7Vih2/oxXe9zvcrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQNpleoBvu97u0yN81fNxfPzsyl6tPLsy84qps7Hj+07NfDZT3+/U77vjt7CjHb9fNysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJD283q9Rha+3u4j6z4fx8fPnm3mHdeFf+JMvm/qb92Ops7Gjv+PVrhZAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCAtMvUws/HMbX0x8z8u11v94+fndrnlZlXrLzv1Mwrps7Gjmdyx785U2dyx+93ipsVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIu0wtfL3dp5bmTc/HMbLuytmYmnnFjt/C1Mx+3/66K8727a842/u6WQEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgLTL9ACfeD6O6RG2cb3dR9bd8TdamXlln6f2ysz9dVdMffsrdvy7MWXHM7nCzQoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKRdpgf4tuvtPj3CH3s+jukR/tjUPq/s1dTMO57JFSvve7bf17ffd7bzPMXNCgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApF2mB4C/6Xq7T4/wx56PY3qEr/K+/XWnvqOpmafW3XHmqfPsZgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANIu0wPwOz0fx8fPXm/3U607ZeV9p6zs89TZ2PE8r5j6Fs727e/4/a5wswIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGmX6QG+7fk4pkcgauVsXG/3vzgJ/wtTv9HUudrxb93U+07tlb8b73OzAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaZfpAT5xvd2nR+AXWjlXz8fxFyf53Xb8fld+36n33XGfp0ztlb8b73OzAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaT+v12t6BgCAf+RmBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIE2sAABpYgUASBMrAECaWAEA0sQKAJAmVgCANLECAKSJFQAgTawAAGliBQBIEysAQJpYAQDSxAoAkCZWAIA0sQIApIkVACBNrAAAaWIFAEgTKwBAmlgBANLECgCQJlYAgDSxAgCkiRUAIO0/wkj5gauc8oEAAAAASUVORK5CYII=" alt="Scan for the free Duravel pacing tool"/></div>
+        <div class="scan">SCAN <span>&rarr;</span> FREE TOOL</div>
+        <div class="url">duravel.app/pace?src=slc</div>
+      </div>
+    </div>
+
+    <!-- HYROX Salt Lake City BACK -->
+    <div class="card back">
+      <div class="top">
+        <div class="brand dark"><span class="dot"></span>DURAVEL</div>
+        <div class="btag">HYROX Salt Lake City &middot; SEP 19</div>
+      </div>
+      <div>
+        <h2>Scan the code. Race smarter.</h2>
+        <p class="lede">The free pacing tool is the front door. Behind it: an engine that builds and adapts a full periodized HYROX block around your real numbers.</p>
+        <div class="steps">
+          <div class="step"><div class="n">1</div><b>Get your splits</b><p>Free goal-time calculator — no account needed.</p></div>
+          <div class="step"><div class="n">2</div><b>Get a plan</b><p>Start a 14-day free trial. No credit card.</p></div>
+          <div class="step"><div class="n">3</div><b>It adapts</b><p>Log sessions; next week adjusts to you.</p></div>
+        </div>
+      </div>
+      <div class="backfoot">
+        <div class="pill">SCAN &middot; <span>14-day free trial</span></div>
+        <div>duravel.app &middot; @duravel</div>
+      </div>
+    </div>
+
+    <!-- HYROX Boston FRONT -->
+    <div class="card front">
+      <div class="left">
+        <div class="brand"><span class="dot"></span>DURAVEL</div>
+        <div>
+          <div class="racebadge">RACING HYROX BOSTON &middot; <span>OCT 10</span></div>
+          <div class="kicker">Your HYROX time isn't a mystery</div>
+          <h1 class="headline">Know your <span class="hl">goal-time splits</span> before the gun.</h1>
+          <p class="sub">Free pacing calculator. Enter your benchmarks, get the run/station splits that hit your target — in 60 seconds.</p>
+        </div>
+        <div class="foot">Built by an amateur, for amateurs.</div>
+      </div>
+      <div class="right">
+        <div class="qrwrap"><img src="data:image/png;base64,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" alt="Scan for the free Duravel pacing tool"/></div>
+        <div class="scan">SCAN <span>&rarr;</span> FREE TOOL</div>
+        <div class="url">duravel.app/pace?src=bos</div>
+      </div>
+    </div>
+
+    <!-- HYROX Boston BACK -->
+    <div class="card back">
+      <div class="top">
+        <div class="brand dark"><span class="dot"></span>DURAVEL</div>
+        <div class="btag">HYROX Boston &middot; OCT 10</div>
+      </div>
+      <div>
+        <h2>Scan the code. Race smarter.</h2>
+        <p class="lede">The free pacing tool is the front door. Behind it: an engine that builds and adapts a full periodized HYROX block around your real numbers.</p>
+        <div class="steps">
+          <div class="step"><div class="n">1</div><b>Get your splits</b><p>Free goal-time calculator — no account needed.</p></div>
+          <div class="step"><div class="n">2</div><b>Get a plan</b><p>Start a 14-day free trial. No credit card.</p></div>
+          <div class="step"><div class="n">3</div><b>It adapts</b><p>Log sessions; next week adjusts to you.</p></div>
+        </div>
+      </div>
+      <div class="backfoot">
+        <div class="pill">SCAN &middot; <span>14-day free trial</span></div>
+        <div>duravel.app &middot; @duravel</div>
+      </div>
+    </div>
+
+    <!-- HYROX Dallas FRONT -->
+    <div class="card front">
+      <div class="left">
+        <div class="brand"><span class="dot"></span>DURAVEL</div>
+        <div>
+          <div class="racebadge">RACING HYROX DALLAS &middot; <span>NOV 21</span></div>
+          <div class="kicker">Your HYROX time isn't a mystery</div>
+          <h1 class="headline">Know your <span class="hl">goal-time splits</span> before the gun.</h1>
+          <p class="sub">Free pacing calculator. Enter your benchmarks, get the run/station splits that hit your target — in 60 seconds.</p>
+        </div>
+        <div class="foot">Built by an amateur, for amateurs.</div>
+      </div>
+      <div class="right">
+        <div class="qrwrap"><img src="data:image/png;base64,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" alt="Scan for the free Duravel pacing tool"/></div>
+        <div class="scan">SCAN <span>&rarr;</span> FREE TOOL</div>
+        <div class="url">duravel.app/pace?src=dal</div>
+      </div>
+    </div>
+
+    <!-- HYROX Dallas BACK -->
+    <div class="card back">
+      <div class="top">
+        <div class="brand dark"><span class="dot"></span>DURAVEL</div>
+        <div class="btag">HYROX Dallas &middot; NOV 21</div>
+      </div>
+      <div>
+        <h2>Scan the code. Race smarter.</h2>
+        <p class="lede">The free pacing tool is the front door. Behind it: an engine that builds and adapts a full periodized HYROX block around your real numbers.</p>
+        <div class="steps">
+          <div class="step"><div class="n">1</div><b>Get your splits</b><p>Free goal-time calculator — no account needed.</p></div>
+          <div class="step"><div class="n">2</div><b>Get a plan</b><p>Start a 14-day free trial. No credit card.</p></div>
+          <div class="step"><div class="n">3</div><b>It adapts</b><p>Log sessions; next week adjusts to you.</p></div>
+        </div>
+      </div>
+      <div class="backfoot">
+        <div class="pill">SCAN &middot; <span>14-day free trial</span></div>
+        <div>duravel.app &middot; @duravel</div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</body></html>

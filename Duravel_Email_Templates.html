@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Duravel — Lifecycle Email Templates</title>
+<style>
+  body{margin:0;background:#eceae6;font-family:Arial,Helvetica,sans-serif;color:#0E1116;}
+  .head{max-width:600px;margin:0 auto;padding:30px 20px 6px;}
+  .head h1{font-size:22px;margin:0 0 6px;}
+  .head p{font-size:13px;color:#5b616a;line-height:1.55;margin:0;}
+  .spec{max-width:600px;margin:26px auto 0;background:#0E1116;color:#cfd4da;font:400 12px/1.55 Arial,Helvetica,sans-serif;
+    padding:12px 18px;border-radius:10px 10px 0 0;}
+  .spec b{color:#FF5A1F;letter-spacing:.06em;}
+  .spec .t{color:#fff;font-weight:700;}
+  .wrap{background:#eceae6;}
+  .email{background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.10);margin-bottom:6px;}
+  @media (max-width:620px){ .email{width:100%!important;} }
+</style></head>
+<body>
+  <div class="head">
+    <h1>Duravel — Lifecycle Email Sequence</h1>
+    <p>Seven ready-to-load templates for the opted-in flow. Each block shows its trigger, timing, subject, preview, and merge fields, then the rendered email. Copy the inner <code>&lt;table class="email"&gt;</code> HTML into Resend/Loops, or hand these to React Email. Voice + colors are a starting point — tune to your brand. <b>Never send these to non-opted-in lists.</b></p>
+  </div>
+  
+  <div class="spec">
+    <b>Email</b> &middot; <span class="t">Trigger:</span> Email capture (QR / free tool) &nbsp; <span class="t">Timing:</span> Instant (transactional)<br><span class="t">Subject:</span> Your HYROX splits are ready<br><span class="t">Preview:</span> Here's exactly how to pace your goal time.<br><span class="t">Merge fields:</span> {{first_name}}, {{goal_time}}, {{splits_summary}}, {{trial_url}}, {{unsubscribe_url}}
+  </div>
+  <table role="presentation" class="wrap" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+    <table role="presentation" class="email" width="600" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:22px 34px 8px;">
+        <span style="font:800 15px Arial,Helvetica,sans-serif;letter-spacing:.14em;color:#0E1116;">
+          <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#FF5A1F;"></span>&nbsp; DURAVEL</span>
+      </td></tr>
+      <tr><td style="padding:6px 34px 26px;font:400 15px/1.62 Arial,Helvetica,sans-serif;color:#2b3138;">
+        <p style="margin:0 0 14px;">Hey {{first_name}} — here are your pacing splits for a <b>{{goal_time}}</b> finish:</p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F5F2;border-radius:10px;margin:0 0 18px;">
+    <tr><td style="padding:16px 18px;font:400 14px/1.6 Arial,Helvetica,sans-serif;color:#2b3138;">{{splits_summary}}<br>
+      <span style="color:#8A8F98;font-size:12px;">(Your run splits + station targets, from the numbers you entered.)</span></td></tr>
+  </table>
+  <p style="margin:0 0 14px;">Most amateurs blow up because they run the first two 1&nbsp;km runs too hard, then bleed time on the compromised runs after burpees and lunges. Your splits are built to hold, not fade.</p>
+  <p style="margin:0 0 20px;">Want the full block that <i>gets you</i> to those splits? Duravel builds a periodized HYROX plan around your benchmarks and adapts it every week from what you actually log.</p>
+  <p style="margin:0 0 8px;"><a href="{{trial_url}}" style="display:inline-block;background:#0E1116;color:#fff;text-decoration:none;font:700 14px Arial,Helvetica,sans-serif;padding:13px 26px;border-radius:8px;">Start my 14-day free trial &rarr;</a></p>
+  <p style="margin:14px 0 0;color:#8A8F98;font-size:13px;">No credit card. — Levi, Duravel</p>
+      </td></tr>
+      <tr><td style="padding:18px 34px 26px;border-top:1px solid #E7E3DC;font:400 11px/1.6 Arial,Helvetica,sans-serif;color:#8A8F98;">
+        You're getting this because you grabbed the free pacing tool at duravel.app.<br>
+        Duravel &middot; [Your business mailing address] &middot; <a href="{{unsubscribe_url}}" style="color:#8A8F98;">Unsubscribe</a>
+      </td></tr>
+    </table>
+  </td></tr></table>
+
+  <div class="spec">
+    <b>Email</b> &middot; <span class="t">Trigger:</span> Nurture 1 &nbsp; <span class="t">Timing:</span> +2 days<br><span class="t">Subject:</span> Why your easy runs are probably too hard<br><span class="t">Preview:</span> The most common amateur mistake, and the fix.<br><span class="t">Merge fields:</span> {{first_name}}, {{trial_url}}, {{unsubscribe_url}}
+  </div>
+  <table role="presentation" class="wrap" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+    <table role="presentation" class="email" width="600" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:22px 34px 8px;">
+        <span style="font:800 15px Arial,Helvetica,sans-serif;letter-spacing:.14em;color:#0E1116;">
+          <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#FF5A1F;"></span>&nbsp; DURAVEL</span>
+      </td></tr>
+      <tr><td style="padding:6px 34px 26px;font:400 15px/1.62 Arial,Helvetica,sans-serif;color:#2b3138;">
+        <p style="margin:0 0 14px;">{{first_name}} — quick one that changes how most people train for HYROX.</p>
+  <p style="margin:0 0 14px;">If your "easy" runs leave you breathing hard, they're not easy — they're grey-zone. Grey-zone running is too slow to sharpen your top end and too hard to build the aerobic base that carries you through eight stations. It's the busiest way to plateau.</p>
+  <p style="margin:0 0 14px;"><b>The fix:</b> most of your running volume should sit in Zone 2 — conversational, nose-breathing pace. It feels almost too slow. That's the point. You bank aerobic fitness cheaply, then spend it on a couple of genuinely hard sessions a week.</p>
+  <p style="margin:0 0 20px;">Duravel programs this split for you automatically — easy days truly easy, hard days actually hard — and sets the HR zones from your own numbers.</p>
+  <p style="margin:0 0 8px;"><a href="{{trial_url}}" style="display:inline-block;background:#0E1116;color:#fff;text-decoration:none;font:700 14px Arial,Helvetica,sans-serif;padding:13px 26px;border-radius:8px;">See it on a real plan &rarr;</a></p>
+      </td></tr>
+      <tr><td style="padding:18px 34px 26px;border-top:1px solid #E7E3DC;font:400 11px/1.6 Arial,Helvetica,sans-serif;color:#8A8F98;">
+        You're getting this because you grabbed the free pacing tool at duravel.app.<br>
+        Duravel &middot; [Your business mailing address] &middot; <a href="{{unsubscribe_url}}" style="color:#8A8F98;">Unsubscribe</a>
+      </td></tr>
+    </table>
+  </td></tr></table>
+
+  <div class="spec">
+    <b>Email</b> &middot; <span class="t">Trigger:</span> Nurture 2 &nbsp; <span class="t">Timing:</span> +5 days<br><span class="t">Subject:</span> From “winging it” to a sub-70 finish<br><span class="t">Preview:</span> What changed when the training got programmed.<br><span class="t">Merge fields:</span> {{first_name}}, {{trial_url}}, {{unsubscribe_url}}
+  </div>
+  <table role="presentation" class="wrap" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+    <table role="presentation" class="email" width="600" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:22px 34px 8px;">
+        <span style="font:800 15px Arial,Helvetica,sans-serif;letter-spacing:.14em;color:#0E1116;">
+          <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#FF5A1F;"></span>&nbsp; DURAVEL</span>
+      </td></tr>
+      <tr><td style="padding:6px 34px 26px;font:400 15px/1.62 Arial,Helvetica,sans-serif;color:#2b3138;">
+        <p style="margin:0 0 14px;">{{first_name}} — a note from someone who was training exactly like most of us: hard, often, and a little randomly.</p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-left:3px solid #FF5A1F;margin:0 0 18px;">
+    <tr><td style="padding:4px 0 4px 16px;font:400 15px/1.6 Arial,Helvetica,sans-serif;color:#3a4048;">
+      &ldquo;I wasn't undertrained, I was <b>unstructured</b>. Having easy days that were actually easy and one brutal compromised-run session a week was the whole unlock. Took four minutes off my time in a block.&rdquo;
+      <br><span style="color:#8A8F98;font-size:13px;">— {{ambassador_name}}, amateur HYROX</span></td></tr>
+  </table>
+  <p style="margin:0 0 20px;">That's the entire idea behind Duravel: the structure does the thinking so you can just show up and execute. It adapts week to week from what you log, so the plan tracks your real life — not an ideal one.</p>
+  <p style="margin:0 0 8px;"><a href="{{trial_url}}" style="display:inline-block;background:#0E1116;color:#fff;text-decoration:none;font:700 14px Arial,Helvetica,sans-serif;padding:13px 26px;border-radius:8px;">Try it free for 14 days &rarr;</a></p>
+      </td></tr>
+      <tr><td style="padding:18px 34px 26px;border-top:1px solid #E7E3DC;font:400 11px/1.6 Arial,Helvetica,sans-serif;color:#8A8F98;">
+        You're getting this because you grabbed the free pacing tool at duravel.app.<br>
+        Duravel &middot; [Your business mailing address] &middot; <a href="{{unsubscribe_url}}" style="color:#8A8F98;">Unsubscribe</a>
+      </td></tr>
+    </table>
+  </td></tr></table>
+
+  <div class="spec">
+    <b>Email</b> &middot; <span class="t">Trigger:</span> Nurture 3 &nbsp; <span class="t">Timing:</span> +8 days<br><span class="t">Subject:</span> Your goal-time plan is one click away<br><span class="t">Preview:</span> 14 days free. No card. Cancel anytime.<br><span class="t">Merge fields:</span> {{first_name}}, {{goal_time}}, {{trial_url}}, {{unsubscribe_url}}
+  </div>
+  <table role="presentation" class="wrap" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+    <table role="presentation" class="email" width="600" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:22px 34px 8px;">
+        <span style="font:800 15px Arial,Helvetica,sans-serif;letter-spacing:.14em;color:#0E1116;">
+          <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#FF5A1F;"></span>&nbsp; DURAVEL</span>
+      </td></tr>
+      <tr><td style="padding:6px 34px 26px;font:400 15px/1.62 Arial,Helvetica,sans-serif;color:#2b3138;">
+        <p style="margin:0 0 14px;">{{first_name}} — you've got the splits for a {{goal_time}} finish. Here's the plan that gets you there.</p>
+  <p style="margin:0 0 10px;">In your free trial you get:</p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;font:400 14px/1.55 Arial,Helvetica,sans-serif;color:#2b3138;">
+    <tr><td style="padding:5px 0;">&#10003;&nbsp; A full periodized HYROX block built around your benchmarks</td></tr>
+    <tr><td style="padding:5px 0;">&#10003;&nbsp; Personalized HR zones + a race-day pacing plan</td></tr>
+    <tr><td style="padding:5px 0;">&#10003;&nbsp; Weekly adaptation — log your sessions, next week adjusts</td></tr>
+  </table>
+  <p style="margin:0 0 20px;">Fourteen days, no credit card. If it's not for you, walk away and keep the splits.</p>
+  <p style="margin:0 0 8px;"><a href="{{trial_url}}" style="display:inline-block;background:#0E1116;color:#fff;text-decoration:none;font:700 14px Arial,Helvetica,sans-serif;padding:13px 26px;border-radius:8px;">Build my plan &rarr;</a></p>
+      </td></tr>
+      <tr><td style="padding:18px 34px 26px;border-top:1px solid #E7E3DC;font:400 11px/1.6 Arial,Helvetica,sans-serif;color:#8A8F98;">
+        You're getting this because you grabbed the free pacing tool at duravel.app.<br>
+        Duravel &middot; [Your business mailing address] &middot; <a href="{{unsubscribe_url}}" style="color:#8A8F98;">Unsubscribe</a>
+      </td></tr>
+    </table>
+  </td></tr></table>
+
+  <div class="spec">
+    <b>Email</b> &middot; <span class="t">Trigger:</span> Nurture 4 &nbsp; <span class="t">Timing:</span> +14 days<br><span class="t">Subject:</span> Closing the loop<br><span class="t">Preview:</span> Last note from me — then I'll leave your inbox alone.<br><span class="t">Merge fields:</span> {{first_name}}, {{trial_url}}, {{unsubscribe_url}}
+  </div>
+  <table role="presentation" class="wrap" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+    <table role="presentation" class="email" width="600" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:22px 34px 8px;">
+        <span style="font:800 15px Arial,Helvetica,sans-serif;letter-spacing:.14em;color:#0E1116;">
+          <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#FF5A1F;"></span>&nbsp; DURAVEL</span>
+      </td></tr>
+      <tr><td style="padding:6px 34px 26px;font:400 15px/1.62 Arial,Helvetica,sans-serif;color:#2b3138;">
+        <p style="margin:0 0 14px;">{{first_name}} — I won't keep emailing if it's not useful, so this is the last one in this series.</p>
+  <p style="margin:0 0 14px;">If HYROX is on your calendar this year, the single highest-leverage change you can make is to stop guessing at your training structure. That's the whole reason Duravel exists — and the trial costs you nothing but 10 minutes of onboarding.</p>
+  <p style="margin:0 0 20px;">If now's not the time, no worries at all. The free pacing tool is always there when you need a gut-check before a race.</p>
+  <p style="margin:0 0 8px;"><a href="{{trial_url}}" style="display:inline-block;background:#0E1116;color:#fff;text-decoration:none;font:700 14px Arial,Helvetica,sans-serif;padding:13px 26px;border-radius:8px;">Start free whenever you're ready &rarr;</a></p>
+  <p style="margin:14px 0 0;color:#8A8F98;font-size:13px;">Thanks for scanning. — Levi</p>
+      </td></tr>
+      <tr><td style="padding:18px 34px 26px;border-top:1px solid #E7E3DC;font:400 11px/1.6 Arial,Helvetica,sans-serif;color:#8A8F98;">
+        You're getting this because you grabbed the free pacing tool at duravel.app.<br>
+        Duravel &middot; [Your business mailing address] &middot; <a href="{{unsubscribe_url}}" style="color:#8A8F98;">Unsubscribe</a>
+      </td></tr>
+    </table>
+  </td></tr></table>
+
+  <div class="spec">
+    <b>Email</b> &middot; <span class="t">Trigger:</span> Race week (event leads only, by race_tag) &nbsp; <span class="t">Timing:</span> Race date &minus; 3 days<br><span class="t">Subject:</span> {{race_name}} is almost here — pace it, don't send it<br><span class="t">Preview:</span> Your race-week checklist + splits reminder.<br><span class="t">Merge fields:</span> {{first_name}}, {{race_name}}, {{goal_time}}, {{trial_url}}, {{unsubscribe_url}}
+  </div>
+  <table role="presentation" class="wrap" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+    <table role="presentation" class="email" width="600" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:22px 34px 8px;">
+        <span style="font:800 15px Arial,Helvetica,sans-serif;letter-spacing:.14em;color:#0E1116;">
+          <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#FF5A1F;"></span>&nbsp; DURAVEL</span>
+      </td></tr>
+      <tr><td style="padding:6px 34px 26px;font:400 15px/1.62 Arial,Helvetica,sans-serif;color:#2b3138;">
+        <p style="margin:0 0 14px;">{{first_name}} — <b>{{race_name}}</b> is three days out. Two things that win races at our level:</p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;font:400 14px/1.55 Arial,Helvetica,sans-serif;color:#2b3138;">
+    <tr><td style="padding:5px 0;"><b>1. Bank nothing on the first two runs.</b> Hit your {{goal_time}} splits, not your ego. The race is won on the compromised runs, not the fresh ones.</td></tr>
+    <tr><td style="padding:5px 0;"><b>2. Transitions are free time.</b> Walk in with a plan for the wall balls and the sled — that's where minutes hide.</td></tr>
+  </table>
+  <p style="margin:0 0 18px;">Pull up your splits before you rack your gear — they're your pacing anchor for every run.</p>
+  <p style="margin:0 0 18px;">Racing me at {{race_name}}? Come find the Duravel setup — I'll be there. Show this email for a live look at how the plan would build your next block.</p>
+  <p style="margin:0 0 8px;"><a href="{{tool_url}}" style="display:inline-block;background:#0E1116;color:#fff;text-decoration:none;font:700 14px Arial,Helvetica,sans-serif;padding:13px 26px;border-radius:8px;">Re-open my pacing splits &rarr;</a></p>
+  <p style="margin:14px 0 0;color:#8A8F98;font-size:13px;">Go get it. — Levi</p>
+      </td></tr>
+      <tr><td style="padding:18px 34px 26px;border-top:1px solid #E7E3DC;font:400 11px/1.6 Arial,Helvetica,sans-serif;color:#8A8F98;">
+        You're getting this because you grabbed the free pacing tool at duravel.app.<br>
+        Duravel &middot; [Your business mailing address] &middot; <a href="{{unsubscribe_url}}" style="color:#8A8F98;">Unsubscribe</a>
+      </td></tr>
+    </table>
+  </td></tr></table>
+
+  <div class="spec">
+    <b>Email</b> &middot; <span class="t">Trigger:</span> Post-race (event leads only, by race_tag) &nbsp; <span class="t">Timing:</span> Race date + 1–2 days<br><span class="t">Subject:</span> How'd {{race_name}} go?<br><span class="t">Preview:</span> Whatever the number said — here's how to build on it.<br><span class="t">Merge fields:</span> {{first_name}}, {{race_name}}, {{trial_url}}, {{unsubscribe_url}}
+  </div>
+  <table role="presentation" class="wrap" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+    <table role="presentation" class="email" width="600" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:22px 34px 8px;">
+        <span style="font:800 15px Arial,Helvetica,sans-serif;letter-spacing:.14em;color:#0E1116;">
+          <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#FF5A1F;"></span>&nbsp; DURAVEL</span>
+      </td></tr>
+      <tr><td style="padding:6px 34px 26px;font:400 15px/1.62 Arial,Helvetica,sans-serif;color:#2b3138;">
+        <p style="margin:0 0 14px;">{{first_name}} — however <b>{{race_name}}</b> went, you've got the most valuable thing in training right now: a fresh, honest data point on your race.</p>
+  <p style="margin:0 0 14px;">The athletes who improve fastest don't wait for motivation to fade — they turn a race straight into the next block while the lessons are sharp. Which runs fell apart? Where did the time actually go? That's the blueprint for the next 8&ndash;12 weeks.</p>
+  <p style="margin:0 0 20px;">Duravel will build that block for you: tell it your result and your next target, and it periodizes the whole thing around your real numbers — then adapts as you log. Free for 14 days.</p>
+  <p style="margin:0 0 8px;"><a href="{{trial_url}}" style="display:inline-block;background:#0E1116;color:#fff;text-decoration:none;font:700 14px Arial,Helvetica,sans-serif;padding:13px 26px;border-radius:8px;">Turn this race into my next plan &rarr;</a></p>
+  <p style="margin:14px 0 0;color:#8A8F98;font-size:13px;">Proud of you for toeing the line. — Levi</p>
+      </td></tr>
+      <tr><td style="padding:18px 34px 26px;border-top:1px solid #E7E3DC;font:400 11px/1.6 Arial,Helvetica,sans-serif;color:#8A8F98;">
+        You're getting this because you grabbed the free pacing tool at duravel.app.<br>
+        Duravel &middot; [Your business mailing address] &middot; <a href="{{unsubscribe_url}}" style="color:#8A8F98;">Unsubscribe</a>
+      </td></tr>
+    </table>
+  </td></tr></table>
+
+  <div class="head" style="padding-top:22px;padding-bottom:40px;">
+    <p style="color:#8A8F98;">Footer address line is a CAN-SPAM requirement — fill in a real mailing address (a registered agent or PO box is fine) before the first send.</p>
+  </div>
+</body></html>
