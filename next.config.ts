@@ -20,8 +20,11 @@ const nextConfig: NextConfig = {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
   async rewrites() {
-    // Clean /pace URL for the race lead-capture page (public/pace.html).
-    return [{ source: "/pace", destination: "/pace.html" }];
+    // Clean URLs for the static race pages in public/.
+    return [
+      { source: "/pace", destination: "/pace.html" }, // HYROX pacing-guide capture
+      { source: "/deka", destination: "/deka.html" }, // DEKA FIT pacing estimator
+    ];
   },
 };
 

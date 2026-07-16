@@ -11,6 +11,7 @@
 
 // ---- Config: fill these before deploying ----
 var GUIDE_URL       = 'https://duravel.app/hyrox-pacing-guide.pdf';
+var DEKA_URL        = 'https://duravel.app/deka';
 var FROM_NAME       = 'Duravel';
 // CAN-SPAM requires a real physical postal address in every commercial email.
 var MAILING_ADDRESS = '5900 Balcones Dr STE 100, Austin, TX 78731';
@@ -43,11 +44,12 @@ function doPost(e) {
     var guideSent = 'no';
     if (consent && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
       try {
+        var isDeka = /^deka/i.test(source);
         MailApp.sendEmail({
           to: email,
           name: FROM_NAME,
-          subject: 'Your HYROX pacing guide',
-          htmlBody: buildGuideEmail(firstName)
+          subject: isDeka ? 'Your DEKA FIT pacing plan' : 'Your HYROX pacing guide',
+          htmlBody: isDeka ? buildDekaEmail(firstName) : buildGuideEmail(firstName)
         });
         guideSent = 'yes';
       } catch (mailErr) {
@@ -83,6 +85,21 @@ function buildGuideEmail(firstName) {
       '<p><a href="' + GUIDE_URL + '" style="display:inline-block;padding:10px 18px;background:#111;color:#fff;text-decoration:none;border-radius:6px;">Download the HYROX pacing guide (PDF)</a></p>' +
       '<p>Or paste this link into your browser:<br><a href="' + GUIDE_URL + '">' + GUIDE_URL + '</a></p>' +
       '<p>We\'ll send the occasional training tip from Duravel. Not interested? Just reply with "unsubscribe" and you\'re off the list.</p>' +
+      '<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;">' +
+      '<p style="font-size:12px;color:#777;">' + FROM_NAME + ' &middot; ' + MAILING_ADDRESS + '</p>' +
+    '</div>';
+}
+
+function buildDekaEmail(firstName) {
+  var hi = firstName ? ('Hi ' + firstName + ',') : 'Hi,';
+  return '' +
+    '<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:15px;line-height:1.5;color:#111;">' +
+      '<p>' + hi + '</p>' +
+      '<p>Thanks for stopping by. Here\'s your DEKA FIT pacing tool \u2014 tweak your level and goal any time to re-run your splits:</p>' +
+      '<p><a href="' + DEKA_URL + '" style="display:inline-block;padding:10px 18px;background:#111;color:#fff;text-decoration:none;border-radius:6px;">Open your DEKA FIT pacing tool</a></p>' +
+      '<p>Or paste this link into your browser:<br><a href="' + DEKA_URL + '">' + DEKA_URL + '</a></p>' +
+      '<p>Duravel is the coach behind the numbers: a program personalized to you that adapts as your performance changes \u2014 for DEKA FIT, HYROX and other hybrid races, at a small fraction of a coach\'s price. Start a 14-day free trial (no card) at <a href="https://duravel.app">duravel.app</a>.</p>' +
+      '<p>We\'ll send the occasional training tip. Not interested? Just reply with "unsubscribe" and you\'re off the list.</p>' +
       '<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;">' +
       '<p style="font-size:12px;color:#777;">' + FROM_NAME + ' &middot; ' + MAILING_ADDRESS + '</p>' +
     '</div>';
