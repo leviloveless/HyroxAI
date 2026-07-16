@@ -15,6 +15,8 @@ var DEKA_URL        = 'https://duravel.app/deka';
 var FROM_NAME       = 'Duravel';
 // CAN-SPAM requires a real physical postal address in every commercial email.
 var MAILING_ADDRESS = '5900 Balcones Dr STE 100, Austin, TX 78731';
+var RESEND_FROM     = 'Duravel <hello@send.duravel.app>';
+var RESEND_REPLY_TO = 'levi.loveless@duravel.app';
 // ---------------------------------------------
 
 function doPost(e) {
@@ -45,13 +47,11 @@ function doPost(e) {
     if (consent && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
       try {
         var isDeka = /^deka/i.test(source);
-        MailApp.sendEmail({
-          to: email,
-          name: FROM_NAME,
-          subject: isDeka ? 'Your DEKA FIT pacing plan' : 'Your HYROX pacing guide',
-          htmlBody: isDeka ? buildDekaEmail(firstName) : buildGuideEmail(firstName)
-        });
-        guideSent = 'yes';
+        guideSent = sendViaResend(
+          email,
+          isDeka ? 'Your DEKA FIT pacing plan' : 'Your HYROX pacing guide',
+          isDeka ? buildDekaEmail(firstName) : buildGuideEmail(firstName)
+        );
       } catch (mailErr) {
         guideSent = 'error';
       }
@@ -103,6 +103,26 @@ function buildDekaEmail(firstName) {
       '<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;">' +
       '<p style="font-size:12px;color:#777;">' + FROM_NAME + ' &middot; ' + MAILING_ADDRESS + '</p>' +
     '</div>';
+}
+
+function sendViaResend(to, subject, html) {
+  var apiKey = PropertiesService.getScriptProperties().getProperty('RESEND_API_KEY');
+  if (!apiKey) return 'no-key';
+  var resp = UrlFetchApp.fetch('https://api.resend.com/emails', {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { Authorization: 'Bearer ' + apiKey },
+    muteHttpExceptions: true,
+    payload: JSON.stringify({
+      from: RESEND_FROM,
+      to: [to],
+      reply_to: RESEND_REPLY_TO,
+      subject: subject,
+      html: html
+    })
+  });
+  var code = resp.getResponseCode();
+  return (code >= 200 && code < 300) ? 'yes' : ('error:' + code);
 }
 
 function doGet() {
