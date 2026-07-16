@@ -47,6 +47,21 @@ export interface StationSpec {
   note?: string;
 }
 
+/**
+ * A sport's station catalog + race geometry (P0 rewire). Lets assembly build
+ * simulations and progress station prescriptions from a sport-provided catalog
+ * instead of the HYROX module globals. HYROX supplies HYROX_CATALOG (below);
+ * DEKA formats supply their own 10-zone catalogs.
+ */
+export interface StationCatalog {
+  stations: Record<string, StationSpec>;
+  raceOrder: string[];
+  /** Run distance (m) that precedes each station in a race simulation. */
+  interStationRunMeters: number;
+  /** Map a free-text element name to a catalog station id (null = unknown). */
+  matcher: (exercise: string) => string | null;
+}
+
 /** Race specs. Distances/reps are division-independent; loads are not. */
 export const STATIONS: Record<StationId, StationSpec> = {
   ski_erg: { id: "ski_erg", label: "SkiErg", meters: 1000, loadKg: null },
@@ -111,7 +126,7 @@ export function stationIdFor(exercise: string): StationId | null {
 const VOLUME_FACTOR: Record<PhaseName, number> = { base: 0.6, build: 0.85, peak: 1, taper: 0.6 };
 
 export interface StationPrescription {
-  stationId: StationId;
+  stationId: string;
   label: string;
   /** Human-readable prescription, e.g. "50m sled push @ 120kg" or "1000m ski". */
   prescription: string;
@@ -131,10 +146,13 @@ export function stationPrescription(
   phase: PhaseName,
   division: Division = "open",
   sex: StationSex = "male",
+  catalog?: StationCatalog,
 ): StationPrescription | null {
-  const id = stationIdFor(exercise);
+  const cat = catalog ?? HYROX_CATALOG;
+  const id = cat.matcher(exercise);
   if (!id) return null;
-  const spec = STATIONS[id];
+  const spec = cat.stations[id];
+  if (!spec) return null;
   const vf = VOLUME_FACTOR[phase];
 
   const meters = spec.meters != null ? Math.max(5, round5(spec.meters * vf)) : undefined;
@@ -181,12 +199,23 @@ export interface HybridElement {
 export function buildSimulationElements(
   division: Division = "open",
   sex: StationSex = "male",
+  catalog?: StationCatalog,
 ): HybridElement[] {
+  const cat = catalog ?? HYROX_CATALOG;
   const els: HybridElement[] = [];
-  for (const id of RACE_STATION_ORDER) {
-    els.push({ exercise: "run", prescription: "1000m @ race pace (threshold)" });
-    const spec = stationPrescription(STATIONS[id].label, "peak", division, sex);
-    els.push({ exercise: STATIONS[id].label.toLowerCase(), prescription: spec?.prescription ?? STATIONS[id].label });
+  for (const id of cat.raceOrder) {
+    const label = cat.stations[id]?.label ?? id;
+    els.push({ exercise: "run", prescription: `${cat.interStationRunMeters}m @ race pace (threshold)` });
+    const spec = stationPrescription(label, "peak", division, sex, cat);
+    els.push({ exercise: label.toLowerCase(), prescription: spec?.prescription ?? label });
   }
   return els;
 }
+
+/** The HYROX station catalog bundle — the default for the station-hybrid engine. */
+export const HYROX_CATALOG: StationCatalog = {
+  stations: STATIONS,
+  raceOrder: RACE_STATION_ORDER,
+  interStationRunMeters: 1000,
+  matcher: stationIdFor,
+};

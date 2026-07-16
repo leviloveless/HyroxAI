@@ -145,6 +145,7 @@ export async function generateProgram(
       a.weightUnit,
       a.division,
       a.sex,
+      a.catalog,
     );
     const verdict = verifyProgram(program);
     if (!verdict.ok) {

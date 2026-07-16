@@ -15,7 +15,7 @@ import {
   HYBRID_LIBRARY,
   PHASE_CHARACTER,
 } from "@/lib/ai/philosophy";
-import { STATIONS, RACE_STATION_ORDER } from "../stations";
+import { STATIONS, RACE_STATION_ORDER, HYROX_CATALOG } from "../stations";
 import { RUN_COUNT, HYBRID_COUNT } from "../slots";
 import { PHASE_ZONE_TARGETS, STARTING_MILEAGE, AVG_MIN_PER_MILE } from "../volume";
 import type { PhaseName } from "../types";
@@ -38,6 +38,7 @@ export const hyrox: SportConfig = {
 
   stations: STATIONS,
   raceStationOrder: RACE_STATION_ORDER,
+  stationCatalog: HYROX_CATALOG,
   interStationRunMeters: 1000,
   totalRaceRunMeters: 8000,
 

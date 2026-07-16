@@ -1,6 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { SPORTS, getSport, hyrox } from "./index";
-import { STATIONS, RACE_STATION_ORDER } from "../stations";
+import {
+  STATIONS,
+  RACE_STATION_ORDER,
+  HYROX_CATALOG,
+  buildSimulationElements,
+  type StationCatalog,
+} from "../stations";
 import { RUN_COUNT, HYBRID_COUNT, planWeek, DEFAULT_COUNTS } from "../slots";
 import { PHASE_ZONE_TARGETS, STARTING_MILEAGE, AVG_MIN_PER_MILE } from "../volume";
 import { HYBRID_LIBRARY } from "@/lib/ai/philosophy";
@@ -47,5 +53,22 @@ describe("sport registry (P0)", () => {
     expect(inj.runs).toBe(1); // custom run table respected
     expect(inj.hybrids).toBe(5); // custom hybrid table respected
     expect(def.runs).not.toBe(inj.runs); // default differs → injection is real
+  });
+
+  it("station catalog is swappable — simulations follow a sport-provided catalog", () => {
+    const mini: StationCatalog = {
+      stations: { row: { id: "row", label: "Row", meters: 500 } },
+      raceOrder: ["row"],
+      interStationRunMeters: 500,
+      matcher: (e) => (/row/i.test(e) ? "row" : null),
+    };
+    const els = buildSimulationElements("open", "male", mini);
+    expect(els).toHaveLength(2); // 1 run + 1 station
+    expect(els[0]!.prescription).toContain("500m"); // custom inter-station run distance
+    // HYROX default is unchanged: 8 stations, each preceded by a 1000m run.
+    const hyroxEls = buildSimulationElements("open", "male");
+    expect(hyroxEls).toHaveLength(HYROX_CATALOG.raceOrder.length * 2);
+    expect(hyroxEls[0]!.prescription).toContain("1000m");
+    expect(hyrox.stationCatalog).toBe(HYROX_CATALOG);
   });
 });

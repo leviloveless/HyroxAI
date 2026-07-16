@@ -13,7 +13,7 @@
  * config, then register new sports.
  */
 import type { ExperienceLevel, PhaseName, ZoneDistribution } from "../types";
-import type { StationSpec } from "../stations";
+import type { StationSpec, StationCatalog } from "../stations";
 import type { SportId } from "@/lib/schemas";
 
 export type { SportId };
@@ -155,6 +155,8 @@ export interface SportConfig {
   raceStationOrder?: string[];
   interStationRunMeters?: number;
   totalRaceRunMeters?: number;
+  /** Station catalog bundle used by assembly (simulations + station progression). */
+  stationCatalog?: StationCatalog;
 
   phaseZoneTargets: Record<PhaseName, ZoneDistribution>;
   needsDomains: NeedsDomainConfig[];
