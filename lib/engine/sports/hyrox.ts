@@ -13,6 +13,7 @@ import {
   HYBRID_GUIDANCE,
   TAPER_GUIDANCE,
   HYBRID_LIBRARY,
+  PHASE_CHARACTER,
 } from "@/lib/ai/philosophy";
 import { STATIONS, RACE_STATION_ORDER } from "../stations";
 import { RUN_COUNT, HYBRID_COUNT } from "../slots";
@@ -112,5 +113,6 @@ export const hyrox: SportConfig = {
     coach: "expert HYROX coach",
     guidance: [ZONE_DEFINITIONS, RUN_GUIDANCE, LIFT_GUIDANCE, HYBRID_GUIDANCE, TAPER_GUIDANCE],
     stationLibrary: HYBRID_LIBRARY,
+    phaseCharacter: PHASE_CHARACTER,
   },
 };

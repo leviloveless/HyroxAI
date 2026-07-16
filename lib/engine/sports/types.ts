@@ -135,6 +135,8 @@ export interface PhilosophyConfig {
   guidance: string[];
   /** Station name pool by phase (station-hybrid sports). */
   stationLibrary?: Record<PhaseName, string[]>;
+  /** Per-phase character text for the user prompt. */
+  phaseCharacter?: Record<PhaseName, string>;
 }
 
 export interface SportConfig {
