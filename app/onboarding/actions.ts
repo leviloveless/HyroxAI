@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { GenerationInputSchema, type GenerationInput } from "@/lib/schemas";
 import { toEngineInput, buildSkeleton } from "@/lib/engine";
+import { getSport } from "@/lib/engine/sports";
 import { PHILOSOPHY_VERSION } from "@/lib/ai/philosophy";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -123,6 +124,7 @@ function parseGenerationInput(
       hrZones,
       dayPreferences,
     },
+    sport: str(formData, "sport"),
     programType,
     durationWeeks,
     races: races.length > 0 ? races : undefined,
@@ -137,7 +139,9 @@ function parseGenerationInput(
   }
   const input = parsed.data;
 
-  if (!input.profile.benchmarks?.fiveKTime) {
+  // Run-based sports need a 5K to derive paces; station-only DEKA (no running) don't.
+  const runsInRace = getSport(input.sport).totalRaceRunMeters !== 0;
+  if (runsInRace && !input.profile.benchmarks?.fiveKTime) {
     return { error: "Enter your 5K time so run paces can be calculated — a best guess is fine if you don't know it." };
   }
 

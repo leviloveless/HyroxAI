@@ -100,6 +100,16 @@ const ZONE_META = [
 
 const STEPS = ["About you", "Experience", "Schedule & goal", "Benchmarks"] as const;
 
+/** Sports the engine can generate today (HYROX + the DEKA family). */
+const SPORT_OPTIONS = [
+  { value: "hyrox", label: "HYROX", blurb: "8×1km runs + 8 functional stations" },
+  { value: "deka_fit", label: "DEKA FIT", blurb: "10 zones, each after a 500m run (5km total)" },
+  { value: "deka_mile", label: "DEKA MILE", blurb: "10 zones + 1 mile of 160m sprints — short & fast" },
+  { value: "deka_strong", label: "DEKA STRONG", blurb: "10 zones back-to-back, no running — strength-endurance" },
+  { value: "deka_atlas", label: "DEKA ATLAS", blurb: "10 heavy barbell/DB zones, no running — strength-led" },
+  { value: "deka_ultra", label: "DEKA ULTRA", blurb: "5× DEKA FIT — 25km + 50 zones (endurance)" },
+] as const;
+
 type ProgramType = "goal_event" | "fixed_duration" | "general_fitness";
 type Race = { date: string; priority: "A" | "B" | "C" };
 /** Internal row: a Race plus a stable client id used only as a React key, so
@@ -110,6 +120,7 @@ const newRaceId = () => crypto.randomUUID();
 /** Pre-fill values for edit mode (new-additions #1), derived from a program's
  *  stored input snapshot. */
 export type EditInitial = {
+  sport?: string;
   programType: ProgramType;
   races: Race[];
   durationWeeks: number;
@@ -143,6 +154,8 @@ export default function OnboardingForm({
 
   const [step, setStep] = useState(0);
   const [stepError, setStepError] = useState<string | null>(null);
+  const [sport, setSport] = useState<string>(initial?.sport ?? "hyrox");
+  const sportBlurb = SPORT_OPTIONS.find((s) => s.value === sport)?.blurb ?? "";
 
   const [days, setDays] = useState<string[]>(profile?.training_days ?? []);
   // Custom HR zones (new-additions #3) — off by default; standard bands preset.
@@ -310,6 +323,22 @@ export default function OnboardingForm({
       {/* Step 1 — About you */}
       <fieldset className={`flex flex-col gap-5 ${step === 0 ? "" : "hidden"}`}>
         <label className="flex flex-col gap-1 text-sm">
+          What are you training for?
+          <select
+            name="sport"
+            value={sport}
+            onChange={(e) => setSport(e.target.value)}
+            className={inputClass}
+          >
+            {SPORT_OPTIONS.map((s) => (
+              <option key={s.value} value={s.value}>
+                {s.label}
+              </option>
+            ))}
+          </select>
+          <span className="text-xs text-zinc-400">{sportBlurb}</span>
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
           First name
           <input name="firstName" defaultValue={profile?.first_name ?? ""} className={inputClass} />
         </label>
@@ -383,29 +412,33 @@ export default function OnboardingForm({
           else % of max HR. Set a tested max HR if you know it.
         </p>
 
-        <div className="flex gap-4">
-          <label className="flex flex-1 flex-col gap-1 text-sm">
-            HYROX division <span className="text-xs text-zinc-400">(station loads)</span>
-            <select name="division" defaultValue={profile?.division ?? "open"} className={inputClass}>
-              <option value="open">Open</option>
-              <option value="pro">Pro</option>
-            </select>
-          </label>
-          <label className="flex flex-1 flex-col gap-1 text-sm">
-            Goal finish time <span className="text-xs text-zinc-400">(optional, m:ss or h:mm:ss)</span>
-            <input
-              name="goalFinishTime"
-              type="text"
-              defaultValue={profile?.goal_finish_time ?? ""}
-              placeholder="e.g. 1:15:00"
-              className={inputClass}
-            />
-          </label>
-        </div>
-        <p className="text-xs text-zinc-500">
-          Division sets the sled / carry / lunge / wall-ball race loads your hybrid sessions build toward.
-          A goal time drives your race pacing plan — leave it blank and we predict one from your benchmarks.
-        </p>
+        {sport === "hyrox" && (
+          <>
+            <div className="flex gap-4">
+              <label className="flex flex-1 flex-col gap-1 text-sm">
+                HYROX division <span className="text-xs text-zinc-400">(station loads)</span>
+                <select name="division" defaultValue={profile?.division ?? "open"} className={inputClass}>
+                  <option value="open">Open</option>
+                  <option value="pro">Pro</option>
+                </select>
+              </label>
+              <label className="flex flex-1 flex-col gap-1 text-sm">
+                Goal finish time <span className="text-xs text-zinc-400">(optional, m:ss or h:mm:ss)</span>
+                <input
+                  name="goalFinishTime"
+                  type="text"
+                  defaultValue={profile?.goal_finish_time ?? ""}
+                  placeholder="e.g. 1:15:00"
+                  className={inputClass}
+                />
+              </label>
+            </div>
+            <p className="text-xs text-zinc-500">
+              Division sets the sled / carry / lunge / wall-ball race loads your hybrid sessions build toward.
+              A goal time drives your race pacing plan — leave it blank and we predict one from your benchmarks.
+            </p>
+          </>
+        )}
 
         {/* Custom HR zones (new-additions #3) */}
         <fieldset className="flex flex-col gap-2 text-sm">
