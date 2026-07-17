@@ -21,7 +21,7 @@ import {
 import type { PhaseName, ProgramSkeleton, WeekSkeleton } from "@/lib/engine/types";
 import { buildSkeleton, toEngineInput } from "@/lib/engine";
 import { getSport } from "@/lib/engine/sports";
-import { buildTriProgramData } from "@/lib/engine/sports/triathlon";
+import { buildTriProgramData, triAnchorsFromBenchmarks } from "@/lib/engine/sports/triathlon";
 import { generateChunk } from "@/lib/ai/generate-week";
 import { assembleArgsFromInput, assembleProgram, verifyProgram } from "./assemble";
 
@@ -113,7 +113,7 @@ export async function generateProgram(
     // Triathlon assembles deterministically from the skeleton (no AI fill): the
     // skeleton slots already carry per-session durations, zones, and types.
     if (getSport(input.sport).family === "triathlon") {
-      const program = buildTriProgramData(skeleton);
+      const program = buildTriProgramData(skeleton, triAnchorsFromBenchmarks(input.profile.benchmarks));
       await persist(supabase, programId, program, skeleton);
       return { ok: true, status: "ready", issues: [] };
     }

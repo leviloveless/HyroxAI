@@ -3,7 +3,7 @@ import type { EngineInput } from "../types";
 import { buildSkeleton } from "../skeleton";
 import { ProgramDataSchema } from "@/lib/schemas";
 import { getSport } from "./index";
-import { tri_70_3, tri_140_6, buildTriProgramData, rebuildTriWeek, swimLevelFromCss, bikeLevelFromFtp, triVolumeLevel } from "./triathlon";
+import { tri_70_3, tri_140_6, buildTriProgramData, rebuildTriWeek, swimLevelFromCss, bikeLevelFromFtp, triVolumeLevel, triAnchorsFromBenchmarks } from "./triathlon";
 import { weekCardioMinutes } from "@/lib/session-volume";
 import { computeWeekSignals } from "../adapt";
 
@@ -130,6 +130,29 @@ describe("Triathlon", () => {
     const signals = computeWeekSignals(build, []);
     expect(signals.plannedSessions).toBeGreaterThan(0);
     expect(signals.plannedCardioMinutes).toBeGreaterThan(0);
+  });
+
+  it("personalizes swim/bike content from CSS + FTP anchors", () => {
+    const anchors = triAnchorsFromBenchmarks({ cssPace: "1:40", ftpWatts: 250 });
+    expect(anchors.cssSec).toBe(100);
+    expect(anchors.ftpWatts).toBe(250);
+    const data = buildTriProgramData(buildSkeleton(triInput("tri_70_3")), anchors);
+    const texts: string[] = [];
+    for (const w of data.weeks) for (const d of w.days) for (const s of d.sessions) if ("description" in s && s.description) texts.push(s.description);
+    // CSS pace appears verbatim in swim sets; watt targets appear in bike sets.
+    expect(texts.some((t) => t.includes("1:40/100m"))).toBe(true);
+    expect(texts.some((t) => /\d{2,3}–\d{2,3}W/.test(t))).toBe(true);
+  });
+
+  it("falls back to % FTP / generic CSS wording without anchors", () => {
+    const data = buildTriProgramData(buildSkeleton(triInput("tri_70_3")));
+    expect(ProgramDataSchema.safeParse(data).success).toBe(true);
+    const texts: string[] = [];
+    for (const w of data.weeks) for (const d of w.days) for (const s of d.sessions) if ("description" in s && s.description) texts.push(s.description);
+    expect(texts.some((t) => t.includes("% FTP"))).toBe(true);
+    expect(texts.some((t) => t.includes("CSS pace"))).toBe(true);
+    // No watt numbers when FTP is unknown.
+    expect(texts.some((t) => /\d{2,3}–\d{2,3}W/.test(t))).toBe(false);
   });
 
   it("rebuildTriWeek regenerates a week at a revised (lower) cardio target", () => {

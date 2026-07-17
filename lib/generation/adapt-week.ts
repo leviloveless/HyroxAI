@@ -38,7 +38,7 @@ import { assembleArgsFromInput, assembleProgram } from "./assemble";
 import type { GenerationUsage } from "./generate-program";
 import { getSport } from "@/lib/engine/sports";
 import { toEngineInput } from "@/lib/engine/skeleton";
-import { rebuildTriWeek } from "@/lib/engine/sports/triathlon";
+import { rebuildTriWeek, triAnchorsFromBenchmarks } from "@/lib/engine/sports/triathlon";
 
 // Haiku list rates, matching generate-program.ts.
 const INPUT_COST_PER_TOKEN = 1 / 1_000_000;
@@ -334,7 +334,8 @@ export async function applyAdaptation(
       const revisedWeek = applyDecisionToWeek(loaded.nextWeekSkeleton, decision);
       const engineInput = toEngineInput(loaded.input);
       const cfg = getSport(loaded.input.sport);
-      const { skeletonWeek, programWeek } = rebuildTriWeek(revisedWeek, engineInput, cfg);
+      const anchors = triAnchorsFromBenchmarks(loaded.input.profile.benchmarks);
+      const { skeletonWeek, programWeek } = rebuildTriWeek(revisedWeek, engineInput, cfg, anchors);
       programWeek.raceDay = loaded.nextWeekSkeleton.raceDay
         ? { priority: loaded.nextWeekSkeleton.raceDay.priority, date: loaded.nextWeekSkeleton.raceDay.date }
         : undefined;

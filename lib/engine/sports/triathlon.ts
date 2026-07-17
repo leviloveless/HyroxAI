@@ -321,29 +321,115 @@ export function buildTriathlonSkeleton(input: EngineInput, cfg: SportConfig): Pr
   return { durationWeeks: D, trainingClass: input.trainingClass, allocation: alloc, weeks, needs: input.needs };
 }
 
+// --- deterministic session content builders (individualized by anchors) -----
+
+/** Athlete anchors that make session content specific (target pace / watts). */
+export interface TriAnchors {
+  /** Swim CSS in seconds per 100 m. */
+  cssSec?: number;
+  /** Bike FTP in watts. */
+  ftpWatts?: number;
+}
+
+/** Pull swim CSS (sec/100 m) + bike FTP from the athlete's benchmarks. */
+export function triAnchorsFromBenchmarks(b?: { cssPace?: string; ftpWatts?: number }): TriAnchors {
+  const cssSec = b?.cssPace ? parseTimeToSeconds(b.cssPace) : null;
+  return {
+    cssSec: cssSec && cssSec > 0 ? cssSec : undefined,
+    ftpWatts: b?.ftpWatts && b.ftpWatts > 0 ? b.ftpWatts : undefined,
+  };
+}
+
+function clampInt(n: number, lo: number, hi: number): number {
+  return Math.max(lo, Math.min(hi, Math.round(n)));
+}
+function fmtCssPace(sec: number): string {
+  const s = Math.round(sec);
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}/100m`;
+}
+/** Coggan-band watt (or % FTP fallback) range label. */
+function wattRange(a: TriAnchors, lo: number, hi: number): string {
+  if (!a.ftpWatts) return `${Math.round(lo * 100)}–${Math.round(hi * 100)}% FTP`;
+  return `${Math.round(a.ftpWatts * lo)}–${Math.round(a.ftpWatts * hi)}W`;
+}
+
+/** Swim set built to the prescribed duration, paced off CSS when known. */
+function swimContent(type: string, durationMin: number, a: TriAnchors): string {
+  const cssLabel = a.cssSec ? fmtCssPace(a.cssSec) : "CSS pace";
+  const mPerMin = a.cssSec ? 6000 / (a.cssSec + 12) : 46; // includes rest/turns
+  const dist = Math.max(400, Math.round((durationMin * mPerMin) / 50) * 50);
+  switch (type) {
+    case "technique": {
+      const drills = clampInt((dist * 0.3) / 50, 4, 12);
+      return `Warm-up 200m easy. Drill set ${drills}×50m (catch-up, single-arm, scull) on 15s rest, then ${Math.round(dist * 0.35)}m aerobic swim focusing on stroke length. Cool-down 100m. ~${dist}m total.`;
+    }
+    case "css": {
+      const reps = clampInt((dist * 0.55) / 100, 6, 24);
+      return `Warm-up 300m mixed. Main set ${reps}×100m @ ${cssLabel} on ~15s rest — hold pace even, not a fade. Cool-down 200m. ~${dist}m total.`;
+    }
+    case "threshold": {
+      const reps = clampInt((dist * 0.5) / 200, 3, 8);
+      return `Warm-up 300m. Main set ${reps}×200m at threshold (~${cssLabel}) on 20s rest. Cool-down 200m. ~${dist}m total.`;
+    }
+    case "endurance":
+      return `Continuous ~${dist}m at an easy, steady aerobic effort (Zone 2) — smooth, relaxed, long stroke.`;
+    case "open_water":
+      return `Open-water skills over ~${dist}m: sight every 6–8 strokes, practise drafting on feet, and 3–4 race-pace surges off simulated starts.`;
+    default:
+      return `~${dist}m aerobic swim.`;
+  }
+}
+
+/** Bike set built to the prescribed duration, paced off FTP when known. */
+function bikeContent(type: string, durationMin: number, isLong: boolean | undefined, a: TriAnchors): string {
+  const longNote = isLong ? " Rehearse race fuel + hydration on this ride." : "";
+  switch (type) {
+    case "endurance":
+      return `Steady Zone 2 aerobic ride, ${durationMin} min at ${wattRange(a, 0.56, 0.75)} — the aerobic cornerstone. Keep it conversational and hold aero where you can.${longNote}`;
+    case "sweet_spot": {
+      const reps = clampInt((durationMin - 25) / 13, 2, 5);
+      return `Warm-up 12 min. Main set ${reps}×10 min @ ${wattRange(a, 0.88, 0.94)} (sweet spot) with 4 min easy between. Cool-down. ${durationMin} min total.${longNote}`;
+    }
+    case "threshold": {
+      const reps = clampInt((durationMin - 25) / 24, 2, 3);
+      return `Warm-up 15 min. Main set ${reps}×18 min @ ${wattRange(a, 0.95, 1.05)} (threshold) with 6 min easy between. Cool-down. ${durationMin} min total.${longNote}`;
+    }
+    case "vo2": {
+      const reps = clampInt((durationMin - 18) / 6, 4, 6);
+      return `Warm-up 15 min. Main set ${reps}×3 min @ ${wattRange(a, 1.1, 1.2)} (VO₂max) with 3 min easy spin between. Cool-down. ${durationMin} min total.`;
+    }
+    case "recovery":
+      return `Easy recovery spin, ${durationMin} min fully aerobic (${wattRange(a, 0, 0.55)}), high cadence and light.`;
+    default:
+      return `${durationMin} min aerobic ride.`;
+  }
+}
+
+/** Triathlon run content (effort-based; triathlon runs are paced off HR/feel). */
+function runContentTri(runType: string, durationMin: number): string {
+  switch (runType) {
+    case "long":
+      return `Long aerobic run, ${durationMin} min at an easy, steady Zone 2 effort — hold form and cadence as fatigue builds.`;
+    case "tempo":
+      return `Warm-up 10 min easy, then a sustained tempo block at Zone 3 race effort, cool-down. ${durationMin} min total.`;
+    case "easy":
+    default:
+      return `Easy Zone 2 aerobic run, ${durationMin} min — conversational and relaxed.`;
+  }
+}
+
+/** Brick content from the ordered segments. */
+function brickContent(segments: { discipline: string; durationMin: number }[]): string {
+  const bike = segments.find((s) => s.discipline === "bike");
+  const run = segments.find((s) => s.discipline === "run");
+  const bikePart = bike ? `Ride ${bike.durationMin} min building to Zone 2–3` : "Ride the bike segment";
+  const runPart = run ? `run ${run.durationMin} min immediately off the bike` : "run immediately off the bike";
+  return `Brick — bike→run in one session. ${bikePart}, then transition fast and ${runPart} at a controlled Zone 3 effort. Your legs feel heavy the first km — hold target pace through it. The single most race-specific session.`;
+}
+
 // --- deterministic triathlon program-data assembler (no AI) -----------------
 
-const SWIM_DESC: Record<string, string> = {
-  technique: "Warm-up, then a drill set for form, an easy aerobic main set, and a cool-down.",
-  css: "Warm-up, CSS interval set (e.g. 8–12×100m at CSS pace, short rest), cool-down.",
-  threshold: "Warm-up, sustained threshold swimming, cool-down.",
-  endurance: "Continuous aerobic swim at an easy, steady effort.",
-  open_water: "Open-water skills: sighting every few strokes, drafting, race starts.",
-};
-const BIKE_DESC: Record<string, string> = {
-  endurance: "Steady Zone 2 aerobic ride — the aerobic cornerstone. Keep it conversational.",
-  sweet_spot: "Sweet-spot intervals (~88–94% FTP) with short recoveries.",
-  threshold: "Threshold intervals (~95–105% FTP), e.g. 2–3×15–20 min.",
-  vo2: "VO2max intervals (~115–120% FTP), e.g. 4–6×3 min hard.",
-  recovery: "Easy recovery spin, fully aerobic.",
-};
-const RUN_DESC: Record<string, string> = {
-  long: "Long aerobic run at an easy, steady Zone 2 effort.",
-  tempo: "Tempo/threshold segment at race effort after a warm-up.",
-  easy: "Easy Zone 2 aerobic run.",
-};
-
-function slotToSession(slot: SessionSlot): Session | null {
+function slotToSession(slot: SessionSlot, a: TriAnchors): Session | null {
   switch (slot.kind) {
     case "swim":
       return {
@@ -351,7 +437,7 @@ function slotToSession(slot: SessionSlot): Session | null {
         durationMin: slot.durationMin,
         goalZone: slot.goalZone,
         sessionType: slot.sessionType,
-        description: SWIM_DESC[slot.sessionType],
+        description: swimContent(slot.sessionType, slot.durationMin, a),
       };
     case "bike":
       return {
@@ -360,14 +446,19 @@ function slotToSession(slot: SessionSlot): Session | null {
         goalZone: slot.goalZone,
         sessionType: slot.sessionType,
         isLong: slot.isLong,
-        description: (slot.isLong ? "Long ride. " : "") + (BIKE_DESC[slot.sessionType] ?? ""),
+        description: bikeContent(slot.sessionType, slot.durationMin, slot.isLong, a),
       };
     case "brick":
       return {
         kind: "brick",
         goalZone: slot.goalZone,
-        segments: slot.segments.map((s) => ({ discipline: s.discipline, durationMin: s.durationMin, goalZone: s.goalZone })),
-        description: "Brick: ride the bike segment, then run immediately off the bike — hold controlled effort as your legs adapt over the first km.",
+        segments: slot.segments.map((s) => ({
+          discipline: s.discipline,
+          durationMin: s.durationMin,
+          goalZone: s.goalZone,
+          note: s.discipline === "run" ? "Off the bike — controlled effort, quick cadence." : undefined,
+        })),
+        description: brickContent(slot.segments),
       };
     case "run":
       return {
@@ -377,7 +468,7 @@ function slotToSession(slot: SessionSlot): Session | null {
         paceMinMile: "by effort",
         distanceMiles: 0,
         goalZone: slot.goalZone,
-        description: RUN_DESC[slot.runType] ?? "Aerobic run.",
+        description: runContentTri(slot.runType, slot.durationMin ?? 40),
       };
     case "race":
       return { kind: "race", priority: slot.priority };
@@ -391,13 +482,14 @@ function slotToSession(slot: SessionSlot): Session | null {
 /**
  * Deterministically assemble a triathlon ProgramData directly from the skeleton —
  * no AI. The skeleton slots already carry per-session durations, zones, and types;
- * this maps them to sessions with templated coaching notes and engine summaries.
+ * this maps each to a session whose content (sets, target pace/watts) is computed
+ * from its duration and individualized by the athlete's CSS / FTP anchors.
  */
 /** Map one skeleton week (slots already resolved) to a ProgramWeek. */
-export function triWeekToProgramWeek(w: WeekSkeleton): ProgramWeek {
+export function triWeekToProgramWeek(w: WeekSkeleton, anchors: TriAnchors = {}): ProgramWeek {
   const days: ProgramDay[] = w.days.map((d) => ({
     day: d.day,
-    sessions: d.sessions.map(slotToSession).filter((s): s is Session => s !== null),
+    sessions: d.sessions.map((s) => slotToSession(s, anchors)).filter((s): s is Session => s !== null),
   }));
   return {
     weekNumber: w.weekNumber,
@@ -413,8 +505,11 @@ export function triWeekToProgramWeek(w: WeekSkeleton): ProgramWeek {
   };
 }
 
-export function buildTriProgramData(skeleton: ProgramSkeleton): ProgramData {
-  return { generatedAt: new Date().toISOString(), weeks: skeleton.weeks.map(triWeekToProgramWeek) };
+export function buildTriProgramData(skeleton: ProgramSkeleton, anchors: TriAnchors = {}): ProgramData {
+  return {
+    generatedAt: new Date().toISOString(),
+    weeks: skeleton.weeks.map((w) => triWeekToProgramWeek(w, anchors)),
+  };
 }
 
 /**
@@ -428,10 +523,11 @@ export function rebuildTriWeek(
   week: WeekSkeleton,
   input: EngineInput,
   cfg: SportConfig,
+  anchors: TriAnchors = {},
 ): { skeletonWeek: WeekSkeleton; programWeek: ProgramWeek } {
   const idx = EXP_INDEX[triVolumeLevel(input)] ?? 1;
   const slots = triSessions(week.phase, week.targetCardioMinutes, cfg, idx);
   const days = distributeTri(input.trainingDays, slots);
   const skeletonWeek: WeekSkeleton = { ...week, days };
-  return { skeletonWeek, programWeek: triWeekToProgramWeek(skeletonWeek) };
+  return { skeletonWeek, programWeek: triWeekToProgramWeek(skeletonWeek, anchors) };
 }
