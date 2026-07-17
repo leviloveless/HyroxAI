@@ -15,9 +15,8 @@ describe("sport registry (P0)", () => {
   it("resolves HYROX and defaults unknown/legacy ids to HYROX", () => {
     expect(getSport("hyrox")).toBe(hyrox);
     expect(getSport(undefined)).toBe(hyrox);
-    // Triathlon not registered yet → fall back to HYROX, never crash.
-    expect(getSport("tri_70_3")).toBe(hyrox);
-    expect(getSport("tri_140_6")).toBe(hyrox);
+    // Unknown / legacy ids fall back to HYROX, never crash.
+    expect(getSport("not_a_real_sport" as never)).toBe(hyrox);
     expect(SPORTS.hyrox).toBe(hyrox);
   });
 

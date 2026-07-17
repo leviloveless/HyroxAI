@@ -92,6 +92,9 @@ export interface RunSlot {
   runType: RunType;
   goalZone: number;
   isLong?: boolean;
+  /** Prescribed duration (triathlon runs carry it directly; HYROX runs omit it —
+   *  the reconciler sizes them from the mileage target). */
+  durationMin?: number;
 }
 export interface LiftSlot {
   kind: "lift";
@@ -110,7 +113,39 @@ export interface RaceSlot {
   kind: "race";
   priority: RacePriorityName;
 }
-export type SessionSlot = RunSlot | LiftSlot | HybridSlot | RestSlot | RaceSlot;
+// --- Triathlon session slots (swim / bike / brick) ---
+export interface SwimSlot {
+  kind: "swim";
+  goalZone: number;
+  durationMin: number;
+  sessionType: "technique" | "css" | "threshold" | "endurance" | "open_water";
+}
+export interface BikeSlot {
+  kind: "bike";
+  goalZone: number;
+  durationMin: number;
+  isLong?: boolean;
+  sessionType: "endurance" | "sweet_spot" | "threshold" | "vo2" | "recovery";
+}
+export interface BrickSegment {
+  discipline: "bike" | "run" | "swim";
+  durationMin: number;
+  goalZone: number;
+}
+export interface BrickSlot {
+  kind: "brick";
+  goalZone: number;
+  segments: BrickSegment[];
+}
+export type SessionSlot =
+  | RunSlot
+  | LiftSlot
+  | HybridSlot
+  | RestSlot
+  | RaceSlot
+  | SwimSlot
+  | BikeSlot
+  | BrickSlot;
 
 /** A predicate over engine session slots (used by slot placement + sequencing). */
 export type SlotPredicate = (slot: SessionSlot) => boolean;

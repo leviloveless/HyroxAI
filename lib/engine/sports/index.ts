@@ -7,11 +7,13 @@ import type { SportConfig, SportId } from "./types";
 import { hyrox } from "./hyrox";
 import { deka_fit, deka_mile, deka_strong, deka_atlas, deka_ultra } from "./deka";
 import { general_fitness } from "./general-fitness";
+import { tri_70_3, tri_140_6 } from "./triathlon";
 
 export * from "./types";
 export { hyrox } from "./hyrox";
 export { deka_fit, deka_mile, deka_strong, deka_atlas, deka_ultra } from "./deka";
 export { general_fitness } from "./general-fitness";
+export { tri_70_3, tri_140_6 } from "./triathlon";
 
 export const SPORTS = {
   hyrox,
@@ -21,6 +23,8 @@ export const SPORTS = {
   deka_atlas,
   deka_ultra,
   general_fitness,
+  tri_70_3,
+  tri_140_6,
 } satisfies Partial<Record<SportId, SportConfig>>;
 
 /** Resolve a sport config, defaulting to HYROX for unknown/legacy ids. */

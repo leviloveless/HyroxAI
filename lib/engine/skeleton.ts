@@ -25,6 +25,7 @@ import { applyTapers } from "./taper";
 import { PEAK_VOLUME_FACTOR, startingCardioMinutes, startingMileage } from "./volume";
 import { assignDays, DEFAULT_COUNTS, type SessionCountTables } from "./slots";
 import { getSport, type SportConfig } from "./sports";
+import { buildTriathlonSkeleton } from "./sports/triathlon";
 import { analyzeNeeds } from "./needs";
 import { clamp, round1 } from "./math";
 
@@ -50,6 +51,12 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
   // (strength → aerobic → mixed) with no taper, instead of Base/Build/Peak/Taper.
   if (cfg.programType === "general_fitness") {
     return buildRotationSkeleton(input, cfg, counts);
+  }
+
+  // Triathlon (Family B) uses per-discipline swim/bike/run/brick volume — its own
+  // deterministic skeleton path (see sports/triathlon.ts).
+  if (cfg.family === "triathlon") {
+    return buildTriathlonSkeleton(input, cfg);
   }
 
   const alloc = allocateMesocycles(input);
