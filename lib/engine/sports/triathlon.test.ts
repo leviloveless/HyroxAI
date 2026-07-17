@@ -3,7 +3,9 @@ import type { EngineInput } from "../types";
 import { buildSkeleton } from "../skeleton";
 import { ProgramDataSchema } from "@/lib/schemas";
 import { getSport } from "./index";
-import { tri_70_3, tri_140_6, buildTriProgramData, swimLevelFromCss, bikeLevelFromFtp, triVolumeLevel } from "./triathlon";
+import { tri_70_3, tri_140_6, buildTriProgramData, rebuildTriWeek, swimLevelFromCss, bikeLevelFromFtp, triVolumeLevel } from "./triathlon";
+import { weekCardioMinutes } from "@/lib/session-volume";
+import { computeWeekSignals } from "../adapt";
 
 function triInput(sport: EngineInput["sport"], o: Partial<EngineInput> = {}): EngineInput {
   return {
@@ -113,5 +115,35 @@ describe("Triathlon", () => {
     expect(kinds.has("bike")).toBe(true);
     expect(kinds.has("run")).toBe(true);
     expect(kinds.has("brick")).toBe(true);
+  });
+
+  it("counts swim/bike/brick minutes toward weekly cardio load", () => {
+    const data = buildTriProgramData(buildSkeleton(triInput("tri_70_3")));
+    const build = data.weeks.find((w) => w.phase === "build")!;
+    // Load accounting must see the tri sessions (was 0 before swim/bike/brick support).
+    expect(weekCardioMinutes(build)).toBeGreaterThan(0);
+  });
+
+  it("computes adaptation signals on a tri week without crashing", () => {
+    const data = buildTriProgramData(buildSkeleton(triInput("tri_70_3")));
+    const build = data.weeks.find((w) => w.phase === "build")!;
+    const signals = computeWeekSignals(build, []);
+    expect(signals.plannedSessions).toBeGreaterThan(0);
+    expect(signals.plannedCardioMinutes).toBeGreaterThan(0);
+  });
+
+  it("rebuildTriWeek regenerates a week at a revised (lower) cardio target", () => {
+    const input = triInput("tri_70_3");
+    const skel = buildSkeleton(input);
+    const target = skel.weeks.find((w) => w.phase === "build")!;
+    const cut = { ...target, targetCardioMinutes: Math.round(target.targetCardioMinutes * 0.7) };
+    const { skeletonWeek, programWeek } = rebuildTriWeek(cut, input, tri_70_3);
+    expect(skeletonWeek.targetCardioMinutes).toBe(cut.targetCardioMinutes);
+    const full = rebuildTriWeek(target, input, tri_70_3);
+    // Lower target → less (or equal) total prescribed minutes than the full week.
+    expect(weekCardioMinutes(programWeek)).toBeLessThan(weekCardioMinutes(full.programWeek));
+    // Still a valid, populated week with swim+bike+run.
+    const kinds = new Set(programWeek.days.flatMap((d) => d.sessions.map((s) => s.kind)));
+    expect(kinds.has("swim") && kinds.has("bike") && kinds.has("run")).toBe(true);
   });
 });

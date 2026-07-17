@@ -393,24 +393,45 @@ function slotToSession(slot: SessionSlot): Session | null {
  * no AI. The skeleton slots already carry per-session durations, zones, and types;
  * this maps them to sessions with templated coaching notes and engine summaries.
  */
+/** Map one skeleton week (slots already resolved) to a ProgramWeek. */
+export function triWeekToProgramWeek(w: WeekSkeleton): ProgramWeek {
+  const days: ProgramDay[] = w.days.map((d) => ({
+    day: d.day,
+    sessions: d.sessions.map(slotToSession).filter((s): s is Session => s !== null),
+  }));
+  return {
+    weekNumber: w.weekNumber,
+    phase: w.phase,
+    microWeek: w.microWeek,
+    summary: {
+      totalCardioMinutes: w.targetCardioMinutes,
+      totalMileage: 0,
+      zoneDistribution: { ...w.zoneTargets },
+    },
+    days,
+    ...(w.raceDay ? { raceDay: w.raceDay } : {}),
+  };
+}
+
 export function buildTriProgramData(skeleton: ProgramSkeleton): ProgramData {
-  const weeks: ProgramWeek[] = skeleton.weeks.map((w): ProgramWeek => {
-    const days: ProgramDay[] = w.days.map((d) => ({
-      day: d.day,
-      sessions: d.sessions.map(slotToSession).filter((s): s is Session => s !== null),
-    }));
-    return {
-      weekNumber: w.weekNumber,
-      phase: w.phase,
-      microWeek: w.microWeek,
-      summary: {
-        totalCardioMinutes: w.targetCardioMinutes,
-        totalMileage: 0,
-        zoneDistribution: { ...w.zoneTargets },
-      },
-      days,
-      ...(w.raceDay ? { raceDay: w.raceDay } : {}),
-    };
-  });
-  return { generatedAt: new Date().toISOString(), weeks };
+  return { generatedAt: new Date().toISOString(), weeks: skeleton.weeks.map(triWeekToProgramWeek) };
+}
+
+/**
+ * Deterministically rebuild ONE triathlon week at a revised cardio-minute total
+ * (the adaptation engine's output). Regenerates the day/session layout from the
+ * revised volume — the tri analog of the AI mini-refill, but deterministic —
+ * returning both the updated skeleton week and its ProgramWeek. Preserves any
+ * race-day marker on the week.
+ */
+export function rebuildTriWeek(
+  week: WeekSkeleton,
+  input: EngineInput,
+  cfg: SportConfig,
+): { skeletonWeek: WeekSkeleton; programWeek: ProgramWeek } {
+  const idx = EXP_INDEX[triVolumeLevel(input)] ?? 1;
+  const slots = triSessions(week.phase, week.targetCardioMinutes, cfg, idx);
+  const days = distributeTri(input.trainingDays, slots);
+  const skeletonWeek: WeekSkeleton = { ...week, days };
+  return { skeletonWeek, programWeek: triWeekToProgramWeek(skeletonWeek) };
 }

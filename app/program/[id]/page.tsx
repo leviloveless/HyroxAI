@@ -59,9 +59,10 @@ const SPORT_LABEL: Record<string, string> = {
   general_fitness: "General Fitness",
 };
 
-/** Triathlon programs are assembled deterministically; the AI-refill weekly
- *  adaptation isn't wired for swim/bike/brick yet, so its review is hidden. */
-const NO_ADAPT_SPORTS = new Set(["tri_70_3", "tri_140_6"]);
+/** Sports whose weekly adaptation/review loop is intentionally hidden. All
+ *  current sports adapt (HYROX/DEKA via AI refill; triathlon deterministically),
+ *  so this is empty — kept as the switch for any future no-adapt format. */
+const NO_ADAPT_SPORTS = new Set<string>([]);
 
 // A program still 'generating' this long after its last generation run started
 // was almost certainly killed mid-flight (the route's maxDuration is 60s) before
