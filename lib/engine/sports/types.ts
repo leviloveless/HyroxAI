@@ -160,6 +160,9 @@ export interface SportConfig {
 
   phaseZoneTargets: Record<PhaseName, ZoneDistribution>;
   needsDomains: NeedsDomainConfig[];
+  /** Station names (matching the philosophy library) the needs analysis emphasizes
+   *  for an erg / strength limiter. Omit → HYROX station names. */
+  needsStations?: { erg: readonly string[]; strength: readonly string[] };
   experienceAxes: ExperienceAxis[];
 
   pacing?: PacingConfig;

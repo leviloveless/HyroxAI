@@ -109,6 +109,17 @@ const ATLAS_LIFTING_BANDS: ExperienceBand[] = [
 
 // --- Needs domains (registry contract; scoring wired per-sport later) --------
 
+// Station names (matching the philosophy libraries) the needs analysis emphasizes
+// toward an erg / strength limiter — the DEKA analog of HYROX ERG/STRENGTH_STATIONS.
+const DEKA_NEEDS_STATIONS = {
+  erg: ["row", "ski", "air bike"],
+  strength: ["magnetic sled push/pull", "farmers carry", "ram alternating reverse lunge", "dead ball shoulder-over", "ram weighted burpee", "box step/jump over"],
+} as const;
+const ATLAS_NEEDS_STATIONS = {
+  erg: ["single-unders", "bar-facing burpee over bar"],
+  strength: ["barbell thruster", "db shoulder-to-overhead", "farmers carry", "atlas shoulder-to-carry", "surrender lunge", "single-arm db ground-to-overhead"],
+} as const;
+
 const DEKA_NEEDS: NeedsDomainConfig[] = [
   { key: "run_engine", label: "running endurance", scorerId: "run_engine", anchors: { male: [360, 720], female: [396, 792] }, weight: 1 },
   { key: "erg_engine", label: "erg / non-running cardio", scorerId: "erg_engine", anchors: { male: [88, 125], female: [100, 143] }, weight: 1 },
@@ -173,6 +184,7 @@ export const deka_fit: SportConfig = {
   stations: DEKA_MAP, raceStationOrder: FIT_ORDER, stationCatalog: dekaCatalog(FIT_ORDER, 500), interStationRunMeters: 500, totalRaceRunMeters: 5000,
   phaseZoneTargets: ZT({ z1: 22, z2: 58, z3: 11, z4: 6, z5: 3 }, { z1: 18, z2: 54, z3: 15, z4: 9, z5: 4 }, { z1: 14, z2: 48, z3: 17, z4: 13, z5: 8 }, { z1: 16, z2: 54, z3: 15, z4: 10, z5: 5 }),
   needsDomains: DEKA_NEEDS,
+  needsStations: DEKA_NEEDS_STATIONS,
   experienceAxes: [
     { key: "running", label: "Running", bands: RUNNING_BANDS, needsWeight: 1.0 },
     { key: "hybrid", label: "HIIT / Hybrid", bands: HYBRID_BANDS, needsWeight: 1.0 },
@@ -189,6 +201,7 @@ export const deka_mile: SportConfig = {
   stations: DEKA_MAP, raceStationOrder: MILE_ORDER, stationCatalog: dekaCatalog(MILE_ORDER, 160), interStationRunMeters: 160, totalRaceRunMeters: 1600,
   phaseZoneTargets: ZT({ z1: 20, z2: 55, z3: 12, z4: 8, z5: 5 }, { z1: 16, z2: 48, z3: 15, z4: 13, z5: 8 }, { z1: 12, z2: 40, z3: 16, z4: 18, z5: 14 }, { z1: 14, z2: 48, z3: 16, z4: 13, z5: 9 }),
   needsDomains: DEKA_NEEDS,
+  needsStations: DEKA_NEEDS_STATIONS,
   experienceAxes: [
     { key: "running", label: "Running (speed)", bands: RUNNING_BANDS, needsWeight: 1.0 },
     { key: "hybrid", label: "HIIT / Hybrid", bands: HYBRID_BANDS, needsWeight: 1.0 },
@@ -206,6 +219,7 @@ export const deka_strong: SportConfig = {
   stations: DEKA_MAP, raceStationOrder: MILE_ORDER, stationCatalog: dekaCatalog(MILE_ORDER, 0), interStationRunMeters: 0, totalRaceRunMeters: 0,
   phaseZoneTargets: ZT({ z1: 18, z2: 47, z3: 20, z4: 11, z5: 4 }, { z1: 14, z2: 40, z3: 22, z4: 16, z5: 8 }, { z1: 12, z2: 33, z3: 22, z4: 21, z5: 12 }, { z1: 14, z2: 40, z3: 21, z4: 17, z5: 8 }),
   needsDomains: DEKA_NEEDS,
+  needsStations: DEKA_NEEDS_STATIONS,
   experienceAxes: [
     { key: "lifting", label: "Lifting", bands: LIFTING_BANDS, needsWeight: 1.0 },
     { key: "hybrid", label: "Work Capacity / Hybrid", bands: HYBRID_BANDS, needsWeight: 1.0 },
@@ -223,6 +237,7 @@ export const deka_atlas: SportConfig = {
   stations: ATLAS_MAP, raceStationOrder: ATLAS_ORDER, stationCatalog: { stations: ATLAS_MAP, raceOrder: ATLAS_ORDER, interStationRunMeters: 0, matcher: atlasMatcher }, interStationRunMeters: 0, totalRaceRunMeters: 0,
   phaseZoneTargets: ZT({ z1: 18, z2: 45, z3: 22, z4: 11, z5: 4 }, { z1: 15, z2: 40, z3: 23, z4: 15, z5: 7 }, { z1: 13, z2: 35, z3: 23, z4: 19, z5: 10 }, { z1: 15, z2: 42, z3: 22, z4: 15, z5: 6 }),
   needsDomains: ATLAS_NEEDS,
+  needsStations: ATLAS_NEEDS_STATIONS,
   experienceAxes: [
     { key: "lifting", label: "Lifting (absolute strength)", bands: ATLAS_LIFTING_BANDS, needsWeight: 1.0 },
     { key: "hybrid", label: "Barbell metcon / capacity", bands: HYBRID_BANDS, needsWeight: 0.8 },
@@ -241,6 +256,7 @@ export const deka_ultra: SportConfig = {
   interStationRunMeters: 500, totalRaceRunMeters: 25000,
   phaseZoneTargets: ZT({ z1: 26, z2: 63, z3: 6, z4: 3, z5: 2 }, { z1: 22, z2: 62, z3: 9, z4: 5, z5: 2 }, { z1: 18, z2: 60, z3: 12, z4: 7, z5: 3 }, { z1: 20, z2: 61, z3: 11, z4: 5, z5: 3 }),
   needsDomains: DEKA_NEEDS,
+  needsStations: DEKA_NEEDS_STATIONS,
   experienceAxes: [
     { key: "running", label: "Running / Aerobic base", bands: RUNNING_BANDS, needsWeight: 1.5 },
     { key: "hybrid", label: "Hybrid durability", bands: HYBRID_BANDS, needsWeight: 0.9 },

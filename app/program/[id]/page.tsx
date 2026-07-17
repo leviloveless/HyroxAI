@@ -40,6 +40,15 @@ function toZoneBands(hrZones: SnapshotProfile["hrZones"]): ZoneBands | undefined
 
 const MS_PER_WEEK = 7 * 24 * 60 * 60 * 1000;
 
+const SPORT_LABEL: Record<string, string> = {
+  hyrox: "HYROX",
+  deka_fit: "DEKA FIT",
+  deka_mile: "DEKA MILE",
+  deka_strong: "DEKA STRONG",
+  deka_atlas: "DEKA ATLAS",
+  deka_ultra: "DEKA ULTRA",
+};
+
 // A program still 'generating' this long after its last generation run started
 // was almost certainly killed mid-flight (the route's maxDuration is 60s) before
 // its own failure handler could run. We flip it to 'failed' on view so the user
@@ -82,6 +91,8 @@ export default async function ProgramPage({
   }
 
   const data = program.program_data as ProgramData | null;
+  const sport = (program.input_snapshot as { sport?: string } | null)?.sport ?? "hyrox";
+  const sportLabel = SPORT_LABEL[sport] ?? "HYROX";
 
   // Recover programs stuck in 'generating' (function killed before its failure
   // handler ran). If the most recent generation run for this program started
@@ -200,7 +211,13 @@ export default async function ProgramPage({
 
     return (
       <main className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10">
-        <PacingCard plan={pacingPlan} />
+        <div>
+          <span className="inline-block rounded-full bg-zinc-900 px-3 py-1 text-xs font-medium text-white">
+            {sportLabel}
+          </span>
+        </div>
+        {/* The pacing plan is HYROX race-format specific; hidden for other sports. */}
+        {sport === "hyrox" && <PacingCard plan={pacingPlan} />}
         <ReadinessForm programId={program.id} weekNumber={readinessWeek} existing={existingReadiness} />
         <ProgramView
           program={data}
@@ -234,7 +251,7 @@ export default async function ProgramPage({
         </Link>
       </div>
       <p className="text-sm text-zinc-500">
-        {program.duration_weeks}-week {program.program_type.replace("_", " ")} program.
+        {sportLabel} · {program.duration_weeks}-week {program.program_type.replace("_", " ")} program.
       </p>
       <GenerateTrigger programId={program.id} initialStatus={status === "failed" ? "failed" : "generating"} />
     </main>

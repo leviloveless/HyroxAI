@@ -268,17 +268,28 @@ function detectLimiters(scores: Record<NeedsDomain, number | null>): NeedsDomain
   return below.slice(0, 2); // at most two limiters
 }
 
-function stationEmphasisFor(limiters: NeedsDomain[], scores: Record<NeedsDomain, number | null>): string[] {
+/** Sport-provided station names for limiter emphasis. Omit → HYROX names. */
+export interface NeedsOptions {
+  ergStations?: readonly string[];
+  strengthStations?: readonly string[];
+}
+
+function stationEmphasisFor(
+  limiters: NeedsDomain[],
+  scores: Record<NeedsDomain, number | null>,
+  ergStations: readonly string[],
+  strengthStations: readonly string[],
+): string[] {
   const wantErg = limiters.includes("erg_engine");
   const wantStr = limiters.includes("strength");
   if (!wantErg && !wantStr) return [];
   if (wantErg && wantStr) {
     const ergFirst = (scores.erg_engine ?? 100) <= (scores.strength ?? 100);
     return ergFirst
-      ? [...ERG_STATIONS, ...STRENGTH_STATIONS]
-      : [...STRENGTH_STATIONS, ...ERG_STATIONS];
+      ? [...ergStations, ...strengthStations]
+      : [...strengthStations, ...ergStations];
   }
-  return wantErg ? [...ERG_STATIONS] : [...STRENGTH_STATIONS];
+  return wantErg ? [...ergStations] : [...strengthStations];
 }
 
 const DOMAIN_LABEL: Record<NeedsDomain, string> = {
@@ -290,7 +301,7 @@ const DOMAIN_LABEL: Record<NeedsDomain, string> = {
 /**
  * Analyze an athlete's profile into a needs assessment + a bounded ProgramBias.
  */
-export function analyzeNeeds(profile: NeedsProfile): NeedsAnalysis {
+export function analyzeNeeds(profile: NeedsProfile, opts?: NeedsOptions): NeedsAnalysis {
   const b = profile.benchmarks;
   const sk = sexKey(profile.sex);
   const domainScores: Record<NeedsDomain, number | null> = {
@@ -340,8 +351,13 @@ export function analyzeNeeds(profile: NeedsProfile): NeedsAnalysis {
     bias.runEmphasis = "threshold";
   }
 
-  // Station emphasis for hybrids.
-  bias.stationEmphasis = stationEmphasisFor(limiters, domainScores);
+  // Station emphasis for hybrids (sport-provided names; HYROX by default).
+  bias.stationEmphasis = stationEmphasisFor(
+    limiters,
+    domainScores,
+    opts?.ergStations ?? ERG_STATIONS,
+    opts?.strengthStations ?? STRENGTH_STATIONS,
+  );
 
   // Phase nudge (zero-sum, ±1 week; mesocycles.ts guards base-largest + floors).
   if (dominant === "run_engine" || (dominant === null && durability === "low")) {

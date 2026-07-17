@@ -161,7 +161,10 @@ export function buildUserPrompt(
   // Review #1: bias the station library toward the athlete's limiter. Stations
   // the needs analysis prioritizes (and that exist in this mesocycle's library)
   // are listed first; the AI still fills the same 4-run/4-event structure.
-  const needs = analyzeNeeds(input.profile);
+  const needs = analyzeNeeds(input.profile, {
+    ergStations: cfg.needsStations?.erg,
+    strengthStations: cfg.needsStations?.strength,
+  });
   const emphasis = needs.bias.stationEmphasis;
   const phaseLib = cfg.philosophy.stationLibrary?.[phase] ?? [];
   const prioritized = emphasis.filter((st) => phaseLib.includes(st));

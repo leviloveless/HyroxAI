@@ -190,6 +190,7 @@ const MS_PER_WEEK = 7 * 24 * 60 * 60 * 1000;
  */
 export function toEngineInput(input: GenerationInput, startDate?: string): EngineInput {
   const start = startDate ? new Date(startDate) : undefined;
+  const sportCfg = getSport(input.sport);
 
   const rawRaces = input.races ?? [];
   let races: EngineRace[] = [];
@@ -236,6 +237,9 @@ export function toEngineInput(input: GenerationInput, startDate?: string): Engin
     restDays: input.profile.dayPreferences?.restDays,
     liftDays: input.profile.dayPreferences?.liftDays,
     hybridDays: input.profile.dayPreferences?.hybridDays,
-    needs: analyzeNeeds(input.profile),
+    needs: analyzeNeeds(input.profile, {
+      ergStations: sportCfg.needsStations?.erg,
+      strengthStations: sportCfg.needsStations?.strength,
+    }),
   };
 }

@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import type { EngineInput } from "../types";
 import { buildSkeleton } from "../skeleton";
 import { buildSimulationElements, type StationCatalog } from "../stations";
+import { analyzeNeeds, type NeedsProfile } from "../needs";
 import { getSport } from "./index";
 import {
   deka_fit,
@@ -81,6 +82,39 @@ describe("DEKA registry + catalogs", () => {
     expect(deka_ultra.phaseZoneTargets.base.z2).toBeGreaterThan(deka_fit.phaseZoneTargets.base.z2);
     expect(deka_fit.phaseZoneTargets.base.z2).toBeGreaterThan(deka_mile.phaseZoneTargets.base.z2);
     expect(deka_mile.phaseZoneTargets.peak.z5).toBeGreaterThan(deka_fit.phaseZoneTargets.peak.z5);
+  });
+});
+
+describe("DEKA needs personalization", () => {
+  const ergLimited: NeedsProfile = {
+    bodyWeight: 80,
+    weightUnit: "kg",
+    runningExp: "advanced",
+    hybridExp: "intermediate",
+    liftingExp: "advanced",
+    trainingDays: ["mon", "tue", "wed", "thu", "fri", "sat"],
+    sex: "male",
+    benchmarks: {
+      fiveKTime: "19:30",
+      tenKTime: "40:30",
+      fiveRmSquat: 150,
+      fiveRmDeadlift: 190,
+      fiveRmBench: 110,
+      ski2kTime: "8:30", // weak erg → the limiter
+      row2kTime: "8:20",
+      bike20MinCals: 180,
+    },
+  };
+
+  it("emphasizes DEKA station names (not HYROX names) for a DEKA sport", () => {
+    const deka = analyzeNeeds(ergLimited, {
+      ergStations: deka_fit.needsStations!.erg,
+      strengthStations: deka_fit.needsStations!.strength,
+    });
+    expect(deka.bias.stationEmphasis).toContain("row"); // DEKA library name
+    expect(deka.bias.stationEmphasis).not.toContain("row erg"); // HYROX name absent
+    // Default (HYROX) still uses HYROX station names — byte-identical behavior.
+    expect(analyzeNeeds(ergLimited).bias.stationEmphasis).toContain("row erg");
   });
 });
 
