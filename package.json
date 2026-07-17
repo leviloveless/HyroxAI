@@ -20,16 +20,16 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "~0.110.0",
+    "@anthropic-ai/sdk": "~0.112.1",
     "@react-email/components": "1.0.12",
     "@react-email/render": "2.1.0",
-    "@supabase/ssr": "^0.12.0",
+    "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.2",
     "next": "16.2.10",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
     "resend": "6.17.2",
-    "stripe": "^22.3.1",
+    "stripe": "^22.3.2",
     "zod": "^4.4.3"
   },
   "devDependencies": {
