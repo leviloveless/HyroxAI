@@ -134,17 +134,17 @@
       <ul>
         <li><span class="tag g">AHEAD</span><b>Triathlon is already built.</b> Ironman 70.3 + 140.6 ship on <code>main</code> (deterministic engine, per-discipline zones, volume tiering, weekly adaptation) — the old timeline had this starting mid-Sep.</li>
         <li><span class="tag g">AHEAD</span><b>9-sport engine is live</b> (HYROX + 5 DEKA + 2 triathlon + General Fitness), gated by the byte-identical golden-HYROX test.</li>
-        <li><span class="tag g">DONE</span><b>$119.99 copy fix is already in the working tree</b> — <code>pricing-plans.tsx</code> shows $119.99 / "$10/mo" / "Save 50%". Just needs commit + push.</li>
-        <li><span class="tag b">BEHIND</span><b>Both approval clocks are unstarted.</b> Garmin Dev Program and Apple/D-U-N-S are the long-lead gates and their planned windows have already opened — fire both now.</li>
+        <li><span class="tag g">DONE</span><b>$119.99 pricing is live</b> — copy fix committed, pushed & deployed 2026-07-18; site shows $119.99 / "$10/mo" / "Save 50%".</li>
+        <li><span class="tag g">DONE</span><b>Garmin Dev Program application submitted 2026-07-18</b> (as Duravel LLC, Activity + Health API) — awaiting approval. <b>Apple/D-U-N-S is now the remaining long-lead gate</b> — fire it now.</li>
         <li><span class="tag b">NOT STARTED</span><b>iOS Parts 1–7 are generated but not integrated</b> into <code>hyroxai/ios</code>; the growth loop (Strava-write, result-card wiring) is designed but not shipped.</li>
       </ul>
     </div>
     <div class="card">
       <h3>Do-now, highest leverage</h3>
       <ul>
-        <li><b>1.</b> Submit the <b>Garmin Connect Developer Program</b> application (Activity + Health API) — zero code, approval-gated, gates the whole Garmin lane.</li>
-        <li><b>2.</b> Confirm <b>D-U-N-S</b> + start <b>Apple Developer</b> org enrollment — gates the whole iOS lane.</li>
-        <li><b>3.</b> <b>Commit + push the $119.99 copy fix</b> (and verify <code>TrialEnding.tsx</code>) to clear the live price mismatch.</li>
+        <li><b>1.</b> <s>Submit the Garmin Connect Developer Program application</s> — ✅ submitted 2026-07-18; watch for status (~2 biz days) + integration call.</li>
+        <li><b>2.</b> Confirm <b>D-U-N-S</b> + start <b>Apple Developer</b> org enrollment — now the top gate; blocks the whole iOS lane.</li>
+        <li><b>3.</b> <s>Commit + push the $119.99 copy fix</s> — ✅ done 2026-07-18 (live).</li>
         <li><b>4.</b> Ship the <b>growth loop</b>: Strava branded activity-write + wire the result-card generator into the completed-session / race flows. No approvals needed.</li>
         <li><b>5.</b> Build the <b>shared ingestion pipeline</b> (canonical <code>sessions</code> + <code>wellness_daily</code>) — the foundation both Garmin and iOS HealthKit plug into.</li>
         <li><b>6.</b> Flip <b>lifecycle emails on</b> once webhook / unsubscribe / preference-center wiring is finished (<code>EMAIL_ENABLED</code>).</li>
@@ -179,11 +179,12 @@
 
   const ROWS = [
     // ---- APPROVALS (external clocks) ----
-    {group:"Approvals · start now (zero code, long lead)", label:"Garmin Dev Program → approval", note:"Not submitted — gates all Garmin work", ps:"2026-07-13", pe:"2026-08-03", pct:0, status:"block"},
+    {group:"Approvals · start now (zero code, long lead)", label:"Garmin Dev Program → approval", note:"Application SUBMITTED 2026-07-18; awaiting status (~2 biz days), then 1–4 wk to production", ps:"2026-07-13", pe:"2026-08-03", pct:0.25, status:"prog"},
     {group:"Approvals · start now (zero code, long lead)", label:"D-U-N-S + Apple org enrollment", note:"Not started — gates all iOS work", ps:"2026-07-13", pe:"2026-08-03", pct:0, status:"block"},
 
     // ---- QUICK WINS / PRICING ----
-    {group:"Pricing & quick wins", label:"$119.99 copy fix + push", note:"Applied in working tree; needs commit + push", ps:"2026-07-13", pe:"2026-07-20", pct:0.9, status:"prog"},
+    {group:"Pricing & quick wins", label:"$119.99 copy fix + push", note:"Committed, pushed & deployed 2026-07-18 — live", ps:"2026-07-13", pe:"2026-07-20", pct:1, status:"done"},
+    {group:"Pricing & quick wins", label:"Privacy policy: disclose wearables", note:"Garmin-review prereq — Strava/Garmin/HealthKit section shipped 2026-07-18", ps:"2026-07-13", pe:"2026-07-20", pct:1, status:"done"},
 
     // ---- LIFECYCLE EMAIL ----
     {group:"Lifecycle email", label:"Email system build (migs, templates, send.ts)", note:"Built + committed 2026-07-17; gated off", ps:"2026-07-13", pe:"2026-07-16", pct:1, status:"done"},
