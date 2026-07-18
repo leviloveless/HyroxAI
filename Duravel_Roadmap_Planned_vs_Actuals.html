@@ -135,14 +135,14 @@
         <li><span class="tag g">AHEAD</span><b>Triathlon is already built.</b> Ironman 70.3 + 140.6 ship on <code>main</code> (deterministic engine, per-discipline zones, volume tiering, weekly adaptation) — the old timeline had this starting mid-Sep.</li>
         <li><span class="tag g">AHEAD</span><b>9-sport engine is live</b> (HYROX + 5 DEKA + 2 triathlon + General Fitness), gated by the byte-identical golden-HYROX test.</li>
         <li><span class="tag g">DONE</span><b>$119.99 pricing is live</b> — copy fix committed, pushed & deployed 2026-07-18; site shows $119.99 / "$10/mo" / "Save 50%".</li>
-        <li><span class="tag g">DONE</span><b>Garmin Dev Program application submitted 2026-07-18</b> (as Duravel LLC, Activity + Health API) — awaiting approval. <b>Apple/D-U-N-S is now the remaining long-lead gate</b> — fire it now.</li>
+        <li><span class="tag b">BLOCKED</span><b>Garmin Dev Program is PAUSED to new applicants (2026-07-18)</b> — no reopen date. Pivoted wearables to <b>Oura + WHOOP + Apple Health</b> (Aura dropped — no API). <b>Apple/D-U-N-S is now the top long-lead gate</b> — fire it now.</li>
         <li><span class="tag b">NOT STARTED</span><b>iOS Parts 1–7 are generated but not integrated</b> into <code>hyroxai/ios</code>; the growth loop (Strava-write, result-card wiring) is designed but not shipped.</li>
       </ul>
     </div>
     <div class="card">
       <h3>Do-now, highest leverage</h3>
       <ul>
-        <li><b>1.</b> <s>Submit the Garmin Connect Developer Program application</s> — ✅ submitted 2026-07-18; watch for status (~2 biz days) + integration call.</li>
+        <li><b>1.</b> <b>Build the Oura integration first</b> (self-serve OAuth; richest HRV/sleep/readiness) on the shared pipeline — the near-term win now that Garmin is paused. Spec: <code>docs/future-phases/20-…</code></li>
         <li><b>2.</b> Confirm <b>D-U-N-S</b> + start <b>Apple Developer</b> org enrollment — now the top gate; blocks the whole iOS lane.</li>
         <li><b>3.</b> <s>Commit + push the $119.99 copy fix</s> — ✅ done 2026-07-18 (live).</li>
         <li><b>4.</b> Ship the <b>growth loop</b>: Strava branded activity-write + wire the result-card generator into the completed-session / race flows. No approvals needed.</li>
@@ -179,7 +179,7 @@
 
   const ROWS = [
     // ---- APPROVALS (external clocks) ----
-    {group:"Approvals · start now (zero code, long lead)", label:"Garmin Dev Program → approval", note:"Application SUBMITTED 2026-07-18; awaiting status (~2 biz days), then 1–4 wk to production", ps:"2026-07-13", pe:"2026-08-03", pct:0.25, status:"prog"},
+    {group:"Approvals · start now (zero code, long lead)", label:"Garmin Dev Program → approval", note:"⛔ PROGRAM PAUSED to new apps 2026-07-18 (no reopen date). Applied, on hold; re-apply when it reopens (weekly check).", ps:"2026-07-13", pe:"2026-08-03", pct:0, status:"block"},
     {group:"Approvals · start now (zero code, long lead)", label:"D-U-N-S + Apple org enrollment", note:"Not started — gates all iOS work", ps:"2026-07-13", pe:"2026-08-03", pct:0, status:"block"},
 
     // ---- QUICK WINS / PRICING ----
@@ -196,10 +196,10 @@
     {group:"Shared ingestion foundation", label:"Refactor Strava onto pipeline + dedup", note:"Strava import live; cross-provider dedup not done", ps:"2026-07-27", pe:"2026-08-10", pct:0.25, status:"prog"},
 
     // ---- GARMIN (gated) ----
-    {group:"Garmin (gated by approval)", label:"PKCE OAuth connect + tokens", note:"Adapter stubs exist; blocked on approval", ps:"2026-07-27", pe:"2026-08-03", pct:0.15, status:"block"},
-    {group:"Garmin (gated by approval)", label:"Activity push webhook + FIT parse", note:"Not started", ps:"2026-08-03", pe:"2026-08-24", pct:0, status:"not"},
-    {group:"Garmin (gated by approval)", label:"Health API wellness → readiness", note:"Not started", ps:"2026-08-17", pe:"2026-08-31", pct:0, status:"not"},
-    {group:"Garmin (gated by approval)", label:"Wire to model + dereg/delete + tests + prod", note:"Not started", ps:"2026-08-24", pe:"2026-09-07", pct:0, status:"not"},
+    {group:"Garmin (PAUSED — program closed to new apps)", label:"PKCE OAuth connect + tokens", note:"Adapter stubs exist; blocked on approval", ps:"2026-07-27", pe:"2026-08-03", pct:0.15, status:"block"},
+    {group:"Garmin (PAUSED — program closed to new apps)", label:"Activity push webhook + FIT parse", note:"Not started", ps:"2026-08-03", pe:"2026-08-24", pct:0, status:"not"},
+    {group:"Garmin (PAUSED — program closed to new apps)", label:"Health API wellness → readiness", note:"Not started", ps:"2026-08-17", pe:"2026-08-31", pct:0, status:"not"},
+    {group:"Garmin (PAUSED — program closed to new apps)", label:"Wire to model + dereg/delete + tests + prod", note:"Not started", ps:"2026-08-24", pe:"2026-09-07", pct:0, status:"not"},
 
     // ---- iOS APP (gated) ----
     {group:"iOS app (gated by Apple enrollment)", label:"Capacitor shell + native polish", note:"Parts 1–7 generated, NOT integrated into repo", ps:"2026-08-10", pe:"2026-08-31", pct:0.1, status:"not"},
@@ -207,6 +207,13 @@
     {group:"iOS app (gated by Apple enrollment)", label:"Push + Sign in w/ Apple + share sheet", note:"Designed only", ps:"2026-08-31", pe:"2026-09-14", pct:0.05, status:"not"},
     {group:"iOS app (gated by Apple enrollment)", label:"External purchase link + compliance", note:"Billing decision pending; not started", ps:"2026-09-07", pe:"2026-09-21", pct:0, status:"not"},
     {group:"iOS app (gated by Apple enrollment)", label:"Store assets + TestFlight + submit", note:"macOS/CI step; not started", ps:"2026-09-21", pe:"2026-10-19", pct:0, status:"not"},
+
+    // ---- WEARABLE SOURCES (multi-provider pivot) ----
+    {group:"Wearable sources (multi-provider pivot from Garmin)", label:"Multi-source integration spec (Apple/Whoop/Oura/Aura)", note:"docs/future-phases/20-… shipped 2026-07-18", ps:"2026-07-13", pe:"2026-07-20", pct:1, status:"done"},
+    {group:"Wearable sources (multi-provider pivot from Garmin)", label:"Oura — OAuth + HRV/sleep/readiness", note:"Self-serve open API; recommended FIRST; spec ready", ps:"2026-08-03", pe:"2026-08-24", pct:0.1, status:"prog"},
+    {group:"Wearable sources (multi-provider pivot from Garmin)", label:"WHOOP — OAuth + recovery/sleep", note:"Self-serve but 10-user cap until app approval; resolve ToS retention first; start approval early", ps:"2026-08-17", pe:"2026-09-14", pct:0.05, status:"not"},
+    {group:"Wearable sources (multi-provider pivot from Garmin)", label:"Apple Health (HealthKit) reader", note:"On-device; ships WITH iOS app; needs custom Capacitor plugin", ps:"2026-08-17", pe:"2026-09-14", pct:0.05, status:"not"},
+    {group:"Wearable sources (multi-provider pivot from Garmin)", label:"Aura", note:"Assessed 2026-07-18 — no public API (data sink); Strava covers it → DROPPED", ps:"2026-07-13", pe:"2026-07-20", pct:1, status:"done"},
 
     // ---- GROWTH LOOP ----
     {group:"Growth loop (no approvals needed)", label:"Strava activity-write branding", note:"Only import exists; branded write not started", ps:"2026-07-13", pe:"2026-08-03", pct:0, status:"not"},
