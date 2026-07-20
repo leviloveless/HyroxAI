@@ -48,6 +48,10 @@ export async function POST(request: Request) {
     if (msg === "hyresult_rate_limited") {
       return NextResponse.json({ error: "rate_limited" }, { status: 429 });
     }
-    return NextResponse.json({ error: "lookup_failed" }, { status: 502 });
+    // Surface the upstream HTTP status (e.g. hyresult_error_404) so failures are
+    // diagnosable from the client without exposing anything sensitive.
+    const m = /^hyresult_error_(\d+)$/.exec(msg);
+    const upstream = m ? Number(m[1]) : null;
+    return NextResponse.json({ error: "lookup_failed", upstream }, { status: 502 });
   }
 }

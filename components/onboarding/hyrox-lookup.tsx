@@ -59,7 +59,7 @@ export default function HyroxLookup({
             ? "Too many lookups right now — try again in a minute."
             : data.error === "not_configured"
               ? "Result lookup isn't available yet."
-              : "Couldn't search results — try again.",
+              : `Couldn't search results${data.upstream ? ` (server ${data.upstream})` : ""} — try again.`,
         );
         setCandidates([]);
       } else {

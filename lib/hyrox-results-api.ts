@@ -26,17 +26,21 @@ async function apiGet(path: string): Promise<unknown> {
   return res.json();
 }
 
+// Paths are relative to the base, which ALREADY includes `/api/v1`
+// (e.g. https://hyroxresultapi.com/api/v1) — so the endpoint is `/athletes/search`,
+// NOT `/v1/athletes/search`, which would double the version segment (→ 404).
+
 /** Search athletes by given name + surname. */
 export async function searchAthletes(first: string, last: string): Promise<SearchHit[]> {
   const p = new URLSearchParams();
   if (last.trim()) p.set("q", last.trim());
   if (first.trim()) p.set("first", first.trim());
-  const json = await apiGet(`/v1/athletes/search?${p.toString()}`);
+  const json = await apiGet(`/athletes/search?${p.toString()}`);
   return normalizeSearchHits(json);
 }
 
 /** Fetch one athlete's race result (splits endpoint accepts race id / person ref). */
 export async function getAthleteResult(id: string): Promise<HyroxResult> {
-  const json = await apiGet(`/v1/athletes/${encodeURIComponent(id)}/splits`);
+  const json = await apiGet(`/athletes/${encodeURIComponent(id)}/splits`);
   return normalizeResult(id, json);
 }
