@@ -26,15 +26,6 @@ function countKind(skel: ReturnType<typeof buildSkeleton>, kind: string): number
   for (const w of skel.weeks) for (const d of w.days) for (const s of d.sessions) if (s.kind === kind) n++;
   return n;
 }
-function weekMinutesByKind(week: ReturnType<typeof buildSkeleton>["weeks"][number], kind: string): number {
-  let m = 0;
-  for (const d of week.days) {
-    for (const s of d.sessions) {
-      if (s.kind === kind && "durationMin" in s) m += (s as { durationMin: number }).durationMin;
-    }
-  }
-  return m;
-}
 
 describe("Triathlon", () => {
   it("resolves 70.3 and 140.6", () => {
