@@ -59,6 +59,8 @@ const EnvSchema = z.object({
   STRAVA_WRITE_ENABLED: z.string().optional(),
   // Set to "true" to accept Apple Health (HealthKit) ingestion from the iOS app.
   HEALTHKIT_ENABLED: z.string().optional(),
+  // Comma/space-separated allowlist of admin emails (coaching/admin console access).
+  ADMIN_EMAILS: z.string().optional(),
   // --- Lifecycle email (Resend). All optional so the app boots before email is
   //     configured; sendEmail() no-ops while EMAIL_ENABLED is unset. ---
   RESEND_API_KEY: z.string().optional(),
@@ -91,6 +93,7 @@ const rawEnv = {
   OURA_CLIENT_SECRET: process.env.OURA_CLIENT_SECRET,
   STRAVA_WRITE_ENABLED: process.env.STRAVA_WRITE_ENABLED,
   HEALTHKIT_ENABLED: process.env.HEALTHKIT_ENABLED,
+  ADMIN_EMAILS: process.env.ADMIN_EMAILS,
 
   RESEND_API_KEY: process.env.RESEND_API_KEY,
   RESEND_WEBHOOK_SECRET: process.env.RESEND_WEBHOOK_SECRET,

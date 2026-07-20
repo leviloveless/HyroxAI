@@ -21,6 +21,7 @@ import { getProgramSyncData } from "@/lib/wearables/suggest-data";
 import { getEntitlement } from "@/lib/subscription";
 import { gateProgramWeeks } from "@/lib/program-access";
 import ProgramGlossary from "@/components/program/program-glossary";
+import CoachingNotesView, { type CoachNote } from "@/components/program/coaching-notes-view";
 import VdotCard from "@/components/program/vdot-card";
 import { computePaces } from "@/lib/engine/paces";
 import GenerateTrigger from "./generate-trigger";
@@ -199,6 +200,14 @@ export default async function ProgramPage({
     // #18: unsubscribed users (trial ended, no live sub) preview only the first
     // couple weeks. Truncate server-side so locked weeks never reach the client.
     const gate = gateProgramWeeks(data, entitlement.entitled);
+
+    // Coaching notes (#15/#16) — the athlete reads their own via RLS.
+    const { data: coachNotesData } = await supabase
+      .from("coaching_notes")
+      .select("id, body, created_at")
+      .eq("program_id", program.id)
+      .order("created_at", { ascending: false });
+    const coachNotes = (coachNotesData as CoachNote[] | null) ?? [];
     const logs: WorkoutLog[] = logRows.map((r) => ({
       weekNumber: r.week_number,
       day: r.day,
@@ -274,6 +283,7 @@ export default async function ProgramPage({
             {sportLabel}
           </span>
         </div>
+        <CoachingNotesView notes={coachNotes} />
         {/* The pacing plan is HYROX race-format specific; hidden for other sports. */}
         {sport === "hyrox" && <PacingCard plan={pacingPlan} />}
         {dekaPlan && <DekaPacingCard plan={dekaPlan} sportLabel={sportLabel} />}
