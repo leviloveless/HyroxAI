@@ -21,6 +21,8 @@ import { getProgramSyncData } from "@/lib/wearables/suggest-data";
 import { getEntitlement } from "@/lib/subscription";
 import { gateProgramWeeks } from "@/lib/program-access";
 import ProgramGlossary from "@/components/program/program-glossary";
+import VdotCard from "@/components/program/vdot-card";
+import { computePaces } from "@/lib/engine/paces";
 import GenerateTrigger from "./generate-trigger";
 
 /** Snapshot profile fields we read for HR personalization (new-additions #2, #3). */
@@ -157,6 +159,11 @@ export default async function ProgramPage({
     goalFinishTime: snapshotProfile?.goalFinishTime,
   });
 
+  // VDOT / VO2max + training paces (#13) — from the athlete's run benchmarks
+  // (best of mile/5K/10K). Display only; the engine already derives run paces
+  // from this same VDOT model. Null when no run time is on file.
+  const runPaces = computePaces(snapshotProfile?.benchmarks ?? null);
+
   // Sport-specific extras: a DEKA station-by-station pacing plan, or triathlon
   // per-discipline (swim/bike/run) training zones. Both are null/empty for HYROX.
   const sportCfg = getSport(sport as SportId);
@@ -271,6 +278,7 @@ export default async function ProgramPage({
         {sport === "hyrox" && <PacingCard plan={pacingPlan} />}
         {dekaPlan && <DekaPacingCard plan={dekaPlan} sportLabel={sportLabel} />}
         {triZones && <TriZonesCard zones={triZones} />}
+        {runPaces && <VdotCard paces={runPaces} />}
         <ReadinessForm programId={program.id} weekNumber={readinessWeek} existing={existingReadiness} />
         <DailyMetricsForm today={new Date().toISOString().slice(0, 10)} />
         <ProgramView
