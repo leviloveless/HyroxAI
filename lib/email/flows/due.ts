@@ -41,3 +41,34 @@ export function trialStageDue(
   if (diff === 0) return "T-0";
   return null;
 }
+
+/** Result of the onboarding-nudge due check. */
+export interface OnboardingNudgeDue {
+  /** Whole UTC days since signup (== the "2–3 days in" fire window when it fires). */
+  daysSinceSignup: number;
+  /** Whole trial days remaining, for the email's `daysLeft` copy. */
+  daysLeft: number;
+}
+
+/**
+ * Whether the onboarding nudge is due for a user on this cron run.
+ *
+ * We nudge users who are ~2–3 days into their trial (i.e. exactly 2 whole UTC days after
+ * `trial_started_at` — a single-day window, so the daily cron fires it at most once) and
+ * still inside the trial. Comparing UTC day indices (not raw hours) makes it independent
+ * of the cron's time-of-day and the signup time. The caller still filters out users who
+ * already generated a program or subscribed; this is purely the date gate.
+ */
+export function onboardingNudgeDue(
+  trialStartedAt: string,
+  nowMs: number,
+  trialDays = 14,
+): OnboardingNudgeDue | null {
+  const startMs = Date.parse(trialStartedAt);
+  if (Number.isNaN(startMs)) return null;
+  const daysSinceSignup = utcDayIndex(nowMs) - utcDayIndex(startMs);
+  if (daysSinceSignup !== 2) return null; // fire once, 2 days in (the 2–3-day window)
+  const daysLeft = trialDays - daysSinceSignup;
+  if (daysLeft <= 0) return null; // trial already over → no nudge
+  return { daysSinceSignup, daysLeft };
+}

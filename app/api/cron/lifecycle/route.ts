@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { env } from "@/lib/env";
 import { emailEnabled } from "@/lib/email/resend";
 import { runTrialEndingFlow } from "@/lib/email/flows/trial-ending";
+import { runOnboardingNudgeFlow } from "@/lib/email/flows/onboarding-nudge";
 
 /**
  * GET /api/cron/lifecycle  — the daily lifecycle-email job (07-spec §4.2).
@@ -12,8 +13,8 @@ import { runTrialEndingFlow } from "@/lib/email/flows/trial-ending";
  * then short-circuits each send to a 'skipped' ledger row, giving a full dry-run you can
  * inspect before flipping the flag.
  *
- * Order: reaper first (free wedged dedup keys), then trial-ending (time-critical) before
- * any future bulk flows. Idempotent dedup keys make a re-run or a partial run safe.
+ * Order: reaper first (free wedged dedup keys), then trial-ending (time-critical), then
+ * onboarding-nudge. Idempotent dedup keys make a re-run or a partial run safe.
  */
 export const maxDuration = 60;
 
@@ -43,10 +44,14 @@ export async function GET(request: Request) {
   // Trial-ending runs first (revenue-critical, time-sensitive).
   const trialEnding = await runTrialEndingFlow(admin, nowMs);
 
+  // Onboarding-nudge (suppressible; sendEmail applies preference + frequency gates).
+  const onboardingNudge = await runOnboardingNudgeFlow(admin, nowMs);
+
   return NextResponse.json({
     ok: true,
     emailEnabled: emailEnabled(),
     reaped,
     trialEnding,
+    onboardingNudge,
   });
 }

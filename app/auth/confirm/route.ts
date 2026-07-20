@@ -1,7 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { sendWelcome } from "@/lib/email/flows/welcome";
 import { redirect } from "next/navigation";
-import { type NextRequest } from "next/server";
-import { type EmailOtpType } from "@supabase/supabase-js";
+import { after, type NextRequest } from "next/server";
+import { type EmailOtpType, type SupabaseClient } from "@supabase/supabase-js";
 
 /**
  * Handles the link Supabase emails on signup ("Confirm your email").
@@ -15,6 +17,11 @@ import { type EmailOtpType } from "@supabase/supabase-js";
  * lands here WITHOUT a token_hash (sometimes with a PKCE ?code=). We handle all
  * three cases below and only show the error page when the address is genuinely
  * unconfirmed, so a successful confirmation never surfaces a spurious error.
+ *
+ * On the first successful confirmation we fire the welcome email NON-BLOCKING via
+ * after() — it runs after the redirect response is sent, so it can never delay or
+ * break the confirmation. sendWelcome is idempotent (once-ever dedup key), so the
+ * repeated confirmations an email scanner can trigger never double-send.
  */
 function safeNext(raw: string | null): string {
   const fallback = "/onboarding";
@@ -22,6 +29,24 @@ function safeNext(raw: string | null): string {
   if (!raw.startsWith("/")) return fallback; // must be a relative path
   if (raw.startsWith("//") || raw.startsWith("/\\")) return fallback; // not protocol-relative
   return raw;
+}
+
+/** Schedule the welcome email (post-response) then redirect. Never blocks/throws early. */
+async function completeConfirmation(supabase: SupabaseClient, next: string): Promise<never> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user) {
+    const userId = user.id;
+    after(async () => {
+      try {
+        await sendWelcome(createAdminClient(), userId);
+      } catch (err) {
+        console.error("[welcome] send failed:", err);
+      }
+    });
+  }
+  redirect(next);
 }
 
 export async function GET(request: NextRequest) {
@@ -37,7 +62,7 @@ export async function GET(request: NextRequest) {
   if (token_hash && type) {
     const { error } = await supabase.auth.verifyOtp({ type, token_hash });
     if (!error) {
-      redirect(next);
+      await completeConfirmation(supabase, next);
     }
   }
 
@@ -45,7 +70,7 @@ export async function GET(request: NextRequest) {
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      redirect(next);
+      await completeConfirmation(supabase, next);
     }
   }
 
@@ -56,7 +81,7 @@ export async function GET(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
   if (user) {
-    redirect(next);
+    await completeConfirmation(supabase, next);
   }
 
   redirect("/login?error=confirmation_failed");
