@@ -61,6 +61,9 @@ const EnvSchema = z.object({
   HEALTHKIT_ENABLED: z.string().optional(),
   // Comma/space-separated allowlist of admin emails (coaching/admin console access).
   ADMIN_EMAILS: z.string().optional(),
+  // HYROX Result API (hyroxresultapi.com) — race-result lookup for benchmarks (#17).
+  HYRESULT_API_KEY: z.string().optional(),
+  HYRESULT_API_BASE: z.string().optional(),
   // --- Lifecycle email (Resend). All optional so the app boots before email is
   //     configured; sendEmail() no-ops while EMAIL_ENABLED is unset. ---
   RESEND_API_KEY: z.string().optional(),
@@ -94,6 +97,8 @@ const rawEnv = {
   STRAVA_WRITE_ENABLED: process.env.STRAVA_WRITE_ENABLED,
   HEALTHKIT_ENABLED: process.env.HEALTHKIT_ENABLED,
   ADMIN_EMAILS: process.env.ADMIN_EMAILS,
+  HYRESULT_API_KEY: process.env.HYRESULT_API_KEY,
+  HYRESULT_API_BASE: process.env.HYRESULT_API_BASE,
 
   RESEND_API_KEY: process.env.RESEND_API_KEY,
   RESEND_WEBHOOK_SECRET: process.env.RESEND_WEBHOOK_SECRET,

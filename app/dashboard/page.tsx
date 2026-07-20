@@ -58,12 +58,17 @@ export default async function DashboardPage() {
 
       <ThisWeekCard />
 
-      <Link
-        href="/onboarding"
-        className="self-start rounded-full bg-black px-6 py-3 text-white transition-colors hover:bg-zinc-800"
-      >
-        {programs.length > 0 ? "Build a new program" : "Build your program"}
-      </Link>
+      <div className="flex flex-wrap items-center gap-3">
+        <Link
+          href="/onboarding"
+          className="self-start rounded-full bg-black px-6 py-3 text-white transition-colors hover:bg-zinc-800"
+        >
+          {programs.length > 0 ? "Build a new program" : "Build your program"}
+        </Link>
+        <Link href="/tools/hyrox-lookup" className="text-sm text-zinc-500 underline">
+          Find my HYROX result
+        </Link>
+      </div>
 
       {programs.length === 0 ? (
         <p className="text-zinc-600">You haven&apos;t generated any programs yet.</p>
