@@ -2,6 +2,8 @@ import type { ProgramWeek, Session, WorkoutLog } from "@/lib/schemas";
 import { computeWeekSignals } from "@/lib/engine/adapt";
 import LogSession from "./log-session";
 import SessionLink from "./session-link";
+import ResultCardLauncher from "./result-card-launcher";
+import { sessionCardFromLog } from "./session-card-data";
 import { sessionKey, type SyncActivitySummary } from "@/lib/wearables/suggest-data";
 import {
   DAY_LABEL,
@@ -116,12 +118,14 @@ function MobileDayList({
   maxHR,
   zoneBands,
   logging,
+  athleteName,
 }: {
   week: ProgramWeek;
   startDate: string;
   maxHR: number;
   zoneBands?: ZoneBands;
   logging?: WeekLogging;
+  athleteName?: string;
 }) {
   const byDay = new Map(week.days.map((d) => [d.day, d.sessions]));
   return (
@@ -139,6 +143,7 @@ function MobileDayList({
             {sessions.map((s, si) => {
               const t = sessionTiming(s);
               const isRace = s.kind === "race";
+              const log = logFor(logging, dayKey, si);
               return (
                 <div key={si} className="rounded-lg bg-zinc-50 px-3 py-2 text-sm">
                   <div className="flex items-center justify-between gap-2">
@@ -166,8 +171,15 @@ function MobileDayList({
                           day={dayKey}
                           sessionIndex={si}
                           isRace={isRace}
-                          existing={logFor(logging, dayKey, si)}
+                          existing={log}
                           frozen={logging.frozen}
+                        />
+                      )}
+                      {logging && !isRace && log?.status === "completed" && (
+                        <ResultCardLauncher
+                          label="Share"
+                          className="text-xs font-medium text-lime-700 transition-colors hover:text-lime-900"
+                          initial={sessionCardFromLog(s, log, athleteName ?? "")}
                         />
                       )}
                     </span>
@@ -201,12 +213,14 @@ export default function WeekCard({
   maxHR,
   zoneBands,
   logging,
+  athleteName,
 }: {
   week: ProgramWeek;
   startDate: string;
   maxHR: number;
   zoneBands?: ZoneBands;
   logging?: WeekLogging;
+  athleteName?: string;
 }) {
   const colors = PHASE_COLORS[week.phase];
   const byDay = new Map(week.days.map((d) => [d.day, d.sessions]));
@@ -267,7 +281,7 @@ export default function WeekCard({
       </div>
 
       {/* Mobile: stacked per-day list (no horizontal scroll) */}
-      <MobileDayList week={week} startDate={startDate} maxHR={maxHR} zoneBands={zoneBands} logging={logging} />
+      <MobileDayList week={week} startDate={startDate} maxHR={maxHR} zoneBands={zoneBands} logging={logging} athleteName={athleteName} />
 
       {/* Desktop: Mon→Sun session table */}
       <div className="hidden overflow-x-auto md:block">
@@ -312,6 +326,7 @@ export default function WeekCard({
               return sessions.map((s, si) => {
                 const t = sessionTiming(s);
                 const isRace = s.kind === "race";
+                const log = logFor(logging, dayKey, si);
                 return (
                   <tr key={`${dayKey}-${si}`} className={si === 0 ? "border-t border-zinc-100" : ""}>
                     {si === 0 && (
@@ -344,7 +359,7 @@ export default function WeekCard({
                             day={dayKey}
                             sessionIndex={si}
                             isRace={isRace}
-                            existing={logFor(logging, dayKey, si)}
+                            existing={log}
                             frozen={logging.frozen}
                           />
                           {!isRace && (
@@ -356,6 +371,13 @@ export default function WeekCard({
                               linked={linkFor(logging, week.weekNumber, dayKey, si)}
                               activities={logging.linkableActivities ?? []}
                               frozen={logging.frozen}
+                            />
+                          )}
+                          {!isRace && log?.status === "completed" && (
+                            <ResultCardLauncher
+                              label="Share"
+                              className="text-xs font-medium text-lime-700 transition-colors hover:text-lime-900"
+                              initial={sessionCardFromLog(s, log, athleteName ?? "")}
                             />
                           )}
                         </div>

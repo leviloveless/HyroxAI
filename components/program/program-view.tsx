@@ -143,6 +143,7 @@ export default function ProgramView({
             startDate={meta.startDate}
             maxHR={meta.maxHR}
             zoneBands={meta.zoneBands}
+            athleteName={meta.athleteName}
             logging={
               activity
                 ? {
