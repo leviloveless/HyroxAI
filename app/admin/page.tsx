@@ -32,7 +32,12 @@ export default async function AdminPage() {
     <main className="mx-auto flex max-w-4xl flex-col gap-8 px-6 py-12">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Admin console</h1>
-        <span className="text-xs text-zinc-500">{admin.email}</span>
+        <div className="flex items-center gap-4">
+          <Link href="/admin/metrics" className="text-sm text-zinc-500 underline">
+            Generation cost
+          </Link>
+          <span className="text-xs text-zinc-500">{admin.email}</span>
+        </div>
       </div>
 
       {/* Coaching waitlist */}
