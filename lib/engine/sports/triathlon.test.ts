@@ -4,7 +4,7 @@ import { buildSkeleton } from "../skeleton";
 import { ProgramDataSchema } from "@/lib/schemas";
 import { getSport } from "./index";
 import { tri_70_3, tri_140_6, buildTriProgramData, rebuildTriWeek, swimLevelFromCss, bikeLevelFromFtp, triVolumeLevel, triAnchorsFromBenchmarks } from "./triathlon";
-import { weekCardioMinutes } from "@/lib/session-volume";
+import { weekCardioMinutes, weekIronmanTime } from "@/lib/session-volume";
 import { computeWeekSignals } from "../adapt";
 
 function triInput(sport: EngineInput["sport"], o: Partial<EngineInput> = {}): EngineInput {
@@ -56,20 +56,49 @@ describe("Triathlon", () => {
     }
   });
 
-  it("is bike-heavy by time", () => {
-    const skel = buildSkeleton(triInput("tri_70_3"));
-    const midBuild = skel.weeks.find((w) => w.phase === "build")!;
-    expect(weekMinutesByKind(midBuild, "bike")).toBeGreaterThan(weekMinutesByKind(midBuild, "run"));
-    expect(weekMinutesByKind(midBuild, "run")).toBeGreaterThan(weekMinutesByKind(midBuild, "swim"));
+  it("is bike-heavy by time (brick bike/run segments count toward bike/run)", () => {
+    // The weekly long ride is now a discrete bike→run brick, so raw "bike"-kind
+    // minutes undercount cycling. weekIronmanTime folds each brick's bike segment
+    // back into bike and its run tail into run, so the true discipline balance
+    // (bike > run > swim) is asserted on a built program week.
+    const data = buildTriProgramData(buildSkeleton(triInput("tri_70_3")));
+    const build = data.weeks.find((w) => w.phase === "build")!;
+    const t = weekIronmanTime(build);
+    expect(t.bike).toBeGreaterThan(t.run);
+    expect(t.run).toBeGreaterThan(t.swim);
   });
 
-  it("bricks appear in build/peak, not base", () => {
+  it("bricks appear in every phase and peak carries more than base", () => {
+    // The long ride is now emitted as a discrete Z2 bike→run brick, so a brick
+    // appears in EVERY phase (including base). Peak additionally carries the
+    // dedicated race-specific bricks, so it has strictly more than base.
     const skel = buildSkeleton(triInput("tri_70_3"));
     const base = skel.weeks.find((w) => w.phase === "base")!;
     const peak = skel.weeks.find((w) => w.phase === "peak")!;
     const bricksIn = (w: typeof base) => w.days.reduce((n, d) => n + d.sessions.filter((s) => s.kind === "brick").length, 0);
-    expect(bricksIn(base)).toBe(0);
-    expect(bricksIn(peak)).toBeGreaterThan(0);
+    expect(bricksIn(base)).toBeGreaterThan(0);
+    expect(bricksIn(peak)).toBeGreaterThan(bricksIn(base));
+  });
+
+  it("includes periodized full-body lift sessions and caps the long run", () => {
+    // Triathlon now periodizes full-body strength (base 2 / build 1 / peak 1 /
+    // taper 0 per week), and the long run is capped (≤150 for 140.6, ≤120 for
+    // 70.3) to protect the athlete rather than ramping toward race distance.
+    const full = buildSkeleton(triInput("tri_140_6"));
+    const half = buildSkeleton(triInput("tri_70_3"));
+    expect(countKind(full, "lift")).toBeGreaterThan(0);
+    expect(countKind(half, "lift")).toBeGreaterThan(0);
+    const longestLongRun = (skel: ReturnType<typeof buildSkeleton>) => {
+      let m = 0;
+      for (const w of skel.weeks)
+        for (const d of w.days)
+          for (const s of d.sessions)
+            if (s.kind === "run" && (s as { isLong?: boolean }).isLong)
+              m = Math.max(m, (s as { durationMin: number }).durationMin);
+      return m;
+    };
+    expect(longestLongRun(full)).toBeLessThanOrEqual(150);
+    expect(longestLongRun(half)).toBeLessThanOrEqual(120);
   });
 
   it("rebound weeks hold the prior increase week's volume (no continuous ramp)", () => {
@@ -97,10 +126,29 @@ describe("Triathlon", () => {
   it("increase weeks step up and deloads dip below the held level", () => {
     const skel = buildSkeleton(triInput("tri_70_3", { durationWeeks: 20, trainingClass: "non_highly_trained" }));
     const working = skel.weeks.filter((w) => w.phase !== "taper");
+    // A deload dips below its cycle's HELD (increase/rebound) level. We compare
+    // to the held level directly rather than the immediately-preceding week: the
+    // new engine's race periodization (feature D) can slot a race week and a
+    // post-race active-recovery week just before a deload, and those are
+    // intentionally cut far below the held level, so "deload < prev week" no
+    // longer holds at that boundary. A week is race-scaled if it is the race
+    // week or the recovery week immediately after it.
+    const isRaceScaled = (i: number) =>
+      working[i]!.microWeek === "race" || (i > 0 && working[i - 1]!.microWeek === "race");
     for (let i = 1; i < working.length; i++) {
       const w = working[i]!;
-      const prev = working[i - 1]!;
-      if (w.microWeek === "deload") expect(w.targetCardioMinutes).toBeLessThan(prev.targetCardioMinutes);
+      if (w.microWeek !== "deload") continue;
+      // Held level = nearest preceding increase/rebound week not perturbed by a race.
+      let held: number | undefined;
+      for (let j = i - 1; j >= 0; j--) {
+        if (isRaceScaled(j)) continue;
+        if (working[j]!.microWeek === "increase" || working[j]!.microWeek === "rebound") {
+          held = working[j]!.targetCardioMinutes;
+          break;
+        }
+      }
+      expect(held).toBeDefined();
+      expect(w.targetCardioMinutes).toBeLessThan(held!);
     }
   });
 

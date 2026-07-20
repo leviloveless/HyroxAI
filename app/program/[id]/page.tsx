@@ -271,6 +271,7 @@ export default async function ProgramPage({
             durationWeeks: program.duration_weeks,
             programType: program.program_type,
             startDate: program.start_date,
+            sport,
             maxHR,
             zoneBands,
           }}

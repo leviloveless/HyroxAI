@@ -1,5 +1,5 @@
 import type { ProgramData, Session, WorkoutLog } from "@/lib/schemas";
-import { weekTimeByCategory } from "@/lib/session-volume";
+import { weekTimeByCategory, weekIronmanTime } from "@/lib/session-volume";
 import { zoneEntries, weekStartDate } from "./format";
 
 type TrainingDay = WorkoutLog["day"];
@@ -64,22 +64,26 @@ function Cell({ children, className = "" }: { children: React.ReactNode; classNa
 /**
  * Per-week summary table. Shows the week's calendar start date (Tasks addition #2),
  * the microcycle, planned vs. actual cardio time and mileage (Tasks addition #6),
- * the weekly training-time breakdown — metcon / strength / total (Tasks addition #3),
- * weekly average resting HR + HRV (Tasks addition #7), and the HR-zone distribution.
- * Rendered full-width so the whole table is visible without horizontal scrolling
- * (Tasks addition #10).
+ * the weekly training-time breakdown (Tasks addition #3) — metcon / strength / total
+ * for HYROX/DEKA, or swim / bike / run / lift / total for triathlon — weekly average
+ * resting HR + HRV (Tasks addition #7), and the HR-zone distribution. Rendered
+ * full-width so the whole table is visible without horizontal scrolling (Tasks #10).
  */
 export default function WeekSummaryTable({
   weeks,
   startDate,
+  isTriathlon = false,
   logsByWeek,
   recoveryByWeek,
 }: {
   weeks: ProgramData["weeks"];
   startDate: string;
+  /** Triathlon programs show swim/bike/run/lift time instead of metcon/strength. */
+  isTriathlon?: boolean;
   logsByWeek?: Map<number, WorkoutLog[]>;
   recoveryByWeek?: Map<number, WeekRecovery>;
 }) {
+  const timeCols = isTriathlon ? 5 : 3;
   return (
     <div className="rounded-xl border border-zinc-200 bg-white">
       <div className="border-b border-zinc-100 px-4 py-3">
@@ -107,7 +111,7 @@ export default function WeekSummaryTable({
               <th className="border-l border-zinc-200 px-2 py-1.5 text-center font-medium" colSpan={2}>
                 Miles
               </th>
-              <th className="border-l border-zinc-200 px-2 py-1.5 text-center font-medium" colSpan={3}>
+              <th className="border-l border-zinc-200 px-2 py-1.5 text-center font-medium" colSpan={timeCols}>
                 Training time
               </th>
               <th className="border-l border-zinc-200 px-2 py-1.5 text-center font-medium" colSpan={2}>
@@ -122,9 +126,21 @@ export default function WeekSummaryTable({
               <th className="px-2 py-1 text-right font-medium">Act</th>
               <th className="border-l border-zinc-200 px-2 py-1 text-right font-medium">Plan</th>
               <th className="px-2 py-1 text-right font-medium">Act</th>
-              <th className="border-l border-zinc-200 px-2 py-1 text-right font-medium">Metcon</th>
-              <th className="px-2 py-1 text-right font-medium">Strength</th>
-              <th className="px-2 py-1 text-right font-medium">Total</th>
+              {isTriathlon ? (
+                <>
+                  <th className="border-l border-zinc-200 px-2 py-1 text-right font-medium">Swim</th>
+                  <th className="px-2 py-1 text-right font-medium">Bike</th>
+                  <th className="px-2 py-1 text-right font-medium">Run</th>
+                  <th className="px-2 py-1 text-right font-medium">Lift</th>
+                  <th className="px-2 py-1 text-right font-medium">Total</th>
+                </>
+              ) : (
+                <>
+                  <th className="border-l border-zinc-200 px-2 py-1 text-right font-medium">Metcon</th>
+                  <th className="px-2 py-1 text-right font-medium">Strength</th>
+                  <th className="px-2 py-1 text-right font-medium">Total</th>
+                </>
+              )}
               <th className="border-l border-zinc-200 px-2 py-1 text-right font-medium">RHR</th>
               <th className="px-2 py-1 text-right font-medium">HRV</th>
             </tr>
@@ -133,8 +149,9 @@ export default function WeekSummaryTable({
             {weeks.map((w) => {
               const logs = logsByWeek?.get(w.weekNumber) ?? [];
               const actuals = weekActuals(w, logs);
-              const time = weekTimeByCategory(w);
               const rec = recoveryByWeek?.get(w.weekNumber);
+              const tri = isTriathlon ? weekIronmanTime(w) : null;
+              const time = isTriathlon ? null : weekTimeByCategory(w);
               return (
                 <tr key={w.weekNumber} className="border-t border-zinc-100">
                   <td className="px-3 py-2">
@@ -164,9 +181,21 @@ export default function WeekSummaryTable({
                   <Cell className="text-zinc-500">{actuals.cardioMin != null ? `${actuals.cardioMin}m` : "—"}</Cell>
                   <Cell className="border-l border-zinc-100">{w.summary.totalMileage}</Cell>
                   <Cell className="text-zinc-500">{actuals.miles != null ? actuals.miles : "—"}</Cell>
-                  <Cell className="border-l border-zinc-100">{time.metcon}m</Cell>
-                  <Cell>{time.strength}m</Cell>
-                  <Cell className="font-medium text-zinc-800">{time.total}m</Cell>
+                  {isTriathlon && tri ? (
+                    <>
+                      <Cell className="border-l border-zinc-100">{tri.swim}m</Cell>
+                      <Cell>{tri.bike}m</Cell>
+                      <Cell>{tri.run}m</Cell>
+                      <Cell>{tri.lift}m</Cell>
+                      <Cell className="font-medium text-zinc-800">{tri.total}m</Cell>
+                    </>
+                  ) : (
+                    <>
+                      <Cell className="border-l border-zinc-100">{time!.metcon}m</Cell>
+                      <Cell>{time!.strength}m</Cell>
+                      <Cell className="font-medium text-zinc-800">{time!.total}m</Cell>
+                    </>
+                  )}
                   <Cell className="border-l border-zinc-100 text-zinc-500">
                     {rec?.restingHr != null ? rec.restingHr : "—"}
                   </Cell>

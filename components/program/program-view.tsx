@@ -17,6 +17,8 @@ export interface ProgramMeta {
   programType: string;
   startDate: string;
   maxHR: number;
+  /** Sport id (e.g. "hyrox", "tri_140_6"); drives triathlon-specific views. */
+  sport?: string;
   /** Custom HR zone bands (new-additions #3); omit for the standard bands. */
   zoneBands?: ZoneBands;
 }
@@ -66,6 +68,7 @@ export default function ProgramView({
     list.push(l);
     logsByWeek.set(l.weekNumber, list);
   }
+  const isTriathlon = (meta.sport ?? "").startsWith("tri_");
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
@@ -108,6 +111,7 @@ export default function ProgramView({
       <WeekSummaryTable
         weeks={program.weeks}
         startDate={meta.startDate}
+        isTriathlon={isTriathlon}
         logsByWeek={logsByWeek}
         recoveryByWeek={activity?.recoveryByWeek}
       />

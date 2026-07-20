@@ -209,3 +209,52 @@ export function weekTimeByCategory(week: { days: { sessions: Session[] }[] }): W
   out.total = out.metcon + out.strength + out.running + out.nonRunningCardio;
   return out;
 }
+
+/**
+ * Weekly Ironman/triathlon training time by discipline, in minutes.
+ *
+ *   - swim     : swim session totals + any brick swim segments
+ *   - bike     : bike session totals + brick BIKE segments
+ *   - run      : run session totals + brick RUN segments
+ *   - lift     : strength time (a flat 60 min per lift via `sessionTiming`)
+ *   - total    : swim + bike + run + lift
+ *
+ * A brick is split across its disciplines: the bike segment counts toward bike,
+ * the run segment toward run (using the segment durations, exactly as
+ * `sessionTiming` sums a brick). Race days contribute nothing. Additive helper
+ * for the triathlon views — it does not affect any existing volume computation.
+ */
+export interface WeekIronmanTime {
+  swim: number;
+  bike: number;
+  run: number;
+  lift: number;
+  total: number;
+}
+
+export function weekIronmanTime(week: { days: { sessions: Session[] }[] }): WeekIronmanTime {
+  let swim = 0;
+  let bike = 0;
+  let run = 0;
+  let lift = 0;
+  for (const day of week.days) {
+    for (const s of day.sessions) {
+      if (s.kind === "swim") {
+        swim += sessionTiming(s).total;
+      } else if (s.kind === "bike") {
+        bike += sessionTiming(s).total;
+      } else if (s.kind === "run") {
+        run += sessionTiming(s).total;
+      } else if (s.kind === "lift") {
+        lift += sessionTiming(s).total;
+      } else if (s.kind === "brick") {
+        for (const seg of s.segments) {
+          if (seg.discipline === "bike") bike += seg.durationMin;
+          else if (seg.discipline === "run") run += seg.durationMin;
+          else if (seg.discipline === "swim") swim += seg.durationMin;
+        }
+      }
+    }
+  }
+  return { swim, bike, run, lift, total: swim + bike + run + lift };
+}
