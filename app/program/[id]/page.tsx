@@ -8,11 +8,13 @@ import { weekStartDate, type ZoneBands } from "@/components/program/format";
 import { resolveHrModel, type Sex } from "@/lib/zones";
 import ProgramView, { type ProgramActivity } from "@/components/program/program-view";
 import PacingCard from "@/components/program/pacing-card";
+import ProjectionCard from "@/components/program/projection-card";
 import DekaPacingCard from "@/components/program/deka-pacing-card";
 import TriZonesCard from "@/components/program/tri-zones-card";
 import ReadinessForm from "@/components/program/readiness-form";
 import DailyMetricsForm from "@/components/program/daily-metrics-form";
 import { computePacingPlan } from "@/lib/engine/pacing";
+import { projectTimes, type ExperienceLevel, type RaceType } from "@/lib/engine/progression";
 import { computeDekaPacingPlan } from "@/lib/engine/deka-pacing";
 import { computeTriZones } from "@/lib/engine/tri-zones";
 import { getSport } from "@/lib/engine/sports";
@@ -160,6 +162,26 @@ export default async function ProgramPage({
     goalFinishTime: snapshotProfile?.goalFinishTime,
   });
 
+  // Projected end-of-program times (#17) — HYROX only, from the build snapshot.
+  const projection =
+    sport === "hyrox"
+      ? projectTimes(
+          snapshotProfile?.benchmarks as Record<string, string | number | undefined> | undefined,
+          {
+            runningExp:
+              (snapshotProfile as { runningExp?: ExperienceLevel } | undefined)?.runningExp ?? "intermediate",
+            hybridExp:
+              (snapshotProfile as { hybridExp?: ExperienceLevel } | undefined)?.hybridExp ?? "intermediate",
+            weeks: program.duration_weeks ?? 12,
+            sex: snapshotProfile?.sex,
+            division: snapshotProfile?.division,
+            age: snapshotProfile?.age,
+          },
+          ((snapshotProfile?.benchmarks as { hyroxRaceType?: RaceType } | undefined)?.hyroxRaceType) ??
+            "singles",
+        )
+      : null;
+
   // VDOT / VO2max + training paces (#13) — from the athlete's run benchmarks
   // (best of mile/5K/10K). Display only; the engine already derives run paces
   // from this same VDOT model. Null when no run time is on file.
@@ -286,6 +308,9 @@ export default async function ProgramPage({
         <CoachingNotesView notes={coachNotes} />
         {/* The pacing plan is HYROX race-format specific; hidden for other sports. */}
         {sport === "hyrox" && <PacingCard plan={pacingPlan} />}
+        {sport === "hyrox" && projection && projection.perEvent.length > 0 && (
+          <ProjectionCard projection={projection} />
+        )}
         {dekaPlan && <DekaPacingCard plan={dekaPlan} sportLabel={sportLabel} />}
         {triZones && <TriZonesCard zones={triZones} />}
         {runPaces && <VdotCard paces={runPaces} />}

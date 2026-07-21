@@ -64,6 +64,7 @@ function parseGenerationInput(
     hyroxWallBalls: str(formData, "hyroxWallBalls"),
     hyroxRunTotal: str(formData, "hyroxRunTotal"),
     hyroxRoxzone: str(formData, "hyroxRoxzone"),
+    hyroxRaceType: str(formData, "hyroxRaceType"),
   };
   const hasBenchmark = Object.values(benchmarksRaw).some((v) => v !== undefined);
   const benchmarks = hasBenchmark ? benchmarksRaw : undefined;

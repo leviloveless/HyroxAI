@@ -92,6 +92,9 @@ export const BenchmarksSchema = z.object({
   hyroxWallBalls: z.string().max(TIME_STRING_MAX).optional(),
   hyroxRunTotal: z.string().max(TIME_STRING_MAX).optional(),
   hyroxRoxzone: z.string().max(TIME_STRING_MAX).optional(),
+  /** How the imported result was raced — station splits are individual efforts
+   *  only for singles (doubles/relay share station work between partners). */
+  hyroxRaceType: z.enum(["singles", "doubles", "relay", "unknown"]).optional(),
 });
 
 /**

@@ -24,6 +24,7 @@ import { getSport } from "@/lib/engine/sports";
 import { buildTriProgramData, triAnchorsFromBenchmarks } from "@/lib/engine/sports/triathlon";
 import { generateChunk } from "@/lib/ai/generate-week";
 import { assembleArgsFromInput, assembleProgram, verifyProgram } from "./assemble";
+import { projectTimes, type RaceType } from "@/lib/engine/progression";
 
 /** Token + cost totals for one full generation (all mesocycle calls). */
 export interface GenerationUsage {
@@ -162,7 +163,24 @@ export async function generateProgram(
       throw new Error(`Verification failed: ${verdict.issues.join("; ")}`);
     }
 
-    await persist(supabase, programId, program, skeleton);
+    // Projected end-of-program times (#17) — HYROX only; stored for the program
+    // view and the (upcoming) mid-program re-forecast.
+    const projection =
+      (input.sport ?? "hyrox") === "hyrox"
+        ? projectTimes(
+            input.profile.benchmarks as Record<string, string | number | undefined> | undefined,
+            {
+              runningExp: input.profile.runningExp,
+              hybridExp: input.profile.hybridExp,
+              weeks: input.durationWeeks ?? skeleton.weeks.length,
+              sex: input.profile.sex,
+              division: input.profile.division,
+              age: input.profile.age,
+            },
+            (input.profile.benchmarks?.hyroxRaceType as RaceType | undefined) ?? "singles",
+          )
+        : null;
+    await persist(supabase, programId, program, skeleton, projection);
     return { ok: true, status: "ready", issues, usage };
   } catch (err) {
     await supabase.from("programs").update({ status: "failed" }).eq("id", programId);
@@ -175,10 +193,16 @@ async function persist(
   programId: string,
   program: ProgramData,
   skeleton: ProgramSkeleton,
+  projection?: unknown,
 ): Promise<void> {
   const { error } = await supabase
     .from("programs")
-    .update({ program_data: program, skeleton, status: "ready" })
+    .update({
+      program_data: program,
+      skeleton,
+      status: "ready",
+      ...(projection ? { progress_projection: projection } : {}),
+    })
     .eq("id", programId);
   if (error) throw new Error(`Failed to persist program: ${error.message}`);
 }

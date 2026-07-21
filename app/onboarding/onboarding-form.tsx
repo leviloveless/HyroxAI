@@ -269,6 +269,8 @@ export default function OnboardingForm({
   const goalTimeRef = useRef<HTMLInputElement>(null);
   // HYROX event-split inputs (Benchmarks step) that a result-lookup pick fills.
   const hyroxSplitRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  // Records whether the imported result was singles / doubles / relay.
+  const hyroxRaceTypeRef = useRef<HTMLInputElement>(null);
 
   const showRaces = programType === "goal_event" || programType === "fixed_duration";
   const showDuration = programType !== "goal_event";
@@ -556,6 +558,14 @@ export default function OnboardingForm({
                   defaultFirst={profile?.first_name ?? ""}
                   onPick={(r) => {
                     if (goalTimeRef.current && r.finishTime) goalTimeRef.current.value = r.finishTime;
+                    if (hyroxRaceTypeRef.current) {
+                      const ev = (r.event ?? "").toLowerCase();
+                      hyroxRaceTypeRef.current.value = ev.includes("doubles")
+                        ? "doubles"
+                        : ev.includes("relay")
+                          ? "relay"
+                          : "singles";
+                    }
                     for (const s of r.splits) {
                       const field = HYROX_SPLIT_FIELD[s.key];
                       const input = field ? hyroxSplitRefs.current[field] : null;
@@ -958,6 +968,12 @@ export default function OnboardingForm({
               step to fill these automatically, or type them in. They sharpen the generator&apos;s read on which
               stations are your strengths and weaknesses.
             </p>
+            <input
+              type="hidden"
+              name="hyroxRaceType"
+              ref={hyroxRaceTypeRef}
+              defaultValue={initial?.benchmarks?.hyroxRaceType ?? ""}
+            />
             <div className="grid grid-cols-2 gap-4 text-sm">
               {HYROX_SPLIT_INPUTS.map(({ name, label }) => (
                 <label key={name} className="flex flex-col gap-1">
