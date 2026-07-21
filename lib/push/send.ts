@@ -62,9 +62,9 @@ async function getWebPush(): Promise<WebPushLike | null> {
   if (cachedWebPush) return cachedWebPush;
   let mod: WebPushLike;
   try {
-    // Variable specifier so bundlers don't hard-require it at build time.
-    const name = "web-push";
-    mod = (await import(/* webpackIgnore: true */ name)) as unknown as WebPushLike;
+    // Static specifier so Next's output-file tracing bundles web-push into the
+    // serverless function (a variable specifier is NOT traced -> missing in prod).
+    mod = (await import("web-push")) as unknown as WebPushLike;
   } catch {
     return null; // not installed yet
   }
