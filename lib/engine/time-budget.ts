@@ -23,9 +23,31 @@ export const BAND_START_MILEAGE: Record<WeeklyHoursBand, number> = {
   h0_5: 10,
   h5_10: 20,
   h10_20: 37,
-  h20_30: 60,
-  h30_40: 87,
+  // Impact guardrail: high budgets cap RUNNING mileage below the raw
+  // hours-equivalent (60 / 87). The surplus aerobic volume is carried by
+  // BAND_START_CARDIO_MIN and routed to low-impact cardio by the reconciler.
+  h20_30: 48,
+  h30_40: 55,
 };
+
+/**
+ * Total starting weekly cardio MINUTES by band — decoupled from running
+ * mileage so that at high budgets the surplus aerobic volume goes to low-impact
+ * cardio (bike / row / ski) instead of more running impact. For low/mid budgets
+ * this equals mileage x avgMinPerMile (18), so their output is unchanged; only
+ * h20_30 / h30_40 sit above the capped running mileage.
+ */
+export const BAND_START_CARDIO_MIN: Record<WeeklyHoursBand, number> = {
+  h0_5: 180,
+  h5_10: 360,
+  h10_20: 666,
+  h20_30: 1080,
+  h30_40: 1560,
+};
+
+export function bandStartCardioMinutes(band: WeeklyHoursBand): number {
+  return BAND_START_CARDIO_MIN[band];
+}
 
 /** Per-discipline (triathlon) [baseHours, peakHours] by budget. Base is where
  *  the program starts; the held level climbs to peak across the working weeks. */

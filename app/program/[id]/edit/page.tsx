@@ -82,6 +82,7 @@ export default async function EditProgramPage({
     programName: program.name ?? "",
     startMileage: snap.startMileage,
     startCardioMinutes: snap.startCardioMinutes,
+    weeklyHours: p.weeklyHours,
     benchmarks: (p.benchmarks as Record<string, string | number | undefined> | undefined) ?? undefined,
     swimExp: (p as { swimExp?: string }).swimExp,
     bikeExp: (p as { bikeExp?: string }).bikeExp,

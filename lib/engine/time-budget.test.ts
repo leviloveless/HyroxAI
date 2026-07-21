@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { applyBandZoneShift, bandStartMileage, bandTriHours } from "./time-budget";
+import { applyBandZoneShift, bandStartMileage, bandStartCardioMinutes, bandTriHours } from "./time-budget";
 import type { WeeklyHoursBand } from "@/lib/schemas";
 import type { ZoneDistribution } from "./types";
 
@@ -19,6 +19,13 @@ describe("time-budget mapping", () => {
       const [baseH, peakH] = bandTriHours(b);
       expect(peakH).toBeGreaterThan(baseH);
     }
+  });
+
+  it("impact cap: high budgets carry more cardio than running mileage implies", () => {
+    // low/mid budgets: cardio == mileage x 18 (behavior unchanged)
+    expect(bandStartCardioMinutes("h5_10")).toBe(bandStartMileage("h5_10") * 18);
+    // high budgets: cardio exceeds mileage x 18 → the surplus routes to low-impact cardio
+    expect(bandStartCardioMinutes("h30_40")).toBeGreaterThan(bandStartMileage("h30_40") * 18);
   });
 
   it("zone shift always sums to exactly the input total (100)", () => {

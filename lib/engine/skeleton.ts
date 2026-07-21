@@ -25,7 +25,7 @@ import { applyTapers } from "./taper";
 import { PEAK_VOLUME_FACTOR, startingCardioMinutes, startingMileage } from "./volume";
 import { assignDays, DEFAULT_COUNTS, type SessionCountTables } from "./slots";
 import { getSport, type SportConfig } from "./sports";
-import { applyBandZoneShift, bandStartMileage } from "./time-budget";
+import { applyBandZoneShift, bandStartMileage, bandStartCardioMinutes } from "./time-budget";
 import { buildTriathlonSkeleton, swimLevelFromCss, bikeLevelFromFtp } from "./sports/triathlon";
 import { analyzeNeedsForSport } from "./needs-atlas";
 import { clamp, round1 } from "./math";
@@ -73,7 +73,9 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
       : cfg.volume.kind === "single_currency"
         ? cfg.volume.startMileageByExp[input.runningExp]
         : startingMileage(input.runningExp));
-  const startCa = input.startCardioMinutes ?? startingCardioMinutes(startMi);
+  const startCa =
+    input.startCardioMinutes ??
+    (input.weeklyHours ? bandStartCardioMinutes(input.weeklyHours) : startingCardioMinutes(startMi));
   const seq = sequenceMicrocycles(nonTaperWeeks, input.trainingClass, startMi, startCa, input.age);
 
   // 2. Assemble full-length base arrays; apply the peak-phase volume drop.
@@ -227,7 +229,9 @@ function buildRotationSkeleton(input: EngineInput, cfg: SportConfig, counts: Ses
       : cfg.volume.kind === "single_currency"
         ? cfg.volume.startMileageByExp[input.runningExp]
         : startingMileage(input.runningExp));
-  const startCa = input.startCardioMinutes ?? startingCardioMinutes(startMi);
+  const startCa =
+    input.startCardioMinutes ??
+    (input.weeklyHours ? bandStartCardioMinutes(input.weeklyHours) : startingCardioMinutes(startMi));
   // Continuous progression across ALL weeks (no taper carve-out) → rising baseline.
   const seq = sequenceMicrocycles(D, input.trainingClass, startMi, startCa, input.age);
 

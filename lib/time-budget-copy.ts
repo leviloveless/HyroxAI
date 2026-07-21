@@ -68,6 +68,20 @@ const COPY: Record<string, Record<WeeklyHoursBand, BudgetCopy>> = {
     h20_30: { level: "Not recommended", tradeoff: "Volume far exceeds event demand." },
     h30_40: { level: "Not recommended", tradeoff: "Volume far exceeds event demand." },
   },
+  deka_atlas: {
+    h0_5: { level: "Recreational → competitive (sufficient)", tradeoff: "Strength-led power; no running, minimal aerobic volume needed." },
+    h5_10: { level: "Elite", tradeoff: "Ample for a heavy, short strength-endurance event." },
+    h10_20: { level: "Over-prescribed for ATLAS", tradeoff: "Excess aerobic volume for the event." },
+    h20_30: { level: "Not recommended", tradeoff: "Volume far exceeds event demand." },
+    h30_40: { level: "Not recommended", tradeoff: "Volume far exceeds event demand." },
+  },
+  deka_ultra: {
+    h0_5: { level: "Survival-only", tradeoff: "Central fitness only; gives up the durability a 5× event demands." },
+    h5_10: { level: "Back/mid-pack finisher", tradeoff: "Builds a base; sacrifices late-event durability." },
+    h10_20: { level: "Competitive", tradeoff: "Durability + aerobic depth for a long event; sacrifices little." },
+    h20_30: { level: "Elite", tradeoff: "Elite durability for 25 km + 50 zones; diminishing returns begin." },
+    h30_40: { level: "Pro peak-block", tradeoff: "Volume-gated ceiling; camp use only." },
+  },
   tri_olympic: {
     h0_5: { level: "Recreational; sprint-focused", tradeoff: "VO₂max, threshold & race pace; gives up aerobic base and swim-technique volume." },
     h5_10: { level: "Competitive age-grouper", tradeoff: "Competitive readiness; sacrifices only marginal base." },
