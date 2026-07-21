@@ -56,6 +56,20 @@ export function pushConfigured(): boolean {
 
 let cachedWebPush: WebPushLike | null = null;
 
+/** VAPID keys must be UNPADDED URL-safe base64 (A-Z a-z 0-9 - _). Tolerate a
+ * pasted env value that carries base64 padding, standard-base64 chars, wrapping
+ * quotes, or stray whitespace/newlines — all of which make setVapidDetails throw
+ * "must be a URL safe Base 64". Idempotent for an already-clean key. */
+function normalizeVapidKey(raw: string | undefined): string {
+  return (raw ?? "")
+    .trim()
+    .replace(/^["']|["']$/g, "") // wrapping quotes
+    .replace(/\s+/g, "")          // any internal whitespace/newlines
+    .replace(/\+/g, "-")          // standard-base64 -> url-safe
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");          // drop base64 padding
+}
+
 /** Lazily import + configure web-push. Returns { mod } on success, or { error }
  * describing why it's unavailable — never throws (a malformed VAPID key makes
  * setVapidDetails throw, which would otherwise 500 the route with no reason). */
@@ -73,8 +87,8 @@ async function getWebPush(): Promise<{ mod: WebPushLike | null; error?: string }
   try {
     mod.setVapidDetails(
       env.VAPID_SUBJECT || "mailto:support@duravel.app",
-      env.VAPID_PUBLIC_KEY!,
-      env.VAPID_PRIVATE_KEY!,
+      normalizeVapidKey(env.VAPID_PUBLIC_KEY),
+      normalizeVapidKey(env.VAPID_PRIVATE_KEY),
     );
   } catch (e) {
     // Almost always a malformed key (stray whitespace/newline/quote) or a bad
