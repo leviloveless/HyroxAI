@@ -233,12 +233,12 @@ export default function VolumeIntensityPaper() {
         >
           Build your program
         </Link>
-        <a
-          href="/duravel-training-science.pdf"
+        <Link
+          href="/science#get-report"
           className="rounded-full border border-zinc-300 px-5 py-2.5 font-medium text-zinc-700 transition-colors hover:bg-zinc-50"
         >
-          Download the PDF
-        </a>
+          Get the PDF
+        </Link>
         <Link
           href="/science"
           className="rounded-full border border-zinc-300 px-5 py-2.5 font-medium text-zinc-700 transition-colors hover:bg-zinc-50"

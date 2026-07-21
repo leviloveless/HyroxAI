@@ -25,6 +25,7 @@ import { applyTapers } from "./taper";
 import { PEAK_VOLUME_FACTOR, startingCardioMinutes, startingMileage } from "./volume";
 import { assignDays, DEFAULT_COUNTS, type SessionCountTables } from "./slots";
 import { getSport, type SportConfig } from "./sports";
+import { applyBandZoneShift, bandStartMileage } from "./time-budget";
 import { buildTriathlonSkeleton, swimLevelFromCss, bikeLevelFromFtp } from "./sports/triathlon";
 import { analyzeNeedsForSport } from "./needs-atlas";
 import { clamp, round1 } from "./math";
@@ -67,9 +68,11 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
   //    User-supplied starting volume overrides the experience-derived defaults.
   const startMi =
     input.startMileage ??
-    (cfg.volume.kind === "single_currency"
-      ? cfg.volume.startMileageByExp[input.runningExp]
-      : startingMileage(input.runningExp));
+    (input.weeklyHours
+      ? bandStartMileage(input.weeklyHours)
+      : cfg.volume.kind === "single_currency"
+        ? cfg.volume.startMileageByExp[input.runningExp]
+        : startingMileage(input.runningExp));
   const startCa = input.startCardioMinutes ?? startingCardioMinutes(startMi);
   const seq = sequenceMicrocycles(nonTaperWeeks, input.trainingClass, startMi, startCa, input.age);
 
@@ -142,7 +145,9 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
       microWeek,
       targetMileage: tapered.mileage[i]!,
       targetCardioMinutes: tapered.cardioMinutes[i]!,
-      zoneTargets: { ...cfg.phaseZoneTargets[phase] },
+      zoneTargets: input.weeklyHours
+        ? applyBandZoneShift(cfg.phaseZoneTargets[phase], input.weeklyHours)
+        : { ...cfg.phaseZoneTargets[phase] },
       days: assignDays(
         input.trainingDays,
         phase,
@@ -217,9 +222,11 @@ function buildRotationSkeleton(input: EngineInput, cfg: SportConfig, counts: Ses
   const D = input.durationWeeks;
   const startMi =
     input.startMileage ??
-    (cfg.volume.kind === "single_currency"
-      ? cfg.volume.startMileageByExp[input.runningExp]
-      : startingMileage(input.runningExp));
+    (input.weeklyHours
+      ? bandStartMileage(input.weeklyHours)
+      : cfg.volume.kind === "single_currency"
+        ? cfg.volume.startMileageByExp[input.runningExp]
+        : startingMileage(input.runningExp));
   const startCa = input.startCardioMinutes ?? startingCardioMinutes(startMi);
   // Continuous progression across ALL weeks (no taper carve-out) → rising baseline.
   const seq = sequenceMicrocycles(D, input.trainingClass, startMi, startCa, input.age);
@@ -243,7 +250,9 @@ function buildRotationSkeleton(input: EngineInput, cfg: SportConfig, counts: Ses
       microWeek,
       targetMileage: round1(seq.mileage[i]! * peakFactor),
       targetCardioMinutes: Math.round(seq.cardioMinutes[i]! * peakFactor),
-      zoneTargets: { ...cfg.phaseZoneTargets[phase] },
+      zoneTargets: input.weeklyHours
+        ? applyBandZoneShift(cfg.phaseZoneTargets[phase], input.weeklyHours)
+        : { ...cfg.phaseZoneTargets[phase] },
       days: assignDays(
         input.trainingDays,
         phase,

@@ -19,6 +19,7 @@ import { allocateMesocycles, expandPhases } from "../mesocycles";
 import { microcyclePattern } from "../microcycles";
 import { parseTimeToSeconds } from "../paces";
 import { clampInt } from "../math";
+import { applyBandZoneShift, bandTriHours } from "../time-budget";
 import type {
   EngineInput,
   EngineRace,
@@ -333,7 +334,8 @@ export function buildTriathlonSkeleton(input: EngineInput, cfg: SportConfig): Pr
   const level = triVolumeLevel(input); // blended swim/bike/run volume tier
   const idx = EXP_INDEX[level] ?? 1;
   const key = `${distanceKey(cfg.id)}:${level}`;
-  const hours = cfg.volume.kind === "per_discipline" ? (cfg.volume.hoursPerWeekByLevel[key] ?? [8, 14]) : [8, 14];
+  const bandHours = input.weeklyHours ? bandTriHours(input.weeklyHours) : null;
+  const hours = bandHours ?? (cfg.volume.kind === "per_discipline" ? (cfg.volume.hoursPerWeekByLevel[key] ?? [8, 14]) : [8, 14]);
   const [baseH, peakH] = hours as [number, number];
   const nonTaper = alloc.base + alloc.build + alloc.peak;
 
@@ -391,7 +393,9 @@ export function buildTriathlonSkeleton(input: EngineInput, cfg: SportConfig): Pr
       microWeek: micro,
       targetMileage: 0,
       targetCardioMinutes: totalMin,
-      zoneTargets: { ...cfg.phaseZoneTargets[phase] },
+      zoneTargets: input.weeklyHours
+        ? applyBandZoneShift(cfg.phaseZoneTargets[phase], input.weeklyHours)
+        : { ...cfg.phaseZoneTargets[phase] },
       days: assembleTriDays(input, cfg, phase, totalMin, idx, { raceThis, raceLast }),
       ...(raceThis ? { raceDay: { priority: raceThis.priority, ...(raceThis.date ? { date: raceThis.date } : {}) } } : {}),
     });

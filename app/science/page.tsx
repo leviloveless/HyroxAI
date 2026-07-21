@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import TimeBudgetExplorer from "@/components/science/time-budget-explorer";
+import PaperGate from "@/components/science/paper-gate";
 
 export const metadata: Metadata = {
   title: "The Science Behind Duravel — Training Volume, Intensity & Load",
@@ -43,10 +44,10 @@ export default function SciencePage() {
             Read the full methodology
           </Link>
           <a
-            href="/duravel-training-science.pdf"
+            href="#get-report"
             className="rounded-full border border-zinc-300 px-5 py-2.5 font-medium text-zinc-700 transition-colors hover:bg-zinc-50"
           >
-            Download the PDF
+            Get the PDF
           </a>
         </div>
       </div>
@@ -148,6 +149,24 @@ export default function SciencePage() {
         </p>
         <div className="mt-5">
           <TimeBudgetExplorer />
+        </div>
+      </section>
+
+      {/* Gated PDF download */}
+      <section id="get-report" className="scroll-mt-20 border-t border-zinc-200 py-10">
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
+          Get the full report
+        </h2>
+        <p className="mt-3 text-zinc-600">
+          Prefer to read it offline? Drop your email and we&apos;ll unlock the PDF. The full
+          methodology is always free to read{" "}
+          <Link href="/science/volume-intensity" className="text-zinc-900 underline">
+            on-site
+          </Link>{" "}
+          too.
+        </p>
+        <div className="mt-5 max-w-xl">
+          <PaperGate />
         </div>
       </section>
 
