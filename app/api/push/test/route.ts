@@ -32,10 +32,21 @@ export async function POST() {
   });
 
   if (result.sent === 0) {
-    return NextResponse.json(
-      { ok: false, error: "No active subscriptions for this account.", ...result },
-      { status: 409 },
-    );
+    // Distinguish the real reason so a zero-send is diagnosable rather than
+    // always reading as "no subscriptions".
+    let error = "No active subscriptions for this account.";
+    let status = 409;
+    if (result.skipped) {
+      error = `Push unavailable on the server (${result.skipped}).`;
+      status = 503;
+    } else if (result.readError) {
+      error = `Could not read subscriptions (${result.readError}).`;
+      status = 500;
+    } else if ((result.found ?? 0) > 0) {
+      error = `Found ${result.found} subscription(s) but all sends failed — check VAPID keys.`;
+      status = 502;
+    }
+    return NextResponse.json({ ok: false, error, ...result }, { status });
   }
 
   return NextResponse.json({ ok: true, ...result });

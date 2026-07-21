@@ -16,6 +16,10 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // web-push is loaded via a runtime dynamic import in lib/push/send.ts; mark it
+  // external so Next traces it into the serverless bundle (else the import fails
+  // in production and push sends silently no-op).
+  serverExternalPackages: ["web-push"],
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

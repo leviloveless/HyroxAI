@@ -25,7 +25,18 @@ export type PushPayload = {
   tag?: string;
 };
 
-export type PushResult = { sent: number; pruned: number; skipped?: string };
+export type PushResult = {
+  sent: number;
+  pruned: number;
+  /** How many stored web subscriptions were found for the user. */
+  found?: number;
+  /** Sends that errored for a non-expiry reason (e.g. bad VAPID/keys). */
+  failed?: number;
+  /** Set when the send was a no-op: web-push not configured/installed. */
+  skipped?: string;
+  /** Set when the subscription read itself errored. */
+  readError?: string;
+};
 
 /** Minimal shape of the parts of `web-push` we use — declared locally so this
  * module doesn't depend on the package (or its types) existing at build time. */
@@ -86,18 +97,21 @@ export async function sendPushToUser(
   if (!webpush) return { sent: 0, pruned: 0, skipped: "web-push unavailable" };
 
   const admin = createAdminClient();
-  const { data } = await admin
+  const { data, error } = await admin
     .from("push_subscriptions")
     .select("id, endpoint, p256dh, auth")
     .eq("user_id", userId)
     .eq("platform", "web");
 
+  if (error) return { sent: 0, pruned: 0, found: 0, readError: error.message };
+
   const subs = (data ?? []) as SubRow[];
-  if (subs.length === 0) return { sent: 0, pruned: 0 };
+  if (subs.length === 0) return { sent: 0, pruned: 0, found: 0 };
 
   const body = JSON.stringify(payload);
   const dead: string[] = [];
   let sent = 0;
+  let failed = 0;
 
   await Promise.all(
     subs.map(async (s) => {
@@ -111,6 +125,7 @@ export async function sendPushToUser(
       } catch (err: unknown) {
         const code = (err as { statusCode?: number })?.statusCode;
         if (code === 404 || code === 410) dead.push(s.id);
+        else failed += 1;
       }
     }),
   );
@@ -119,5 +134,5 @@ export async function sendPushToUser(
     await admin.from("push_subscriptions").delete().in("id", dead);
   }
 
-  return { sent, pruned: dead.length };
+  return { sent, pruned: dead.length, found: subs.length, failed };
 }
