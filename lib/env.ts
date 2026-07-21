@@ -73,6 +73,10 @@ const EnvSchema = z.object({
   EMAIL_ENABLED: z.string().optional(),
   EMAIL_UNSUB_SECRET: z.string().optional(),
   CRON_SECRET: z.string().optional(),
+  VAPID_PUBLIC_KEY: z.string().optional(),
+  VAPID_PRIVATE_KEY: z.string().optional(),
+  VAPID_SUBJECT: z.string().optional(),
+  NEXT_PUBLIC_VAPID_PUBLIC_KEY: z.string().optional(),
 });
 
 const rawEnv = {
@@ -107,6 +111,10 @@ const rawEnv = {
   EMAIL_ENABLED: process.env.EMAIL_ENABLED,
   EMAIL_UNSUB_SECRET: process.env.EMAIL_UNSUB_SECRET,
   CRON_SECRET: process.env.CRON_SECRET,
+  VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
+  VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
+  VAPID_SUBJECT: process.env.VAPID_SUBJECT,
+  NEXT_PUBLIC_VAPID_PUBLIC_KEY: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
 };
 
 const parsed = EnvSchema.safeParse(rawEnv);

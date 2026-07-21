@@ -5,6 +5,7 @@ import { env } from "@/lib/env";
 import { getConnectionStatuses } from "@/lib/wearables/connections";
 import ConnectionsPanel from "@/components/settings/connections-panel";
 import StravaAutopostToggle from "@/components/settings/strava-autopost-toggle";
+import PushToggle from "@/components/settings/push-toggle";
 
 export default async function ConnectionsPage({
   searchParams,
@@ -48,6 +49,10 @@ export default async function ConnectionsPage({
       />
 
       {stravaWrite && <StravaAutopostToggle initial={stravaAutopost} />}
+
+      {env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && (
+        <PushToggle vapidPublicKey={env.NEXT_PUBLIC_VAPID_PUBLIC_KEY} />
+      )}
 
       <Link href="/settings" className="text-sm underline">
         Back to settings
