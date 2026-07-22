@@ -4,6 +4,7 @@ import { env } from "@/lib/env";
 import { emailEnabled } from "@/lib/email/resend";
 import { runTrialEndingFlow } from "@/lib/email/flows/trial-ending";
 import { runOnboardingNudgeFlow } from "@/lib/email/flows/onboarding-nudge";
+import { runPushRemindersFlow } from "@/lib/push/reminders";
 
 /**
  * GET /api/cron/lifecycle  — the daily lifecycle-email job (07-spec §4.2).
@@ -47,11 +48,15 @@ export async function GET(request: Request) {
   // Onboarding-nudge (suppressible; sendEmail applies preference + frequency gates).
   const onboardingNudge = await runOnboardingNudgeFlow(admin, nowMs);
 
+  // Web-push workout reminders (opt-in via subscription; idempotent via push_sends).
+  const pushReminders = await runPushRemindersFlow(admin, nowMs);
+
   return NextResponse.json({
     ok: true,
     emailEnabled: emailEnabled(),
     reaped,
     trialEnding,
     onboardingNudge,
+    pushReminders,
   });
 }
