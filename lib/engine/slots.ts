@@ -99,6 +99,12 @@ export interface SessionCountTables {
   guaranteeQuality?: boolean;
   /** Use the research heavy/power lift split instead of upper/lower/full. */
   researchLifts?: boolean;
+  /** Section 6 session budget: TOTAL weekly sessions are capped here (~5–6
+   *  anchors, not 8–10 fragments). Trim comes off easy filler runs (then surplus
+   *  hybrids for run sports). Set when the athlete gave an hours budget. */
+  weeklySessionCap?: number;
+  /** Runs preserved when trimming to weeklySessionCap (protects long + quality). */
+  anchorRunFloor?: number;
 }
 
 export const DEFAULT_COUNTS: SessionCountTables = {
@@ -161,6 +167,27 @@ export function planWeek(
     runs = Math.max(runFloor, runs - 1);
     hybrids = hybrids > 0 ? Math.max(1, hybrids - 1) : 0; // never resurrect a hybrid for a no-hybrid sport
     lifts = Math.min(lifts, 2);
+  }
+
+  // Section 6: cap TOTAL weekly sessions to the research budget so a band
+  // athlete gets ~5–6 anchors, not 8–10 fragments (Finding 4). Trim easy filler
+  // runs down to the anchor floor first (the long run + threshold/VO2 anchors are
+  // seeded first in buildRunSlots, so they survive); then, for run-dominant
+  // sports, shed surplus hybrids down to one. Never touches the research lift dose.
+  if (counts.weeklySessionCap && microWeek !== "race") {
+    const cap = counts.weeklySessionCap;
+    const runAnchor = counts.anchorRunFloor ?? 3;
+    let total = runs + lifts + hybrids;
+    while (total > cap && runs > runAnchor) {
+      runs -= 1;
+      total -= 1;
+    }
+    if (counts.runCharacter !== "maintenance") {
+      while (total > cap && hybrids > 1) {
+        hybrids -= 1;
+        total -= 1;
+      }
+    }
   }
 
   return { runs, lifts, hybrids };

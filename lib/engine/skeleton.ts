@@ -25,7 +25,7 @@ import { applyTapers } from "./taper";
 import { PEAK_VOLUME_FACTOR, startingCardioMinutes, startingMileage } from "./volume";
 import { assignDays, DEFAULT_COUNTS, type SessionCountTables } from "./slots";
 import { getSport, type SportConfig } from "./sports";
-import { applyBandZoneShift, bandPhaseZoneTargets, bandStartMileage, bandStartCardioMinutes } from "./time-budget";
+import { applyBandZoneShift, bandPhaseZoneTargets, bandStartMileage, bandStartCardioMinutes, bandSessionCap, bandAnchorRunFloor } from "./time-budget";
 import { buildTriathlonSkeleton, swimLevelFromCss, bikeLevelFromFtp } from "./sports/triathlon";
 import { analyzeNeedsForSport } from "./needs-atlas";
 import { clamp, round1 } from "./math";
@@ -61,6 +61,13 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
     const n = Math.round(lo + ((hi - lo) * expIdx) / 2);
     counts.lift = { base: n, build: n, peak: n, taper: Math.max(1, n - 1) };
     counts.researchLifts = true;
+  }
+
+  // Research session budget (Finding 4): cap total weekly sessions to the band's
+  // Section 6 shape (~5–6 anchors) so a low-budget athlete isn't over-fractionated.
+  if (input.weeklyHours && cfg.bandZone3Z) {
+    counts.weeklySessionCap = bandSessionCap(input.weeklyHours);
+    counts.anchorRunFloor = bandAnchorRunFloor(input.weeklyHours);
   }
 
   // General fitness has no race to peak toward: a rotating-emphasis macro-arc

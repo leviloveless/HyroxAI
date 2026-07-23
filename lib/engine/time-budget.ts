@@ -82,6 +82,44 @@ export function bandTriHours(band: WeeklyHoursBand): [number, number] {
   return BAND_TRI_HOURS[band];
 }
 
+/**
+ * Section 6 structure targets ~5–6 quality anchors + easy filler per week, NOT
+ * the 8–10 fragmented touchpoints the phase/experience count model produces. A
+ * band athlete's TOTAL weekly sessions are capped to this research-shaped budget;
+ * the trim comes off easy filler runs first (and, for run-dominant sports,
+ * surplus hybrids), so the long run + quality anchors (threshold / VO2) and the
+ * research lift dose are preserved. Higher budgets support more anchors.
+ */
+export const BAND_SESSION_CAP: Record<WeeklyHoursBand, number> = {
+  h0_5: 5,
+  h5_10: 6,
+  h10_20: 8,
+  h20_30: 10,
+  h30_40: 12,
+};
+
+/**
+ * Runs preserved when trimming to the session cap. Protects the long run plus
+ * the quality anchors buildRunSlots seeds first. At the lowest budget only the
+ * long run + one VO2 anchor are guaranteed (research protects VO2 first), so the
+ * floor is 2; from 5 h up the long + threshold + VO2 trio is held (floor 3).
+ */
+export const BAND_ANCHOR_RUN_FLOOR: Record<WeeklyHoursBand, number> = {
+  h0_5: 2,
+  h5_10: 3,
+  h10_20: 3,
+  h20_30: 3,
+  h30_40: 3,
+};
+
+export function bandSessionCap(band: WeeklyHoursBand): number {
+  return BAND_SESSION_CAP[band];
+}
+
+export function bandAnchorRunFloor(band: WeeklyHoursBand): number {
+  return BAND_ANCHOR_RUN_FLOOR[band];
+}
+
 /** Split an integer `total` across two channels in the ratio a:b, exactly:
  *  the two returned integers always sum back to `total` (no rounding drift). */
 function splitProportional(total: number, a: number, b: number): [number, number] {
