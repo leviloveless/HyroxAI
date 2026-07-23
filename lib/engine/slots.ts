@@ -75,6 +75,9 @@ export interface SessionCountTables {
   runFloor?: number;
   /** "maintenance" forces every run to easy Z2 (station-only DEKA); default "full". */
   runCharacter?: "maintenance" | "full";
+  /** Research anchors: seed a threshold + VO2 run every quality week, in every
+   *  phase (set when the athlete gave an hours budget for a band-table sport). */
+  guaranteeQuality?: boolean;
 }
 
 export const DEFAULT_COUNTS: SessionCountTables = {
@@ -194,6 +197,7 @@ export function buildRunSlots(
   pos?: PhasePosition,
   emphasis: RunEmphasis = "none",
   character: "maintenance" | "full" = "full",
+  guaranteeQuality = false,
 ): RunSlot[] {
   if (count <= 0) return [];
   // Station-only sports (DEKA Strong/Atlas) keep their few runs as easy Z2 maintenance.
@@ -206,6 +210,12 @@ export function buildRunSlots(
     }));
   }
   const types: RunType[] = ["long"]; // long run anchors every week
+  // Research: threshold + VO2 are weekly anchors at EVERY budget and phase
+  // (not phase-gated fillers). Seed them before the filler pool when asked.
+  if (guaranteeQuality) {
+    if (count >= 3) types.push("threshold", "interval");
+    else if (count === 2) types.push("interval");
+  }
   const fillers = applyRunEmphasis(runFillers(phase, pos), emphasis);
   // safe: runFillers always returns a non-empty array, so i % fillers.length is in-bounds
   for (let i = 0; types.length < count; i++) types.push(fillers[i % fillers.length]!);
@@ -427,7 +437,7 @@ export function assignDays(
     const plan = planWeek(phase, microWeek, runningExp, hybridExp, bias, counts);
     // Interleave kinds (run, lift, hybrid, run, lift, …) so similar sessions
     // don't cluster on adjacent days.
-    const runs = buildRunSlots(phase, plan.runs, pos, bias?.runEmphasis ?? "none", counts.runCharacter ?? "full");
+    const runs = buildRunSlots(phase, plan.runs, pos, bias?.runEmphasis ?? "none", counts.runCharacter ?? "full", counts.guaranteeQuality ?? false);
     const lifts = buildLiftSlots(plan.lifts);
     // Review #9: one Peak hybrid per normal week becomes a full race simulation.
     const simulate = phase === "peak" && (microWeek === "rebound" || microWeek === "increase");

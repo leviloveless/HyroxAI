@@ -44,6 +44,17 @@ export const hyrox: SportConfig = {
 
   phaseZoneTargets: PHASE_ZONE_TARGETS,
 
+  // Research Section 6.3 three-zone (Z1/Z2/Z3) intensity targets by weekly-hours
+  // budget. hard (Z3) rises as hours fall — intensity substitutes for missing
+  // volume — which the flat band shift could not express.
+  bandZone3Z: {
+    h0_5: { easy: 55, gray: 25, hard: 20 },
+    h5_10: { easy: 70, gray: 15, hard: 15 },
+    h10_20: { easy: 80, gray: 8, hard: 12 },
+    h20_30: { easy: 85, gray: 4, hard: 11 },
+    h30_40: { easy: 88, gray: 3, hard: 9 },
+  },
+
   // Needs domains for the station-hybrid family. The authoritative scoring
   // functions + full multi-metric anchors live in lib/engine/needs.ts; these
   // entries are the registry contract the rewire will point that logic at.

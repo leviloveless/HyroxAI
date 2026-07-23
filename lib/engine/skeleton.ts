@@ -25,7 +25,7 @@ import { applyTapers } from "./taper";
 import { PEAK_VOLUME_FACTOR, startingCardioMinutes, startingMileage } from "./volume";
 import { assignDays, DEFAULT_COUNTS, type SessionCountTables } from "./slots";
 import { getSport, type SportConfig } from "./sports";
-import { applyBandZoneShift, bandStartMileage, bandStartCardioMinutes } from "./time-budget";
+import { applyBandZoneShift, bandPhaseZoneTargets, bandStartMileage, bandStartCardioMinutes } from "./time-budget";
 import { buildTriathlonSkeleton, swimLevelFromCss, bikeLevelFromFtp } from "./sports/triathlon";
 import { analyzeNeedsForSport } from "./needs-atlas";
 import { clamp, round1 } from "./math";
@@ -46,6 +46,9 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
     // Station-only sports (totalRaceRunMeters 0) floor runs to 0 and keep them easy.
     runFloor: cfg.runFloor ?? (cfg.totalRaceRunMeters === 0 ? 0 : undefined),
     runCharacter: cfg.totalRaceRunMeters === 0 ? "maintenance" : "full",
+    // Research anchors: with an hours budget and a sport that has a research
+    // band table, guarantee a threshold + VO2 run every quality week.
+    guaranteeQuality: !!input.weeklyHours && !!cfg.bandZone3Z,
   };
 
   // General fitness has no race to peak toward: a rotating-emphasis macro-arc
@@ -148,7 +151,9 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
       targetMileage: tapered.mileage[i]!,
       targetCardioMinutes: tapered.cardioMinutes[i]!,
       zoneTargets: input.weeklyHours
-        ? applyBandZoneShift(cfg.phaseZoneTargets[phase], input.weeklyHours)
+        ? cfg.bandZone3Z
+          ? bandPhaseZoneTargets(phase, input.weeklyHours, cfg.bandZone3Z)
+          : applyBandZoneShift(cfg.phaseZoneTargets[phase], input.weeklyHours)
         : { ...cfg.phaseZoneTargets[phase] },
       days: assignDays(
         input.trainingDays,
@@ -255,7 +260,9 @@ function buildRotationSkeleton(input: EngineInput, cfg: SportConfig, counts: Ses
       targetMileage: round1(seq.mileage[i]! * peakFactor),
       targetCardioMinutes: Math.round(seq.cardioMinutes[i]! * peakFactor),
       zoneTargets: input.weeklyHours
-        ? applyBandZoneShift(cfg.phaseZoneTargets[phase], input.weeklyHours)
+        ? cfg.bandZone3Z
+          ? bandPhaseZoneTargets(phase, input.weeklyHours, cfg.bandZone3Z)
+          : applyBandZoneShift(cfg.phaseZoneTargets[phase], input.weeklyHours)
         : { ...cfg.phaseZoneTargets[phase] },
       days: assignDays(
         input.trainingDays,

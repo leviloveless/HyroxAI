@@ -13,6 +13,8 @@
  * config, then register new sports.
  */
 import type { ExperienceLevel, PhaseName, ZoneDistribution } from "../types";
+import type { WeeklyHoursBand } from "@/lib/schemas";
+import type { ThreeZone } from "../time-budget";
 import type { StationSpec, StationCatalog } from "../stations";
 import type { SportId } from "@/lib/schemas";
 
@@ -159,6 +161,10 @@ export interface SportConfig {
   stationCatalog?: StationCatalog;
 
   phaseZoneTargets: Record<PhaseName, ZoneDistribution>;
+  /** Research Section 6 three-zone intensity targets per weekly-hours band. When
+   *  present AND the athlete supplied a band, these drive the zone distribution
+   *  (scaling true VO2/high-intensity by budget) instead of the flat band shift. */
+  bandZone3Z?: Record<WeeklyHoursBand, ThreeZone>;
   needsDomains: NeedsDomainConfig[];
   /** Station names (matching the philosophy library) the needs analysis emphasizes
    *  for an erg / strength limiter. Omit → HYROX station names. */

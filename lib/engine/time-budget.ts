@@ -9,7 +9,7 @@
  * snapshot tests freeze the resulting skeletons for review.
  */
 import type { WeeklyHoursBand } from "@/lib/schemas";
-import type { ZoneDistribution } from "./types";
+import type { PhaseName, ZoneDistribution } from "./types";
 
 /**
  * Starting weekly running mileage for a single-currency sport (HYROX / DEKA /
@@ -111,4 +111,36 @@ export function applyBandZoneShift(
   const [z1, z2] = splitProportional(newEasy, base.z1, base.z2);
   const [z3, z4] = splitProportional(newMid, base.z3, base.z4);
   return { z1, z2, z3, z4, z5: base.z5 };
+}
+
+/** Research Section 6 three-zone target {easy, gray, hard} (Z1/Z2/Z3) — `hard` is
+ *  above-threshold / VO2 work (engine z5). Supplied per weekly-hours band by a
+ *  sport's config; drives the zone distribution when the athlete gives a budget. */
+export type ThreeZone = { easy: number; gray: number; hard: number };
+
+/** Per-phase tilt (percentage points of the HARD pool) around the band anchor:
+ *  Base sits easier, Peak more polarized/intense, so the plan still periodizes
+ *  while its program average tracks the research target for the budget. */
+const PHASE_HARD_TILT: Record<PhaseName, number> = { base: -4, build: -1, peak: 5, taper: 0 };
+
+/**
+ * Build one phase's 5-zone target from the sport's research 3-zone band target.
+ * SCALES true high-intensity (z5) by budget — the finding the flat band shift
+ * missed — while preserving phase periodization and summing to exactly 100.
+ *   research Z1 (easy) -> engine z1 + z2   |   Z2 (gray) -> z3 + z4   |   Z3 (hard) -> z5
+ */
+export function bandPhaseZoneTargets(
+  phase: PhaseName,
+  band: WeeklyHoursBand,
+  table: Record<WeeklyHoursBand, ThreeZone>,
+): ZoneDistribution {
+  const a = table[band];
+  const hard = Math.max(3, a.hard + (PHASE_HARD_TILT[phase] ?? 0));
+  const gray = a.gray;
+  const easy = Math.max(0, 100 - gray - hard);
+  const z1 = Math.round(easy * 0.25);
+  const z2 = easy - z1;
+  const z3 = Math.round(gray * 0.6);
+  const z4 = gray - z3;
+  return { z1, z2, z3, z4, z5: hard };
 }

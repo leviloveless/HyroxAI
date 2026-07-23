@@ -10404,10 +10404,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -10443,10 +10443,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -10467,11 +10467,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 10,
       "weekNumber": 1,
       "zoneTargets": {
-        "z1": 23,
-        "z2": 54,
-        "z3": 13,
-        "z4": 7,
-        "z5": 3,
+        "z1": 15,
+        "z2": 44,
+        "z3": 15,
+        "z4": 10,
+        "z5": 16,
       },
     },
     {
@@ -10486,10 +10486,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -10525,10 +10525,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -10549,11 +10549,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 11,
       "weekNumber": 2,
       "zoneTargets": {
-        "z1": 23,
-        "z2": 54,
-        "z3": 13,
-        "z4": 7,
-        "z5": 3,
+        "z1": 15,
+        "z2": 44,
+        "z3": 15,
+        "z4": 10,
+        "z5": 16,
       },
     },
     {
@@ -10568,10 +10568,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -10597,10 +10597,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -10621,11 +10621,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 6.6,
       "weekNumber": 3,
       "zoneTargets": {
-        "z1": 23,
-        "z2": 54,
-        "z3": 13,
-        "z4": 7,
-        "z5": 3,
+        "z1": 15,
+        "z2": 44,
+        "z3": 15,
+        "z4": 10,
+        "z5": 16,
       },
     },
     {
@@ -10640,10 +10640,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -10679,10 +10679,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -10703,11 +10703,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 11,
       "weekNumber": 4,
       "zoneTargets": {
-        "z1": 23,
-        "z2": 54,
-        "z3": 13,
-        "z4": 7,
-        "z5": 3,
+        "z1": 15,
+        "z2": 44,
+        "z3": 15,
+        "z4": 10,
+        "z5": 16,
       },
     },
     {
@@ -10722,10 +10722,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -10761,10 +10761,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -10785,11 +10785,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 12.1,
       "weekNumber": 5,
       "zoneTargets": {
-        "z1": 23,
-        "z2": 54,
-        "z3": 13,
-        "z4": 7,
-        "z5": 3,
+        "z1": 15,
+        "z2": 44,
+        "z3": 15,
+        "z4": 10,
+        "z5": 16,
       },
     },
     {
@@ -10804,10 +10804,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -10833,10 +10833,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -10857,11 +10857,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 7.3,
       "weekNumber": 6,
       "zoneTargets": {
-        "z1": 23,
-        "z2": 54,
-        "z3": 13,
-        "z4": 7,
-        "z5": 3,
+        "z1": 15,
+        "z2": 44,
+        "z3": 15,
+        "z4": 10,
+        "z5": 16,
       },
     },
     {
@@ -10876,10 +10876,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -10915,10 +10915,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -10939,11 +10939,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 12.1,
       "weekNumber": 7,
       "zoneTargets": {
-        "z1": 23,
-        "z2": 54,
-        "z3": 13,
-        "z4": 7,
-        "z5": 3,
+        "z1": 15,
+        "z2": 44,
+        "z3": 15,
+        "z4": 10,
+        "z5": 16,
       },
     },
     {
@@ -10967,12 +10967,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -10984,10 +10986,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -10995,16 +10995,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "easy",
             },
           ],
         },
@@ -11012,14 +11012,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
-            },
-            {
               "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "fartlek",
+            },
+            {
+              "kind": "lift",
+              "liftType": "lower",
             },
           ],
         },
@@ -11031,11 +11031,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 13.3,
       "weekNumber": 8,
       "zoneTargets": {
-        "z1": 18,
-        "z2": 52,
-        "z3": 17,
-        "z4": 9,
-        "z5": 4,
+        "z1": 14,
+        "z2": 42,
+        "z3": 15,
+        "z4": 10,
+        "z5": 19,
       },
     },
     {
@@ -11050,10 +11050,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "interval",
             },
           ],
         },
@@ -11061,14 +11061,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "tempo",
+            },
+            {
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -11085,10 +11085,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -11109,11 +11109,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 8,
       "weekNumber": 9,
       "zoneTargets": {
-        "z1": 18,
-        "z2": 52,
-        "z3": 17,
-        "z4": 9,
-        "z5": 4,
+        "z1": 14,
+        "z2": 42,
+        "z3": 15,
+        "z4": 10,
+        "z5": 19,
       },
     },
     {
@@ -11157,7 +11157,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -11165,16 +11165,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -11182,14 +11182,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -11201,11 +11201,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 13.3,
       "weekNumber": 10,
       "zoneTargets": {
-        "z1": 18,
-        "z2": 52,
-        "z3": 17,
-        "z4": 9,
-        "z5": 4,
+        "z1": 14,
+        "z2": 42,
+        "z3": 15,
+        "z4": 10,
+        "z5": 19,
       },
     },
     {
@@ -11249,7 +11249,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -11257,16 +11257,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -11274,14 +11274,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -11293,11 +11293,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 14.6,
       "weekNumber": 11,
       "zoneTargets": {
-        "z1": 18,
-        "z2": 52,
-        "z3": 17,
-        "z4": 9,
-        "z5": 4,
+        "z1": 14,
+        "z2": 42,
+        "z3": 15,
+        "z4": 10,
+        "z5": 19,
       },
     },
     {
@@ -11323,10 +11323,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "tempo",
             },
             {
               "kind": "lift",
@@ -11347,10 +11347,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -11371,11 +11371,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 8.8,
       "weekNumber": 12,
       "zoneTargets": {
-        "z1": 18,
-        "z2": 52,
-        "z3": 17,
-        "z4": 9,
-        "z5": 4,
+        "z1": 14,
+        "z2": 42,
+        "z3": 15,
+        "z4": 10,
+        "z5": 19,
       },
     },
     {
@@ -11420,7 +11420,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -11443,14 +11443,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -11463,10 +11463,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 13,
       "zoneTargets": {
         "z1": 13,
-        "z2": 46,
-        "z3": 20,
-        "z4": 13,
-        "z5": 8,
+        "z2": 37,
+        "z3": 15,
+        "z4": 10,
+        "z5": 25,
       },
     },
     {
@@ -11511,7 +11511,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -11534,14 +11534,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -11554,10 +11554,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 14,
       "zoneTargets": {
         "z1": 13,
-        "z2": 46,
-        "z3": 20,
-        "z4": 13,
-        "z5": 8,
+        "z2": 37,
+        "z3": 15,
+        "z4": 10,
+        "z5": 25,
       },
     },
     {
@@ -11577,8 +11577,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "kind": "rest",
             },
           ],
         },
@@ -11586,10 +11585,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "wed",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "interval",
             },
           ],
         },
@@ -11606,7 +11605,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "rest",
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -11618,11 +11618,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 11.6,
       "weekNumber": 15,
       "zoneTargets": {
-        "z1": 16,
-        "z2": 51,
-        "z3": 18,
+        "z1": 14,
+        "z2": 41,
+        "z3": 15,
         "z4": 10,
-        "z5": 5,
+        "z5": 20,
       },
     },
     {
@@ -11683,11 +11683,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 8.7,
       "weekNumber": 16,
       "zoneTargets": {
-        "z1": 16,
-        "z2": 51,
-        "z3": 18,
+        "z1": 14,
+        "z2": 41,
+        "z3": 15,
         "z4": 10,
-        "z5": 5,
+        "z5": 20,
       },
     },
   ],
@@ -11718,10 +11718,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -11757,10 +11757,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -11781,11 +11781,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 20,
       "weekNumber": 1,
       "zoneTargets": {
-        "z1": 24,
-        "z2": 57,
-        "z3": 11,
-        "z4": 5,
-        "z5": 3,
+        "z1": 19,
+        "z2": 55,
+        "z3": 9,
+        "z4": 6,
+        "z5": 11,
       },
     },
     {
@@ -11800,10 +11800,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -11839,10 +11839,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -11863,11 +11863,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 21.5,
       "weekNumber": 2,
       "zoneTargets": {
-        "z1": 24,
-        "z2": 57,
-        "z3": 11,
-        "z4": 5,
-        "z5": 3,
+        "z1": 19,
+        "z2": 55,
+        "z3": 9,
+        "z4": 6,
+        "z5": 11,
       },
     },
     {
@@ -11882,10 +11882,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -11911,10 +11911,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -11935,11 +11935,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 12.9,
       "weekNumber": 3,
       "zoneTargets": {
-        "z1": 24,
-        "z2": 57,
-        "z3": 11,
-        "z4": 5,
-        "z5": 3,
+        "z1": 19,
+        "z2": 55,
+        "z3": 9,
+        "z4": 6,
+        "z5": 11,
       },
     },
     {
@@ -11954,10 +11954,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -11993,10 +11993,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -12017,11 +12017,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 21.5,
       "weekNumber": 4,
       "zoneTargets": {
-        "z1": 24,
-        "z2": 57,
-        "z3": 11,
-        "z4": 5,
-        "z5": 3,
+        "z1": 19,
+        "z2": 55,
+        "z3": 9,
+        "z4": 6,
+        "z5": 11,
       },
     },
     {
@@ -12036,10 +12036,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -12075,10 +12075,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -12099,11 +12099,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 23.1,
       "weekNumber": 5,
       "zoneTargets": {
-        "z1": 24,
-        "z2": 57,
-        "z3": 11,
-        "z4": 5,
-        "z5": 3,
+        "z1": 19,
+        "z2": 55,
+        "z3": 9,
+        "z4": 6,
+        "z5": 11,
       },
     },
     {
@@ -12118,10 +12118,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -12147,10 +12147,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -12171,11 +12171,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 13.9,
       "weekNumber": 6,
       "zoneTargets": {
-        "z1": 24,
-        "z2": 57,
-        "z3": 11,
-        "z4": 5,
-        "z5": 3,
+        "z1": 19,
+        "z2": 55,
+        "z3": 9,
+        "z4": 6,
+        "z5": 11,
       },
     },
     {
@@ -12190,10 +12190,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -12229,10 +12229,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -12253,11 +12253,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 23.1,
       "weekNumber": 7,
       "zoneTargets": {
-        "z1": 24,
-        "z2": 57,
-        "z3": 11,
-        "z4": 5,
-        "z5": 3,
+        "z1": 19,
+        "z2": 55,
+        "z3": 9,
+        "z4": 6,
+        "z5": 11,
       },
     },
     {
@@ -12281,12 +12281,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -12298,10 +12300,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -12309,16 +12309,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "easy",
             },
           ],
         },
@@ -12326,14 +12326,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
-            },
-            {
               "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "fartlek",
+            },
+            {
+              "kind": "lift",
+              "liftType": "lower",
             },
           ],
         },
@@ -12345,11 +12345,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 24.8,
       "weekNumber": 8,
       "zoneTargets": {
-        "z1": 19,
-        "z2": 55,
-        "z3": 15,
-        "z4": 7,
-        "z5": 4,
+        "z1": 18,
+        "z2": 53,
+        "z3": 9,
+        "z4": 6,
+        "z5": 14,
       },
     },
     {
@@ -12364,10 +12364,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "interval",
             },
           ],
         },
@@ -12375,14 +12375,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "tempo",
+            },
+            {
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -12399,10 +12399,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -12423,11 +12423,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 14.9,
       "weekNumber": 9,
       "zoneTargets": {
-        "z1": 19,
-        "z2": 55,
-        "z3": 15,
-        "z4": 7,
-        "z5": 4,
+        "z1": 18,
+        "z2": 53,
+        "z3": 9,
+        "z4": 6,
+        "z5": 14,
       },
     },
     {
@@ -12471,7 +12471,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -12479,16 +12479,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -12496,14 +12496,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -12515,11 +12515,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 24.8,
       "weekNumber": 10,
       "zoneTargets": {
-        "z1": 19,
-        "z2": 55,
-        "z3": 15,
-        "z4": 7,
-        "z5": 4,
+        "z1": 18,
+        "z2": 53,
+        "z3": 9,
+        "z4": 6,
+        "z5": 14,
       },
     },
     {
@@ -12563,7 +12563,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -12571,16 +12571,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -12588,14 +12588,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -12607,11 +12607,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 26.7,
       "weekNumber": 11,
       "zoneTargets": {
-        "z1": 19,
-        "z2": 55,
-        "z3": 15,
-        "z4": 7,
-        "z5": 4,
+        "z1": 18,
+        "z2": 53,
+        "z3": 9,
+        "z4": 6,
+        "z5": 14,
       },
     },
     {
@@ -12637,10 +12637,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "tempo",
             },
             {
               "kind": "lift",
@@ -12661,10 +12661,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -12685,11 +12685,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 16,
       "weekNumber": 12,
       "zoneTargets": {
-        "z1": 19,
-        "z2": 55,
-        "z3": 15,
-        "z4": 7,
-        "z5": 4,
+        "z1": 18,
+        "z2": 53,
+        "z3": 9,
+        "z4": 6,
+        "z5": 14,
       },
     },
     {
@@ -12734,7 +12734,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -12757,14 +12757,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -12776,11 +12776,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 24,
       "weekNumber": 13,
       "zoneTargets": {
-        "z1": 14,
+        "z1": 16,
         "z2": 49,
-        "z3": 17,
-        "z4": 12,
-        "z5": 8,
+        "z3": 9,
+        "z4": 6,
+        "z5": 20,
       },
     },
     {
@@ -12825,7 +12825,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -12848,14 +12848,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -12867,11 +12867,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 25.8,
       "weekNumber": 14,
       "zoneTargets": {
-        "z1": 14,
+        "z1": 16,
         "z2": 49,
-        "z3": 17,
-        "z4": 12,
-        "z5": 8,
+        "z3": 9,
+        "z4": 6,
+        "z5": 20,
       },
     },
     {
@@ -12891,8 +12891,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "kind": "rest",
             },
           ],
         },
@@ -12900,10 +12899,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "wed",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "interval",
             },
           ],
         },
@@ -12920,7 +12919,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "rest",
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -12932,11 +12932,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 20.6,
       "weekNumber": 15,
       "zoneTargets": {
-        "z1": 17,
-        "z2": 54,
-        "z3": 16,
-        "z4": 8,
-        "z5": 5,
+        "z1": 18,
+        "z2": 52,
+        "z3": 9,
+        "z4": 6,
+        "z5": 15,
       },
     },
     {
@@ -12997,11 +12997,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 15.5,
       "weekNumber": 16,
       "zoneTargets": {
-        "z1": 17,
-        "z2": 54,
-        "z3": 16,
-        "z4": 8,
-        "z5": 5,
+        "z1": 18,
+        "z2": 52,
+        "z3": 9,
+        "z4": 6,
+        "z5": 15,
       },
     },
   ],
@@ -13032,10 +13032,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -13071,10 +13071,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -13095,11 +13095,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 37,
       "weekNumber": 1,
       "zoneTargets": {
-        "z1": 25,
-        "z2": 60,
-        "z3": 8,
-        "z4": 4,
-        "z5": 3,
+        "z1": 21,
+        "z2": 63,
+        "z3": 5,
+        "z4": 3,
+        "z5": 8,
       },
     },
     {
@@ -13114,10 +13114,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -13153,10 +13153,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -13177,11 +13177,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 39.8,
       "weekNumber": 2,
       "zoneTargets": {
-        "z1": 25,
-        "z2": 60,
-        "z3": 8,
-        "z4": 4,
-        "z5": 3,
+        "z1": 21,
+        "z2": 63,
+        "z3": 5,
+        "z4": 3,
+        "z5": 8,
       },
     },
     {
@@ -13196,10 +13196,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -13225,10 +13225,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -13249,11 +13249,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 23.9,
       "weekNumber": 3,
       "zoneTargets": {
-        "z1": 25,
-        "z2": 60,
-        "z3": 8,
-        "z4": 4,
-        "z5": 3,
+        "z1": 21,
+        "z2": 63,
+        "z3": 5,
+        "z4": 3,
+        "z5": 8,
       },
     },
     {
@@ -13268,10 +13268,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -13307,10 +13307,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -13331,11 +13331,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 39.8,
       "weekNumber": 4,
       "zoneTargets": {
-        "z1": 25,
-        "z2": 60,
-        "z3": 8,
-        "z4": 4,
-        "z5": 3,
+        "z1": 21,
+        "z2": 63,
+        "z3": 5,
+        "z4": 3,
+        "z5": 8,
       },
     },
     {
@@ -13350,10 +13350,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -13389,10 +13389,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -13413,11 +13413,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 42.8,
       "weekNumber": 5,
       "zoneTargets": {
-        "z1": 25,
-        "z2": 60,
-        "z3": 8,
-        "z4": 4,
-        "z5": 3,
+        "z1": 21,
+        "z2": 63,
+        "z3": 5,
+        "z4": 3,
+        "z5": 8,
       },
     },
     {
@@ -13432,10 +13432,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -13461,10 +13461,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -13485,11 +13485,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 25.7,
       "weekNumber": 6,
       "zoneTargets": {
-        "z1": 25,
-        "z2": 60,
-        "z3": 8,
-        "z4": 4,
-        "z5": 3,
+        "z1": 21,
+        "z2": 63,
+        "z3": 5,
+        "z4": 3,
+        "z5": 8,
       },
     },
     {
@@ -13504,10 +13504,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -13543,10 +13543,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -13567,11 +13567,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 42.8,
       "weekNumber": 7,
       "zoneTargets": {
-        "z1": 25,
-        "z2": 60,
-        "z3": 8,
-        "z4": 4,
-        "z5": 3,
+        "z1": 21,
+        "z2": 63,
+        "z3": 5,
+        "z4": 3,
+        "z5": 8,
       },
     },
     {
@@ -13595,12 +13595,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -13612,10 +13614,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -13623,16 +13623,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "easy",
             },
           ],
         },
@@ -13640,14 +13640,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
-            },
-            {
               "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "fartlek",
+            },
+            {
+              "kind": "lift",
+              "liftType": "lower",
             },
           ],
         },
@@ -13660,10 +13660,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 8,
       "zoneTargets": {
         "z1": 20,
-        "z2": 58,
-        "z3": 12,
-        "z4": 6,
-        "z5": 4,
+        "z2": 61,
+        "z3": 5,
+        "z4": 3,
+        "z5": 11,
       },
     },
     {
@@ -13678,10 +13678,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "interval",
             },
           ],
         },
@@ -13689,14 +13689,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "tempo",
+            },
+            {
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -13713,10 +13713,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -13738,10 +13738,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 9,
       "zoneTargets": {
         "z1": 20,
-        "z2": 58,
-        "z3": 12,
-        "z4": 6,
-        "z5": 4,
+        "z2": 61,
+        "z3": 5,
+        "z4": 3,
+        "z5": 11,
       },
     },
     {
@@ -13785,7 +13785,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -13793,16 +13793,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -13810,14 +13810,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -13830,10 +13830,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 10,
       "zoneTargets": {
         "z1": 20,
-        "z2": 58,
-        "z3": 12,
-        "z4": 6,
-        "z5": 4,
+        "z2": 61,
+        "z3": 5,
+        "z4": 3,
+        "z5": 11,
       },
     },
     {
@@ -13877,7 +13877,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -13885,16 +13885,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -13902,14 +13902,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -13922,10 +13922,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 11,
       "zoneTargets": {
         "z1": 20,
-        "z2": 58,
-        "z3": 12,
-        "z4": 6,
-        "z5": 4,
+        "z2": 61,
+        "z3": 5,
+        "z4": 3,
+        "z5": 11,
       },
     },
     {
@@ -13951,10 +13951,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "tempo",
             },
             {
               "kind": "lift",
@@ -13975,10 +13975,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -14000,10 +14000,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 12,
       "zoneTargets": {
         "z1": 20,
-        "z2": 58,
-        "z3": 12,
-        "z4": 6,
-        "z5": 4,
+        "z2": 61,
+        "z3": 5,
+        "z4": 3,
+        "z5": 11,
       },
     },
     {
@@ -14048,7 +14048,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -14071,14 +14071,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -14090,11 +14090,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 44.5,
       "weekNumber": 13,
       "zoneTargets": {
-        "z1": 15,
-        "z2": 52,
-        "z3": 15,
-        "z4": 10,
-        "z5": 8,
+        "z1": 19,
+        "z2": 56,
+        "z3": 5,
+        "z4": 3,
+        "z5": 17,
       },
     },
     {
@@ -14139,7 +14139,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -14162,14 +14162,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -14181,11 +14181,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 47.8,
       "weekNumber": 14,
       "zoneTargets": {
-        "z1": 15,
-        "z2": 52,
-        "z3": 15,
-        "z4": 10,
-        "z5": 8,
+        "z1": 19,
+        "z2": 56,
+        "z3": 5,
+        "z4": 3,
+        "z5": 17,
       },
     },
     {
@@ -14205,8 +14205,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "kind": "rest",
             },
           ],
         },
@@ -14214,10 +14213,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "wed",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "interval",
             },
           ],
         },
@@ -14234,7 +14233,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "rest",
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -14246,11 +14246,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 38.2,
       "weekNumber": 15,
       "zoneTargets": {
-        "z1": 18,
-        "z2": 57,
-        "z3": 13,
-        "z4": 7,
-        "z5": 5,
+        "z1": 20,
+        "z2": 60,
+        "z3": 5,
+        "z4": 3,
+        "z5": 12,
       },
     },
     {
@@ -14311,11 +14311,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 28.7,
       "weekNumber": 16,
       "zoneTargets": {
-        "z1": 18,
-        "z2": 57,
-        "z3": 13,
-        "z4": 7,
-        "z5": 5,
+        "z1": 20,
+        "z2": 60,
+        "z3": 5,
+        "z4": 3,
+        "z5": 12,
       },
     },
   ],
@@ -14346,10 +14346,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -14385,10 +14385,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -14409,11 +14409,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 48,
       "weekNumber": 1,
       "zoneTargets": {
-        "z1": 26,
-        "z2": 62,
-        "z3": 6,
-        "z4": 3,
-        "z5": 3,
+        "z1": 22,
+        "z2": 67,
+        "z3": 2,
+        "z4": 2,
+        "z5": 7,
       },
     },
     {
@@ -14428,10 +14428,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -14467,10 +14467,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -14491,11 +14491,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 51.6,
       "weekNumber": 2,
       "zoneTargets": {
-        "z1": 26,
-        "z2": 62,
-        "z3": 6,
-        "z4": 3,
-        "z5": 3,
+        "z1": 22,
+        "z2": 67,
+        "z3": 2,
+        "z4": 2,
+        "z5": 7,
       },
     },
     {
@@ -14510,10 +14510,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -14539,10 +14539,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -14563,11 +14563,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 31,
       "weekNumber": 3,
       "zoneTargets": {
-        "z1": 26,
-        "z2": 62,
-        "z3": 6,
-        "z4": 3,
-        "z5": 3,
+        "z1": 22,
+        "z2": 67,
+        "z3": 2,
+        "z4": 2,
+        "z5": 7,
       },
     },
     {
@@ -14582,10 +14582,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -14621,10 +14621,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -14645,11 +14645,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 51.6,
       "weekNumber": 4,
       "zoneTargets": {
-        "z1": 26,
-        "z2": 62,
-        "z3": 6,
-        "z4": 3,
-        "z5": 3,
+        "z1": 22,
+        "z2": 67,
+        "z3": 2,
+        "z4": 2,
+        "z5": 7,
       },
     },
     {
@@ -14664,10 +14664,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -14703,10 +14703,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -14727,11 +14727,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 55.5,
       "weekNumber": 5,
       "zoneTargets": {
-        "z1": 26,
-        "z2": 62,
-        "z3": 6,
-        "z4": 3,
-        "z5": 3,
+        "z1": 22,
+        "z2": 67,
+        "z3": 2,
+        "z4": 2,
+        "z5": 7,
       },
     },
     {
@@ -14746,10 +14746,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -14775,10 +14775,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -14799,11 +14799,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 33.3,
       "weekNumber": 6,
       "zoneTargets": {
-        "z1": 26,
-        "z2": 62,
-        "z3": 6,
-        "z4": 3,
-        "z5": 3,
+        "z1": 22,
+        "z2": 67,
+        "z3": 2,
+        "z4": 2,
+        "z5": 7,
       },
     },
     {
@@ -14818,10 +14818,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -14857,10 +14857,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -14881,11 +14881,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 55.5,
       "weekNumber": 7,
       "zoneTargets": {
-        "z1": 26,
-        "z2": 62,
-        "z3": 6,
-        "z4": 3,
-        "z5": 3,
+        "z1": 22,
+        "z2": 67,
+        "z3": 2,
+        "z4": 2,
+        "z5": 7,
       },
     },
     {
@@ -14909,12 +14909,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -14926,10 +14928,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -14937,16 +14937,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "easy",
             },
           ],
         },
@@ -14954,14 +14954,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
-            },
-            {
               "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "fartlek",
+            },
+            {
+              "kind": "lift",
+              "liftType": "lower",
             },
           ],
         },
@@ -14973,11 +14973,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 59.6,
       "weekNumber": 8,
       "zoneTargets": {
-        "z1": 21,
-        "z2": 60,
-        "z3": 10,
-        "z4": 5,
-        "z5": 4,
+        "z1": 22,
+        "z2": 64,
+        "z3": 2,
+        "z4": 2,
+        "z5": 10,
       },
     },
     {
@@ -14992,10 +14992,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "interval",
             },
           ],
         },
@@ -15003,14 +15003,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "tempo",
+            },
+            {
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -15027,10 +15027,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -15051,11 +15051,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 35.8,
       "weekNumber": 9,
       "zoneTargets": {
-        "z1": 21,
-        "z2": 60,
-        "z3": 10,
-        "z4": 5,
-        "z5": 4,
+        "z1": 22,
+        "z2": 64,
+        "z3": 2,
+        "z4": 2,
+        "z5": 10,
       },
     },
     {
@@ -15099,7 +15099,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -15107,16 +15107,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -15124,14 +15124,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -15143,11 +15143,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 59.6,
       "weekNumber": 10,
       "zoneTargets": {
-        "z1": 21,
-        "z2": 60,
-        "z3": 10,
-        "z4": 5,
-        "z5": 4,
+        "z1": 22,
+        "z2": 64,
+        "z3": 2,
+        "z4": 2,
+        "z5": 10,
       },
     },
     {
@@ -15191,7 +15191,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -15199,16 +15199,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -15216,14 +15216,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -15235,11 +15235,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 64.1,
       "weekNumber": 11,
       "zoneTargets": {
-        "z1": 21,
-        "z2": 60,
-        "z3": 10,
-        "z4": 5,
-        "z5": 4,
+        "z1": 22,
+        "z2": 64,
+        "z3": 2,
+        "z4": 2,
+        "z5": 10,
       },
     },
     {
@@ -15265,10 +15265,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "tempo",
             },
             {
               "kind": "lift",
@@ -15289,10 +15289,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -15313,11 +15313,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 38.5,
       "weekNumber": 12,
       "zoneTargets": {
-        "z1": 21,
-        "z2": 60,
-        "z3": 10,
-        "z4": 5,
-        "z5": 4,
+        "z1": 22,
+        "z2": 64,
+        "z3": 2,
+        "z4": 2,
+        "z5": 10,
       },
     },
     {
@@ -15362,7 +15362,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -15385,14 +15385,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -15404,11 +15404,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 57.7,
       "weekNumber": 13,
       "zoneTargets": {
-        "z1": 16,
-        "z2": 54,
-        "z3": 13,
-        "z4": 9,
-        "z5": 8,
+        "z1": 20,
+        "z2": 60,
+        "z3": 2,
+        "z4": 2,
+        "z5": 16,
       },
     },
     {
@@ -15453,7 +15453,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -15476,14 +15476,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -15495,11 +15495,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 62,
       "weekNumber": 14,
       "zoneTargets": {
-        "z1": 16,
-        "z2": 54,
-        "z3": 13,
-        "z4": 9,
-        "z5": 8,
+        "z1": 20,
+        "z2": 60,
+        "z3": 2,
+        "z4": 2,
+        "z5": 16,
       },
     },
     {
@@ -15519,8 +15519,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "kind": "rest",
             },
           ],
         },
@@ -15528,10 +15527,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "wed",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "interval",
             },
           ],
         },
@@ -15548,7 +15547,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "rest",
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -15560,11 +15560,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 49.6,
       "weekNumber": 15,
       "zoneTargets": {
-        "z1": 19,
-        "z2": 59,
-        "z3": 11,
-        "z4": 6,
-        "z5": 5,
+        "z1": 21,
+        "z2": 64,
+        "z3": 2,
+        "z4": 2,
+        "z5": 11,
       },
     },
     {
@@ -15625,11 +15625,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 37.2,
       "weekNumber": 16,
       "zoneTargets": {
-        "z1": 19,
-        "z2": 59,
-        "z3": 11,
-        "z4": 6,
-        "z5": 5,
+        "z1": 21,
+        "z2": 64,
+        "z3": 2,
+        "z4": 2,
+        "z5": 11,
       },
     },
   ],
@@ -15660,10 +15660,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -15699,10 +15699,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -15723,11 +15723,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 55,
       "weekNumber": 1,
       "zoneTargets": {
-        "z1": 27,
-        "z2": 64,
-        "z3": 4,
-        "z4": 2,
-        "z5": 3,
+        "z1": 23,
+        "z2": 69,
+        "z3": 2,
+        "z4": 1,
+        "z5": 5,
       },
     },
     {
@@ -15742,10 +15742,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -15781,10 +15781,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -15805,11 +15805,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 59.1,
       "weekNumber": 2,
       "zoneTargets": {
-        "z1": 27,
-        "z2": 64,
-        "z3": 4,
-        "z4": 2,
-        "z5": 3,
+        "z1": 23,
+        "z2": 69,
+        "z3": 2,
+        "z4": 1,
+        "z5": 5,
       },
     },
     {
@@ -15824,10 +15824,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -15853,10 +15853,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -15877,11 +15877,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 35.5,
       "weekNumber": 3,
       "zoneTargets": {
-        "z1": 27,
-        "z2": 64,
-        "z3": 4,
-        "z4": 2,
-        "z5": 3,
+        "z1": 23,
+        "z2": 69,
+        "z3": 2,
+        "z4": 1,
+        "z5": 5,
       },
     },
     {
@@ -15896,10 +15896,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -15935,10 +15935,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -15959,11 +15959,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 59.1,
       "weekNumber": 4,
       "zoneTargets": {
-        "z1": 27,
-        "z2": 64,
-        "z3": 4,
-        "z4": 2,
-        "z5": 3,
+        "z1": 23,
+        "z2": 69,
+        "z3": 2,
+        "z4": 1,
+        "z5": 5,
       },
     },
     {
@@ -15978,10 +15978,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -16017,10 +16017,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -16041,11 +16041,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 63.6,
       "weekNumber": 5,
       "zoneTargets": {
-        "z1": 27,
-        "z2": 64,
-        "z3": 4,
-        "z4": 2,
-        "z5": 3,
+        "z1": 23,
+        "z2": 69,
+        "z3": 2,
+        "z4": 1,
+        "z5": 5,
       },
     },
     {
@@ -16060,10 +16060,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -16089,10 +16089,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -16113,11 +16113,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 38.1,
       "weekNumber": 6,
       "zoneTargets": {
-        "z1": 27,
-        "z2": 64,
-        "z3": 4,
-        "z4": 2,
-        "z5": 3,
+        "z1": 23,
+        "z2": 69,
+        "z3": 2,
+        "z4": 1,
+        "z5": 5,
       },
     },
     {
@@ -16132,10 +16132,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
             },
           ],
         },
@@ -16171,10 +16171,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "threshold",
             },
           ],
         },
@@ -16195,11 +16195,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 63.6,
       "weekNumber": 7,
       "zoneTargets": {
-        "z1": 27,
-        "z2": 64,
-        "z3": 4,
-        "z4": 2,
-        "z5": 3,
+        "z1": 23,
+        "z2": 69,
+        "z3": 2,
+        "z4": 1,
+        "z5": 5,
       },
     },
     {
@@ -16223,12 +16223,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -16240,10 +16242,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -16251,16 +16251,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "easy",
             },
           ],
         },
@@ -16268,14 +16268,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
-            },
-            {
               "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "fartlek",
+            },
+            {
+              "kind": "lift",
+              "liftType": "lower",
             },
           ],
         },
@@ -16288,10 +16288,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 8,
       "zoneTargets": {
         "z1": 22,
-        "z2": 62,
-        "z3": 8,
-        "z4": 4,
-        "z5": 4,
+        "z2": 67,
+        "z3": 2,
+        "z4": 1,
+        "z5": 8,
       },
     },
     {
@@ -16306,10 +16306,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "interval",
             },
           ],
         },
@@ -16317,14 +16317,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "tempo",
+            },
+            {
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -16341,10 +16341,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -16366,10 +16366,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 9,
       "zoneTargets": {
         "z1": 22,
-        "z2": 62,
-        "z3": 8,
-        "z4": 4,
-        "z5": 4,
+        "z2": 67,
+        "z3": 2,
+        "z4": 1,
+        "z5": 8,
       },
     },
     {
@@ -16413,7 +16413,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -16421,16 +16421,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -16438,14 +16438,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -16458,10 +16458,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 10,
       "zoneTargets": {
         "z1": 22,
-        "z2": 62,
-        "z3": 8,
-        "z4": 4,
-        "z5": 4,
+        "z2": 67,
+        "z3": 2,
+        "z4": 1,
+        "z5": 8,
       },
     },
     {
@@ -16505,7 +16505,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -16513,16 +16513,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
               "runType": "tempo",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -16530,14 +16530,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-            {
-              "goalZone": 2,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "easy",
+              "runType": "interval",
+            },
+            {
+              "kind": "lift",
+              "liftType": "upper",
             },
           ],
         },
@@ -16550,10 +16550,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 11,
       "zoneTargets": {
         "z1": 22,
-        "z2": 62,
-        "z3": 8,
-        "z4": 4,
-        "z5": 4,
+        "z2": 67,
+        "z3": 2,
+        "z4": 1,
+        "z5": 8,
       },
     },
     {
@@ -16579,10 +16579,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 2,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "fartlek",
+              "runType": "tempo",
             },
             {
               "kind": "lift",
@@ -16603,10 +16603,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "thu",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "threshold",
             },
           ],
         },
@@ -16628,10 +16628,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "weekNumber": 12,
       "zoneTargets": {
         "z1": 22,
-        "z2": 62,
-        "z3": 8,
-        "z4": 4,
-        "z5": 4,
+        "z2": 67,
+        "z3": 2,
+        "z4": 1,
+        "z5": 8,
       },
     },
     {
@@ -16676,7 +16676,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -16699,14 +16699,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -16718,11 +16718,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 66.2,
       "weekNumber": 13,
       "zoneTargets": {
-        "z1": 16,
-        "z2": 57,
-        "z3": 11,
-        "z4": 8,
-        "z5": 8,
+        "z1": 21,
+        "z2": 62,
+        "z3": 2,
+        "z4": 1,
+        "z5": 14,
       },
     },
     {
@@ -16767,7 +16767,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "lower",
             },
           ],
         },
@@ -16790,14 +16790,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 4,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "threshold",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "upper",
             },
           ],
         },
@@ -16809,11 +16809,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 71.1,
       "weekNumber": 14,
       "zoneTargets": {
-        "z1": 16,
-        "z2": 57,
-        "z3": 11,
-        "z4": 8,
-        "z5": 8,
+        "z1": 21,
+        "z2": 62,
+        "z3": 2,
+        "z4": 1,
+        "z5": 14,
       },
     },
     {
@@ -16833,8 +16833,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "kind": "rest",
             },
           ],
         },
@@ -16842,10 +16841,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "wed",
           "sessions": [
             {
-              "goalZone": 3,
+              "goalZone": 5,
               "isLong": false,
               "kind": "run",
-              "runType": "progression",
+              "runType": "interval",
             },
           ],
         },
@@ -16862,7 +16861,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "rest",
+              "kind": "lift",
+              "liftType": "full",
             },
           ],
         },
@@ -16874,11 +16874,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 56.9,
       "weekNumber": 15,
       "zoneTargets": {
-        "z1": 19,
-        "z2": 62,
-        "z3": 9,
-        "z4": 5,
-        "z5": 5,
+        "z1": 22,
+        "z2": 66,
+        "z3": 2,
+        "z4": 1,
+        "z5": 9,
       },
     },
     {
@@ -16939,11 +16939,11 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
       "targetMileage": 42.7,
       "weekNumber": 16,
       "zoneTargets": {
-        "z1": 19,
-        "z2": 62,
-        "z3": 9,
-        "z4": 5,
-        "z5": 5,
+        "z1": 22,
+        "z2": 66,
+        "z3": 2,
+        "z4": 1,
+        "z5": 9,
       },
     },
   ],
