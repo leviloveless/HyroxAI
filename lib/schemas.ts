@@ -275,7 +275,7 @@ export const PowerElementSchema = z.object({
 
 export const LiftSessionSchema = z.object({
   kind: z.literal("lift"),
-  liftType: z.enum(["upper", "lower", "full"]),
+  liftType: z.enum(["upper", "lower", "full", "power"]),
   movements: z.array(
     z.object({
       pattern: MovementPattern,

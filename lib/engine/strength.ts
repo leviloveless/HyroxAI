@@ -33,7 +33,7 @@ import { clamp, round5, EPLEY_5RM_TO_1RM } from "./math";
 export type LiftPattern = z.infer<typeof MovementPattern>;
 export type StrengthEmphasis = z.infer<typeof StrengthEmphasisEnum>;
 
-export type LiftType = "upper" | "lower" | "full";
+export type LiftType = "upper" | "lower" | "full" | "power";
 
 export interface MovementScheme {
   sets: number;
@@ -94,7 +94,7 @@ const PCT_FLOOR = 45;
 /** The lunge is the one HYROX-specific muscular-endurance pattern. */
 export function patternEmphasis(pattern: LiftPattern, liftType: LiftType): StrengthEmphasis {
   if (pattern === "lunge") return "endurance";
-  return liftType === "full" ? "max_strength" : "strength";
+  return liftType === "full" || liftType === "power" ? "max_strength" : "strength";
 }
 
 function baseScheme(emphasis: StrengthEmphasis, phase: PhaseName): SchemeBase {
@@ -206,12 +206,17 @@ const POWER_NOTE =
 const POWER_LIB: Partial<Record<PhaseName, string[]>> = {
   base: ["box jumps", "broad jumps", "pogo hops", "med-ball chest pass"],
   build: ["depth jumps", "broad jumps", "box jumps", "med-ball rotational throw"],
+  // Peak/Taper are used only by a forced power session (low-volume, sharpening).
+  peak: ["depth jumps", "broad jumps", "pogo hops"],
+  taper: ["pogo hops", "box jumps"],
 };
 
 /** Plyometric volume by phase. */
 const POWER_VOLUME: Partial<Record<PhaseName, { sets: number; reps: string }>> = {
   base: { sets: 4, reps: "3" },
   build: { sets: 5, reps: "3" },
+  peak: { sets: 3, reps: "3" },
+  taper: { sets: 2, reps: "3" },
 };
 
 /**
@@ -223,8 +228,13 @@ export function powerElementFor(
   phase: PhaseName,
   microWeek: MicroWeekType,
   sessionIndex: number,
+  force = false,
 ): PowerElement | null {
-  if (microWeek === "deload" || microWeek === "taper" || microWeek === "race") return null;
+  // Recovery weeks never carry plyometrics, even a forced power session.
+  if (microWeek === "deload" || microWeek === "race") return null;
+  // Legacy (non-forced): plyometrics live in Base/Build only. A forced power
+  // session (research power-focus liftType) keeps them through Peak and Taper.
+  if (!force && (microWeek === "taper" || phase === "peak" || phase === "taper")) return null;
   const lib = POWER_LIB[phase];
   const vol = POWER_VOLUME[phase];
   if (!lib || !vol) return null;

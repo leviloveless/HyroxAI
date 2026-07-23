@@ -55,6 +55,12 @@ export const hyrox: SportConfig = {
     h30_40: { easy: 88, gray: 3, hard: 9 },
   },
 
+  // Research Section 6.3 strength dose: 1 heavy (5h) -> heavy+power (10-20h) ->
+  // +a third quality lift at high volume. Replaces the 3-day upper/lower/full split.
+  // [min,max] lifts/week by budget, scaled within range by lifting experience.
+  // 0-5h:1 | 6-10h:2 | 11-20h:2-3 | 21-30h:3-4 | 31-40h:3-4. Split caps heavy at 2/wk.
+  bandLiftCounts: { h0_5: [1, 1], h5_10: [2, 2], h10_20: [2, 3], h20_30: [3, 4], h30_40: [3, 4] },
+
   // Needs domains for the station-hybrid family. The authoritative scoring
   // functions + full multi-metric anchors live in lib/engine/needs.ts; these
   // entries are the registry contract the rewire will point that logic at.

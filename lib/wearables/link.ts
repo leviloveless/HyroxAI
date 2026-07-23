@@ -33,6 +33,7 @@ const LIFT_TYPE_LABEL: Record<string, string> = {
   upper: "Upper body lift",
   lower: "Lower body lift",
   full: "Full body lift",
+  power: "Power / explosive lift",
 };
 
 /** Short human label for a session, used in the link picker. */

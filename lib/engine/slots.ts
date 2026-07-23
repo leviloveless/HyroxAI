@@ -60,6 +60,25 @@ export const HYBRID_COUNT: Record<PhaseName, number> = {
 };
 
 const LIFT_SPLIT: Array<"upper" | "lower" | "full"> = ["full", "upper", "lower"];
+/** Research heavy/power lift split with AT MOST 2 heavy days/week (heavy first,
+ *  interleaved): 1 -> [heavy]; 2 -> [heavy, power]; 3 -> [heavy, power, heavy];
+ *  4 -> [heavy, power, heavy, power]. "full" = heavy, "power" = power/plyo. */
+export function researchLiftSplit(count: number): Array<"full" | "power"> {
+  let heavy = count <= 2 ? Math.min(1, count) : 2;
+  let power = count - heavy;
+  const out: Array<"full" | "power"> = [];
+  while (heavy > 0 || power > 0) {
+    if (heavy > 0) {
+      out.push("full");
+      heavy -= 1;
+    }
+    if (power > 0) {
+      out.push("power");
+      power -= 1;
+    }
+  }
+  return out;
+}
 
 /**
  * Sport-provided per-phase session counts (P0 rewire). The engine reads these
@@ -78,6 +97,8 @@ export interface SessionCountTables {
   /** Research anchors: seed a threshold + VO2 run every quality week, in every
    *  phase (set when the athlete gave an hours budget for a band-table sport). */
   guaranteeQuality?: boolean;
+  /** Use the research heavy/power lift split instead of upper/lower/full. */
+  researchLifts?: boolean;
 }
 
 export const DEFAULT_COUNTS: SessionCountTables = {
@@ -131,7 +152,7 @@ export function planWeek(
     // Taper: cut frequency AND volume for race-week freshness.
     runs = Math.max(runFloorTaper, Math.round(runs * 0.6));
     hybrids = Math.max(0, hybrids - 1);
-    lifts = 2;
+    lifts = Math.min(lifts, 2);
   } else if (microWeek === "deload") {
     // Deload (Review #9): preserve intensity + frequency touch-points and let the
     // −40% volume target (set at the microcycle level) do the load reduction by
@@ -139,7 +160,7 @@ export function planWeek(
     // the long run and a quality run both survive; keep one hybrid; trim lifts.
     runs = Math.max(runFloor, runs - 1);
     hybrids = hybrids > 0 ? Math.max(1, hybrids - 1) : 0; // never resurrect a hybrid for a no-hybrid sport
-    lifts = 2;
+    lifts = Math.min(lifts, 2);
   }
 
   return { runs, lifts, hybrids };
@@ -243,10 +264,13 @@ function applyRunEmphasis(fillers: RunType[], emphasis: RunEmphasis): RunType[] 
     .map((x) => x.t);
 }
 
-function buildLiftSlots(count: number): SessionSlot[] {
+function buildLiftSlots(count: number, researchSplit = false): SessionSlot[] {
+  if (researchSplit) {
+    return researchLiftSplit(count).map((liftType) => ({ kind: "lift" as const, liftType }));
+  }
   return Array.from({ length: count }, (_, i) => ({
     kind: "lift" as const,
-    liftType: LIFT_SPLIT[i % LIFT_SPLIT.length]!, // safe: LIFT_SPLIT is non-empty, so the index is in-bounds
+    liftType: LIFT_SPLIT[i % LIFT_SPLIT.length]!, // safe: LIFT_SPLIT is non-empty
   }));
 }
 
@@ -438,7 +462,7 @@ export function assignDays(
     // Interleave kinds (run, lift, hybrid, run, lift, …) so similar sessions
     // don't cluster on adjacent days.
     const runs = buildRunSlots(phase, plan.runs, pos, bias?.runEmphasis ?? "none", counts.runCharacter ?? "full", counts.guaranteeQuality ?? false);
-    const lifts = buildLiftSlots(plan.lifts);
+    const lifts = buildLiftSlots(plan.lifts, counts.researchLifts ?? false);
     // Review #9: one Peak hybrid per normal week becomes a full race simulation.
     const simulate = phase === "peak" && (microWeek === "rebound" || microWeek === "increase");
     const hybrids = buildHybridSlots(plan.hybrids, simulate);

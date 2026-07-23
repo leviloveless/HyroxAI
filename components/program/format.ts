@@ -49,6 +49,7 @@ export const LIFT_TYPE_LABEL: Record<LiftSession["liftType"], string> = {
   upper: "Upper body",
   lower: "Lower body",
   full: "Full body",
+  power: "Power / explosive",
 };
 
 export const DAY_LABEL: Record<string, string> = {

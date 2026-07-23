@@ -106,7 +106,7 @@ export interface RunSlot {
 }
 export interface LiftSlot {
   kind: "lift";
-  liftType: "upper" | "lower" | "full";
+  liftType: "upper" | "lower" | "full" | "power";
 }
 export interface HybridSlot {
   kind: "hybrid";

@@ -15,7 +15,7 @@ import type { DaySlot, RunType, SessionSlot, SlotPredicate, TrainingDayName } fr
 const KEY_RUN_TYPES: ReadonlySet<RunType> = new Set(["long", "interval", "threshold", "tempo"]);
 export const isKeyRun: SlotPredicate = (s) => s.kind === "run" && KEY_RUN_TYPES.has(s.runType);
 export const isHardLegLift: SlotPredicate = (s) =>
-  s.kind === "lift" && (s.liftType === "lower" || s.liftType === "full");
+  s.kind === "lift" && (s.liftType === "lower" || s.liftType === "full" || s.liftType === "power");
 
 /** A session light enough to sit the day before a key run (no leg fatigue). */
 function isLightSlot(s: SessionSlot): boolean {

@@ -165,6 +165,10 @@ export interface SportConfig {
    *  present AND the athlete supplied a band, these drive the zone distribution
    *  (scaling true VO2/high-intensity by budget) instead of the flat band shift. */
   bandZone3Z?: Record<WeeklyHoursBand, ThreeZone>;
+  /** Research strength dose: [min,max] quality lifts/week by weekly-hours band
+   *  (heavy + power). The count scales within the range by LIFTING experience
+   *  (beginner -> min, advanced -> max). Replaces the fixed upper/lower/full split. */
+  bandLiftCounts?: Record<WeeklyHoursBand, [number, number]>;
   needsDomains: NeedsDomainConfig[];
   /** Station names (matching the philosophy library) the needs analysis emphasizes
    *  for an erg / strength limiter. Omit → HYROX station names. */

@@ -51,6 +51,18 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
     guaranteeQuality: !!input.weeklyHours && !!cfg.bandZone3Z,
   };
 
+  // Research strength dose: at a given budget HYROX wants ~1-3 quality lifts
+  // (heavy + power), not a fixed 3-day upper/lower/full split. Override the lift
+  // counts and switch to the heavy/power split for a band athlete.
+  if (input.weeklyHours && cfg.bandLiftCounts) {
+    const [lo, hi] = cfg.bandLiftCounts[input.weeklyHours];
+    // Scale within the range by lifting experience: beginner -> min, advanced -> max.
+    const expIdx = input.liftingExp === "advanced" ? 2 : input.liftingExp === "intermediate" ? 1 : 0;
+    const n = Math.round(lo + ((hi - lo) * expIdx) / 2);
+    counts.lift = { base: n, build: n, peak: n, taper: Math.max(1, n - 1) };
+    counts.researchLifts = true;
+  }
+
   // General fitness has no race to peak toward: a rotating-emphasis macro-arc
   // (strength → aerobic → mixed) with no taper, instead of Base/Build/Peak/Taper.
   if (cfg.programType === "general_fitness") {

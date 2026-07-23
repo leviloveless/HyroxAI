@@ -10404,10 +10404,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 5,
+              "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "fartlek",
             },
           ],
         },
@@ -10418,10 +10418,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "lift",
               "liftType": "full",
             },
-            {
-              "kind": "lift",
-              "liftType": "lower",
-            },
           ],
         },
         {
@@ -10430,12 +10426,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -10454,8 +10444,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -10486,10 +10478,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 5,
+              "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "fartlek",
             },
           ],
         },
@@ -10500,10 +10492,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "lift",
               "liftType": "full",
             },
-            {
-              "kind": "lift",
-              "liftType": "lower",
-            },
           ],
         },
         {
@@ -10512,12 +10500,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -10536,8 +10518,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -10567,12 +10551,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
-            {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
-            },
           ],
         },
         {
@@ -10608,8 +10586,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -10640,10 +10620,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 5,
+              "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "fartlek",
             },
           ],
         },
@@ -10654,10 +10634,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "lift",
               "liftType": "full",
             },
-            {
-              "kind": "lift",
-              "liftType": "lower",
-            },
           ],
         },
         {
@@ -10666,12 +10642,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -10690,8 +10660,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -10722,10 +10694,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 5,
+              "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "fartlek",
             },
           ],
         },
@@ -10736,10 +10708,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "lift",
               "liftType": "full",
             },
-            {
-              "kind": "lift",
-              "liftType": "lower",
-            },
           ],
         },
         {
@@ -10748,12 +10716,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -10772,8 +10734,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -10803,12 +10767,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
-            {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
-            },
           ],
         },
         {
@@ -10844,8 +10802,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -10876,10 +10836,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 5,
+              "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "fartlek",
             },
           ],
         },
@@ -10890,10 +10850,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "lift",
               "liftType": "full",
             },
-            {
-              "kind": "lift",
-              "liftType": "lower",
-            },
           ],
         },
         {
@@ -10902,12 +10858,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -10926,8 +10876,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -10952,14 +10904,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
-              "goalZone": 4,
-              "kind": "hybrid",
-            },
-            {
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
               "runType": "long",
+            },
+            {
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -10967,10 +10921,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 5,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "tempo",
             },
             {
               "kind": "lift",
@@ -10986,8 +10940,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 2,
+              "isLong": false,
+              "kind": "run",
+              "runType": "fartlek",
             },
           ],
         },
@@ -11000,26 +10956,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
-            {
-              "goalZone": 3,
-              "isLong": false,
-              "kind": "run",
-              "runType": "tempo",
-            },
           ],
         },
         {
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
-            },
-            {
-              "kind": "lift",
-              "liftType": "lower",
+              "goalZone": 4,
+              "kind": "hybrid",
             },
           ],
         },
@@ -11050,22 +10994,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 5,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "tempo",
             },
           ],
         },
         {
           "day": "tue",
           "sessions": [
-            {
-              "goalZone": 3,
-              "isLong": false,
-              "kind": "run",
-              "runType": "tempo",
-            },
             {
               "kind": "lift",
               "liftType": "full",
@@ -11096,8 +11034,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -11122,14 +11062,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
-              "goalZone": 4,
-              "kind": "hybrid",
-            },
-            {
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
               "runType": "long",
+            },
+            {
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -11137,10 +11079,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 5,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "tempo",
             },
             {
               "kind": "lift",
@@ -11156,8 +11098,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "kind": "lift",
-              "liftType": "lower",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -11170,26 +11114,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
-            {
-              "goalZone": 3,
-              "isLong": false,
-              "kind": "run",
-              "runType": "tempo",
-            },
           ],
         },
         {
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
-            },
-            {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 4,
+              "kind": "hybrid",
             },
           ],
         },
@@ -11214,14 +11146,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
-              "goalZone": 4,
-              "kind": "hybrid",
-            },
-            {
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
               "runType": "long",
+            },
+            {
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -11229,10 +11163,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 5,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "tempo",
             },
             {
               "kind": "lift",
@@ -11248,8 +11182,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "kind": "lift",
-              "liftType": "lower",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -11262,26 +11198,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
-            {
-              "goalZone": 3,
-              "isLong": false,
-              "kind": "run",
-              "runType": "tempo",
-            },
           ],
         },
         {
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
-            },
-            {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 4,
+              "kind": "hybrid",
             },
           ],
         },
@@ -11312,22 +11236,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "long",
             },
             {
-              "goalZone": 5,
+              "goalZone": 3,
               "isLong": false,
               "kind": "run",
-              "runType": "interval",
+              "runType": "tempo",
             },
           ],
         },
         {
           "day": "tue",
           "sessions": [
-            {
-              "goalZone": 3,
-              "isLong": false,
-              "kind": "run",
-              "runType": "tempo",
-            },
             {
               "kind": "lift",
               "liftType": "full",
@@ -11358,8 +11276,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -11384,14 +11304,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
-              "goalZone": 4,
-              "kind": "hybrid",
-            },
-            {
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
               "runType": "long",
+            },
+            {
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -11399,10 +11321,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
+              "goalZone": 4,
+              "kind": "hybrid",
             },
             {
               "kind": "lift",
@@ -11419,18 +11339,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "simulation": true,
             },
             {
-              "kind": "lift",
-              "liftType": "lower",
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
             },
           ],
         },
         {
           "day": "thu",
           "sessions": [
-            {
-              "goalZone": 4,
-              "kind": "hybrid",
-            },
             {
               "goalZone": 4,
               "isLong": false,
@@ -11444,13 +11362,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "goalZone": 4,
-              "isLong": false,
-              "kind": "run",
-              "runType": "threshold",
-            },
-            {
-              "kind": "lift",
-              "liftType": "upper",
+              "kind": "hybrid",
             },
           ],
         },
@@ -11475,14 +11387,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
-              "goalZone": 4,
-              "kind": "hybrid",
-            },
-            {
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
               "runType": "long",
+            },
+            {
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
             },
           ],
         },
@@ -11490,10 +11404,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
+              "goalZone": 4,
+              "kind": "hybrid",
             },
             {
               "kind": "lift",
@@ -11510,18 +11422,16 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "simulation": true,
             },
             {
-              "kind": "lift",
-              "liftType": "lower",
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
             },
           ],
         },
         {
           "day": "thu",
           "sessions": [
-            {
-              "goalZone": 4,
-              "kind": "hybrid",
-            },
             {
               "goalZone": 4,
               "isLong": false,
@@ -11535,13 +11445,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "goalZone": 4,
-              "isLong": false,
-              "kind": "run",
-              "runType": "threshold",
-            },
-            {
-              "kind": "lift",
-              "liftType": "upper",
+              "kind": "hybrid",
             },
           ],
         },
@@ -11597,7 +11501,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "full",
             },
           ],
         },
@@ -11605,8 +11509,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "kind": "rest",
             },
           ],
         },
@@ -11729,12 +11632,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 2,
+              "isLong": false,
+              "kind": "run",
+              "runType": "fartlek",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -11744,12 +11649,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -11769,7 +11668,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -11811,12 +11710,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 2,
+              "isLong": false,
+              "kind": "run",
+              "runType": "fartlek",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -11826,12 +11727,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -11851,7 +11746,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -11923,7 +11818,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -11965,12 +11860,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 2,
+              "isLong": false,
+              "kind": "run",
+              "runType": "fartlek",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -11980,12 +11877,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -12005,7 +11896,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12047,12 +11938,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 2,
+              "isLong": false,
+              "kind": "run",
+              "runType": "fartlek",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -12062,12 +11955,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -12087,7 +11974,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12159,7 +12046,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12201,12 +12088,14 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "tue",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "goalZone": 2,
+              "isLong": false,
+              "kind": "run",
+              "runType": "fartlek",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -12216,12 +12105,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             {
               "goalZone": 4,
               "kind": "hybrid",
-            },
-            {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
             },
           ],
         },
@@ -12241,7 +12124,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12300,8 +12183,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 3,
+              "isLong": false,
+              "kind": "run",
+              "runType": "tempo",
             },
           ],
         },
@@ -12315,10 +12200,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "threshold",
             },
             {
-              "goalZone": 3,
+              "goalZone": 2,
               "isLong": false,
               "kind": "run",
-              "runType": "tempo",
+              "runType": "fartlek",
             },
           ],
         },
@@ -12326,14 +12211,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
-            },
-            {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "power",
             },
           ],
         },
@@ -12411,7 +12290,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12470,21 +12349,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-          ],
-        },
-        {
-          "day": "thu",
-          "sessions": [
-            {
-              "goalZone": 4,
-              "isLong": false,
-              "kind": "run",
-              "runType": "threshold",
-            },
-            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
@@ -12493,7 +12357,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           ],
         },
         {
-          "day": "fri",
+          "day": "thu",
           "sessions": [
             {
               "goalZone": 5,
@@ -12502,8 +12366,19 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "interval",
             },
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+          ],
+        },
+        {
+          "day": "fri",
+          "sessions": [
+            {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12562,21 +12437,6 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "kind": "lift",
-              "liftType": "lower",
-            },
-          ],
-        },
-        {
-          "day": "thu",
-          "sessions": [
-            {
-              "goalZone": 4,
-              "isLong": false,
-              "kind": "run",
-              "runType": "threshold",
-            },
-            {
               "goalZone": 3,
               "isLong": false,
               "kind": "run",
@@ -12585,7 +12445,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           ],
         },
         {
-          "day": "fri",
+          "day": "thu",
           "sessions": [
             {
               "goalZone": 5,
@@ -12594,8 +12454,19 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "runType": "interval",
             },
             {
+              "goalZone": 4,
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
+            },
+          ],
+        },
+        {
+          "day": "fri",
+          "sessions": [
+            {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12673,7 +12544,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12733,8 +12604,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "simulation": true,
             },
             {
-              "kind": "lift",
-              "liftType": "lower",
+              "goalZone": 4,
+              "kind": "hybrid",
             },
           ],
         },
@@ -12743,7 +12614,9 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "goalZone": 4,
-              "kind": "hybrid",
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
             },
             {
               "goalZone": 4,
@@ -12757,14 +12630,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 4,
-              "isLong": false,
-              "kind": "run",
-              "runType": "threshold",
-            },
-            {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12824,8 +12691,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "simulation": true,
             },
             {
-              "kind": "lift",
-              "liftType": "lower",
+              "goalZone": 4,
+              "kind": "hybrid",
             },
           ],
         },
@@ -12834,7 +12701,9 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "goalZone": 4,
-              "kind": "hybrid",
+              "isLong": false,
+              "kind": "run",
+              "runType": "threshold",
             },
             {
               "goalZone": 4,
@@ -12848,14 +12717,8 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 4,
-              "isLong": false,
-              "kind": "run",
-              "runType": "threshold",
-            },
-            {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -12911,7 +12774,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "full",
             },
           ],
         },
@@ -12919,8 +12782,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "kind": "lift",
-              "liftType": "full",
+              "kind": "rest",
             },
           ],
         },
@@ -13048,7 +12910,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -13083,7 +12945,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13130,7 +12992,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -13165,7 +13027,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13237,7 +13099,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13284,7 +13146,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -13319,7 +13181,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13366,7 +13228,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -13401,7 +13263,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13473,7 +13335,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13520,7 +13382,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -13555,7 +13417,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13614,8 +13476,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
-              "kind": "lift",
-              "liftType": "upper",
+              "goalZone": 2,
+              "isLong": false,
+              "kind": "run",
+              "runType": "fartlek",
             },
           ],
         },
@@ -13640,14 +13504,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
+              "kind": "lift",
+              "liftType": "power",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -13725,7 +13587,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13785,7 +13647,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -13817,7 +13679,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13877,7 +13739,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -13909,7 +13771,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -13987,7 +13849,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14048,7 +13910,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -14078,7 +13940,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14139,7 +14001,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -14169,7 +14031,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14225,7 +14087,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14362,7 +14224,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -14390,6 +14252,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -14397,7 +14263,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14444,7 +14310,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -14472,6 +14338,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -14479,7 +14349,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14551,7 +14421,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14598,7 +14468,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -14626,6 +14496,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -14633,7 +14507,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14680,7 +14554,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -14708,6 +14582,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -14715,7 +14593,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14787,7 +14665,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14834,7 +14712,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -14862,6 +14740,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -14869,7 +14751,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -14903,6 +14785,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "goalZone": 2,
+              "isLong": false,
+              "kind": "run",
+              "runType": "fartlek",
+            },
           ],
         },
         {
@@ -14929,7 +14817,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "full",
             },
           ],
         },
@@ -14954,14 +14842,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
+              "kind": "lift",
+              "liftType": "power",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "power",
             },
           ],
         },
@@ -15039,7 +14925,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15073,6 +14959,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
+            },
           ],
         },
         {
@@ -15099,7 +14991,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -15124,14 +15016,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
+              "kind": "lift",
+              "liftType": "power",
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15165,6 +15055,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
+            },
           ],
         },
         {
@@ -15191,7 +15087,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -15216,14 +15112,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
+              "kind": "lift",
+              "liftType": "power",
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15301,7 +15195,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15335,6 +15229,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -15362,7 +15260,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -15392,7 +15290,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15426,6 +15324,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -15453,7 +15355,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -15483,7 +15385,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15539,7 +15441,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15676,7 +15578,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -15704,6 +15606,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -15711,7 +15617,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15758,7 +15664,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -15786,6 +15692,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -15793,7 +15703,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15865,7 +15775,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15912,7 +15822,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -15940,6 +15850,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -15947,7 +15861,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -15994,7 +15908,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -16022,6 +15936,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -16029,7 +15947,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -16101,7 +16019,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -16148,7 +16066,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -16176,6 +16094,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "threshold",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -16183,7 +16105,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -16217,6 +16139,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "goalZone": 2,
+              "isLong": false,
+              "kind": "run",
+              "runType": "fartlek",
+            },
           ],
         },
         {
@@ -16243,7 +16171,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "full",
             },
           ],
         },
@@ -16268,14 +16196,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 2,
-              "isLong": false,
-              "kind": "run",
-              "runType": "fartlek",
+              "kind": "lift",
+              "liftType": "power",
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "power",
             },
           ],
         },
@@ -16353,7 +16279,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -16387,6 +16313,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
+            },
           ],
         },
         {
@@ -16413,7 +16345,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -16438,14 +16370,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
+              "kind": "lift",
+              "liftType": "power",
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -16479,6 +16409,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "goalZone": 5,
+              "isLong": false,
+              "kind": "run",
+              "runType": "interval",
+            },
           ],
         },
         {
@@ -16505,7 +16441,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -16530,14 +16466,12 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "fri",
           "sessions": [
             {
-              "goalZone": 5,
-              "isLong": false,
-              "kind": "run",
-              "runType": "interval",
+              "kind": "lift",
+              "liftType": "power",
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -16615,7 +16549,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -16649,6 +16583,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -16676,7 +16614,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -16706,7 +16644,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -16740,6 +16678,10 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "run",
               "runType": "long",
             },
+            {
+              "kind": "lift",
+              "liftType": "power",
+            },
           ],
         },
         {
@@ -16767,7 +16709,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "lower",
+              "liftType": "full",
             },
           ],
         },
@@ -16797,7 +16739,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
             },
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },
@@ -16853,7 +16795,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "sessions": [
             {
               "kind": "lift",
-              "liftType": "upper",
+              "liftType": "power",
             },
           ],
         },

@@ -119,7 +119,13 @@ export function daySessions(
   for (const slot of planned) {
     const idx = pool.findIndex((s) => s.kind === slot.kind);
     if (idx !== -1) {
-      out.push(pool.splice(idx, 1)[0]!); // safe: findIndex returned a valid index
+      const matched = pool.splice(idx, 1)[0]!; // safe: findIndex returned a valid index
+      // The engine owns liftType periodization; enforce the planned "power" day
+      // even when the AI returned a generic lift (matching here is by kind only).
+      if (slot.kind === "lift" && slot.liftType === "power" && matched.kind === "lift") {
+        matched.liftType = "power";
+      }
+      out.push(matched);
     } else {
       const ph = placeholderFor(slot);
       if (ph) out.push(ph);
@@ -304,7 +310,7 @@ export function patchMovementPatterns(week: ProgramWeek): MovementPattern[] {
       liftSessions.find((s) => s.kind === "lift" && s.liftType === "full") ??
       liftSessions[0];
     if (target && target.kind === "lift") {
-      const repRange = target.liftType === "full" ? "5-7" : "12-15";
+      const repRange = target.liftType === "full" || target.liftType === "power" ? "5-7" : "12-15";
       target.movements.push({ pattern, sets: 3, repRange });
     }
   }
@@ -388,7 +394,7 @@ export function applyStrengthSchemes(
         // week so consecutive weeks don't repeat the identical lift (overuse).
         m.exercise = pickExercise(m.pattern, week.weekNumber);
       }
-      const power = powerElementFor(week.phase, week.microWeek, liftIndex);
+      const power = powerElementFor(week.phase, week.microWeek, liftIndex, session.liftType === "power");
       if (power) session.power = power;
       else delete session.power;
       liftIndex += 1;
