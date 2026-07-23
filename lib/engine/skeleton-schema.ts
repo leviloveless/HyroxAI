@@ -37,9 +37,10 @@ const SessionSlotSchema = z.discriminatedUnion("kind", [
     runType: RunTypeSchema,
     goalZone: z.number(),
     isLong: z.boolean().optional(),
+    compromised: z.boolean().optional(),
     durationMin: z.number().optional(),
   }),
-  z.object({ kind: z.literal("lift"), liftType: z.enum(["upper", "lower", "full"]) }),
+  z.object({ kind: z.literal("lift"), liftType: z.enum(["upper", "lower", "full", "power"]) }),
   z.object({
     kind: z.literal("hybrid"),
     goalZone: z.number(),

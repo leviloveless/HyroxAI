@@ -261,6 +261,8 @@ export const RunSessionSchema = z.object({
   /** 1–2 sentence explanation of the run + how to execute it (Tasks #2).
    *  Attached deterministically during assembly, so it's optional on input. */
   description: z.string().optional(),
+  /** True for the Section 6 long compromised run (long run + station transitions). */
+  compromised: z.boolean().optional(),
 });
 
 export const StrengthEmphasis = z.enum(["max_strength", "strength", "endurance"]);

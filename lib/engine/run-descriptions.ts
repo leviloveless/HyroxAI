@@ -47,3 +47,12 @@ export function runDescription(runType: RunType, runningExp: ExperienceLevel): s
   }
   return RUN_DESCRIPTIONS[runType];
 }
+
+/**
+ * The Section 6 keystone: a long run threaded with station transitions — the
+ * direct antidote to HYROX's compromised-running problem. Independent of run
+ * experience (the structure is the same; scale the distance to your long run).
+ */
+export function compromisedLongDescription(): string {
+  return "The keystone session: a long compromised run. Run your long-run distance in Zone 1\u20133, but every ~10\u201315 minutes break to perform a race station \u2014 e.g. a 50m sled push/pull, 20 walking lunges, 15 burpee broad jumps, or a 500m ski/row erg \u2014 then resume running. Threading stations into the run trains your legs to run under station fatigue, exactly what race day demands.";
+}

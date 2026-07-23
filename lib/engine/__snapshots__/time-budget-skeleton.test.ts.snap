@@ -10398,6 +10398,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -10466,6 +10467,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -10534,6 +10536,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -10602,6 +10605,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -10670,6 +10674,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -10738,6 +10743,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -10806,6 +10812,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -10874,6 +10881,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -10940,6 +10948,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11008,6 +11017,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11074,6 +11084,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11140,6 +11151,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11208,6 +11220,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11275,6 +11288,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11342,6 +11356,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11487,6 +11502,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11559,6 +11575,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11631,6 +11648,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11703,6 +11721,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11775,6 +11794,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11847,6 +11867,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11919,6 +11940,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -11991,6 +12013,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12063,6 +12086,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12135,6 +12159,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12207,6 +12232,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12279,6 +12305,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12351,6 +12378,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12424,6 +12452,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12497,6 +12526,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12642,6 +12672,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12724,6 +12755,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12806,6 +12838,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12878,6 +12911,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -12960,6 +12994,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13042,6 +13077,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13114,6 +13150,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13200,6 +13237,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13276,6 +13314,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13358,6 +13397,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13438,6 +13478,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13514,6 +13555,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13596,6 +13638,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13677,6 +13720,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13754,6 +13798,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13900,6 +13945,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -13986,6 +14032,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14072,6 +14119,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14144,6 +14192,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14230,6 +14279,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14316,6 +14366,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14388,6 +14439,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14478,6 +14530,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14564,6 +14617,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14646,6 +14700,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14736,6 +14791,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14822,6 +14878,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14904,6 +14961,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -14993,6 +15051,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15078,6 +15137,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15224,6 +15284,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15310,6 +15371,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15396,6 +15458,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15468,6 +15531,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15554,6 +15618,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15640,6 +15705,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15712,6 +15778,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15802,6 +15869,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15894,6 +15962,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -15976,6 +16045,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -16072,6 +16142,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -16164,6 +16235,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -16246,6 +16318,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -16341,6 +16414,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
               "kind": "hybrid",
             },
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
@@ -16432,6 +16506,7 @@ exports[`time-budget skeletons (band-driven; snapshots auto-created on first run
           "day": "mon",
           "sessions": [
             {
+              "compromised": true,
               "goalZone": 2,
               "isLong": true,
               "kind": "run",
