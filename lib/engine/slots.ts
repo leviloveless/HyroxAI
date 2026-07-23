@@ -28,7 +28,7 @@ import type {
 } from "./types";
 import type { ProgramBias, RunEmphasis } from "./needs";
 import { clampInt } from "./math";
-import { applySequencingGuards } from "./sequencing";
+import { applySequencingGuards, separateLifts, pairLegLiftWithCardio } from "./sequencing";
 
 const GOAL_ZONE: Record<RunType, number> = {
   easy: 2,
@@ -515,6 +515,12 @@ export function assignDays(
     }
     // Review #8: keep heavy-leg lifts off the day before a key run.
     applySequencingGuards(days, protectedDays);
+    // Batch 3: research programs keep one weight session per day (rule 1)
+    // and pair every hard-leg lift with easy same-day cardio (rule 2).
+    if (counts.researchLifts) {
+      separateLifts(days, protectedDays);
+      pairLegLiftWithCardio(days, protectedDays);
+    }
   }
 
   if (race) {

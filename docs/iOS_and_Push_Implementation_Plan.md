@@ -35,6 +35,31 @@
 
 ## Part B — Push notifications
 
+> ### ✅ STATUS — Web push SHIPPED & wired (2026-07-22)
+> The full web-push channel is built, deployed to production, and the send
+> pipeline is **verified working end-to-end** (a Settings → test notification
+> delivered to a real device). What's live:
+> - **Groundwork** — `push_subscriptions` table (migration `0036`), service worker
+>   (`public/sw.js`), subscribe/unsubscribe/test routes, `lib/push/send.ts`
+>   (VAPID-key-normalizing, best-effort), and the "Workout reminders" toggle in
+>   Settings → Connections. VAPID keys set in Vercel; `web-push` installed.
+> - **Triggers** — `lib/push/reminders.ts` runs from the daily lifecycle cron
+>   (14:00 UTC) firing **workout_due** (unlogged session scheduled today) and
+>   **week_review** (Monday, prior week had activity). Dedup via `push_sends`
+>   (migration `0037`). Pure detection unit-tested (`lib/push/triggers.test.ts`).
+>
+> **⏳ One open verification (see the 2026-07-22 handoff):** confirm the cron
+> actually fires the reminders in prod — trigger `/api/cron/lifecycle` manually
+> (Vercel dashboard → Crons → Run, or curl the real production domain with the
+> real `CRON_SECRET`) and check the `pushReminders` summary in the JSON. The
+> manual `<app.duravel.app>` curl returned DEPLOYMENT_NOT_FOUND only because that
+> host is the iOS-shell subdomain, not the web deployment — use the real domain.
+>
+> **Deferred (not started):** per-user quiet hours + smarter send time (needs a
+> `profiles.timezone` column); `streak_at_risk` trigger; native APNs (after iOS);
+> per-category preference UI.
+
+
 ### Decision to make first (owner)
 Two independent channels; pick one or both:
 - **Web push** (browsers + installed PWA) — works today on the web app, no App Store. Good for re-engagement now.

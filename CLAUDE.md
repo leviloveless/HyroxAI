@@ -41,6 +41,10 @@ folder first. This is a hard rule — do not invent other names or locations.
 **Planned** bars vs **Actual** progress across all lanes. **Update its `ROWS`/`MILESTONES`
 arrays every session** as work lands. Prior artifact exports live in `docs\artifacts\`.
 
+## 🔌 Wearables & data integrations
+
+All providers feed one shared ingestion pipeline — see `docs/future-phases/20-multi-source-health-integrations.md`. **Garmin Connect Developer Program is PAUSED to new applications (2026-07-18, no reopen date)** — parked; re-apply when it reopens (weekly reminder set). Pivot order: **Oura (build first) → WHOOP (start app-approval early + resolve its ToS retention limit) → Apple Health (ships with the iOS app; needs a custom Capacitor plugin)**. **Aura dropped** — no public API (it's a data sink); use the live Strava import instead. Legacy Garmin build spec (still valid, parked): `docs/future-phases/11-garmin.md`.
+
 ## 👉 iOS build handoff — START HERE
 
 The iOS app was generated across 7 parts. Everything is under `Apple\`, one folder per part,
