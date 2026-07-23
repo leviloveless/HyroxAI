@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getAdmin } from "@/lib/admin";
 import type { ProgramData, WorkoutLog } from "@/lib/schemas";
 import { getProgramAdaptations, getProgramLogs, getProgramReadiness, getDailyMetrics } from "@/lib/supabase/queries";
 import { weeklyRecoveryAverages } from "@/lib/daily-metrics";
@@ -103,6 +104,7 @@ export default async function ProgramPage({
 }) {
   const { id } = await params;
   const supabase = await createClient();
+  const isCoach = !!(await getAdmin());
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -374,6 +376,7 @@ export default async function ProgramPage({
                       linkedBySession: syncData.linkedBySession,
                     }}
                     lock={gate.previewing ? { lockedWeeks: gate.lockedWeeks } : undefined}
+                    coach={isCoach}
                     hideSummary
                   />
                 ),

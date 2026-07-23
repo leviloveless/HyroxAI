@@ -55,6 +55,7 @@ export default function ProgramView({
   linking,
   lock,
   hideSummary,
+  coach,
 }: {
   program: ProgramData;
   meta: ProgramMeta;
@@ -71,6 +72,8 @@ export default function ProgramView({
   /** In the tabbed program view, hide the internal weekly summary (it becomes
    *  its own tab). */
   hideSummary?: boolean;
+  /** Admin/coach mode: enables inline per-session editing on the athlete view. */
+  coach?: boolean;
 }) {
   const logsByWeek = new Map<number, WorkoutLog[]>();
   for (const l of activity?.logs ?? []) {
@@ -149,6 +152,7 @@ export default function ProgramView({
           <WeekCard
             key={w.weekNumber}
             week={w}
+            coach={coach ? { programId: meta.programId } : undefined}
             startDate={meta.startDate}
             maxHR={meta.maxHR}
             zoneBands={meta.zoneBands}

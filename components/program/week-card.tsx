@@ -3,6 +3,7 @@ import { computeWeekSignals } from "@/lib/engine/adapt";
 import LogSession from "./log-session";
 import SessionLink from "./session-link";
 import ResultCardLauncher from "./result-card-launcher";
+import CoachSessionEdit from "./coach-session-edit";
 import { sessionCardFromLog } from "./session-card-data";
 import { sessionKey, type SyncActivitySummary } from "@/lib/wearables/suggest-data";
 import {
@@ -119,6 +120,7 @@ function MobileDayList({
   zoneBands,
   logging,
   athleteName,
+  coach,
 }: {
   week: ProgramWeek;
   startDate: string;
@@ -126,6 +128,7 @@ function MobileDayList({
   zoneBands?: ZoneBands;
   logging?: WeekLogging;
   athleteName?: string;
+  coach?: { programId: string };
 }) {
   const byDay = new Map(week.days.map((d) => [d.day, d.sessions]));
   return (
@@ -160,6 +163,9 @@ function MobileDayList({
                       {sessionTypeLabel(s)}
                     </span>
                     <span className="flex shrink-0 items-center gap-2">
+                      {coach && (
+                        <CoachSessionEdit programId={coach.programId} weekNumber={week.weekNumber} day={dayKey} sessionIndex={si} session={s} />
+                      )}
                       {!isRace && <span className="text-xs tabular-nums text-zinc-500">{t.total}m total</span>}
                       {logging && !isRace && (
                         <SessionLink
@@ -222,6 +228,7 @@ export default function WeekCard({
   zoneBands,
   logging,
   athleteName,
+  coach,
 }: {
   week: ProgramWeek;
   startDate: string;
@@ -229,6 +236,7 @@ export default function WeekCard({
   zoneBands?: ZoneBands;
   logging?: WeekLogging;
   athleteName?: string;
+  coach?: { programId: string };
 }) {
   const colors = PHASE_COLORS[week.phase];
   const byDay = new Map(week.days.map((d) => [d.day, d.sessions]));
@@ -289,7 +297,7 @@ export default function WeekCard({
       </div>
 
       {/* Mobile: stacked per-day list (no horizontal scroll) */}
-      <MobileDayList week={week} startDate={startDate} maxHR={maxHR} zoneBands={zoneBands} logging={logging} athleteName={athleteName} />
+      <MobileDayList week={week} startDate={startDate} maxHR={maxHR} zoneBands={zoneBands} logging={logging} athleteName={athleteName} coach={coach} />
 
       {/* Desktop: Mon→Sun session table */}
       <div className="hidden overflow-x-auto md:block">
@@ -351,6 +359,11 @@ export default function WeekCard({
                       <div className="text-xs">
                         <SessionDetail session={s} />
                       </div>
+                      {coach && (
+                        <div className="mt-1">
+                          <CoachSessionEdit programId={coach.programId} weekNumber={week.weekNumber} day={dayKey} sessionIndex={si} session={s} />
+                        </div>
+                      )}
                     </td>
                     <td className="px-3 py-3 align-top text-zinc-600">{sessionPace(s)}</td>
                     <td className="whitespace-nowrap px-3 py-3 align-top text-zinc-600">{sessionZoneLabel(s, maxHR, zoneBands)}</td>

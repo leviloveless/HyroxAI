@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getAdmin } from "@/lib/admin";
-import { ProgramDataSchema } from "@/lib/schemas";
+import { ProgramDataSchema, SessionSchema } from "@/lib/schemas";
+import { weekMileage, weekCardioMinutes } from "@/lib/session-volume";
 import { generateProgram } from "@/lib/generation/generate-program";
 
 /**
@@ -81,6 +82,75 @@ export async function updateProgramData(programId: string, json: string): Promis
   revalidatePath(`/admin/program/${programId}`);
   revalidatePath(`/program/${programId}`);
   return { ok: true };
+}
+
+export type CoachSaveResult =
+  | { ok: true; totalMileage: number; totalCardioMinutes: number }
+  | { ok: false; error: string };
+
+/**
+ * Save a single coach-edited session on the athlete's program and recompute that
+ * week's running mileage + cardio minutes from the canonical session-volume math,
+ * so the weekly totals shown to the athlete update to match the edit. zoneTargets
+ * are the engine's phase targets and are left unchanged.
+ */
+export async function saveCoachSession(
+  programId: string,
+  weekNumber: number,
+  day: string,
+  sessionIndex: number,
+  sessionJson: string,
+): Promise<CoachSaveResult> {
+  const admin = await getAdmin();
+  if (!admin) return { ok: false, error: "Not authorized." };
+
+  let rawSession: unknown;
+  try {
+    rawSession = JSON.parse(sessionJson);
+  } catch {
+    return { ok: false, error: "Edited session is not valid JSON." };
+  }
+  const sess = SessionSchema.safeParse(rawSession);
+  if (!sess.success) {
+    const first = sess.error.issues[0];
+    return { ok: false, error: `Session error: ${first?.path.join(".")} — ${first?.message}` };
+  }
+
+  const db = createAdminClient();
+  const { data: row, error: selErr } = await db
+    .from("programs")
+    .select("program_data")
+    .eq("id", programId)
+    .single();
+  if (selErr || !row) return { ok: false, error: "Program not found." };
+
+  const parsed = ProgramDataSchema.safeParse((row as { program_data?: unknown }).program_data);
+  if (!parsed.success) return { ok: false, error: "Stored program failed validation — repair it in the JSON editor first." };
+  const data = parsed.data;
+
+  const week = data.weeks.find((w) => w.weekNumber === weekNumber);
+  if (!week) return { ok: false, error: `Week ${weekNumber} not found.` };
+  const dayObj = week.days.find((d) => d.day === day);
+  if (!dayObj || sessionIndex < 0 || sessionIndex >= dayObj.sessions.length) {
+    return { ok: false, error: "Session not found." };
+  }
+
+  dayObj.sessions[sessionIndex] = sess.data;
+  // Recompute the week's volume from the edited sessions (single source of truth).
+  week.summary.totalMileage = weekMileage(week);
+  week.summary.totalCardioMinutes = weekCardioMinutes(week);
+
+  const check = ProgramDataSchema.safeParse(data);
+  if (!check.success) {
+    const first = check.error.issues[0];
+    return { ok: false, error: `Schema error: ${first?.path.join(".")} — ${first?.message}` };
+  }
+
+  const { error } = await db.from("programs").update({ program_data: check.data }).eq("id", programId);
+  if (error) return { ok: false, error: error.message };
+  revalidatePath(`/admin/program/${programId}`);
+  revalidatePath(`/program/${programId}`);
+  return { ok: true, totalMileage: week.summary.totalMileage, totalCardioMinutes: week.summary.totalCardioMinutes };
 }
 
 /** Rename a program. */
