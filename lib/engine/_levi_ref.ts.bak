@@ -1,0 +1,25 @@
+import { it } from "vitest";
+import { writeFileSync } from "node:fs";
+import type { EngineInput } from "./types";
+import { buildSkeleton } from "./skeleton";
+
+const input: EngineInput = {
+  sport: "hyrox",
+  weeklyHours: "h10_20", // 15 h/week
+  trainingClass: "highly_trained", // pro solo, competitive
+  age: 27,
+  runningExp: "beginner",
+  hybridExp: "intermediate",
+  liftingExp: "advanced",
+  programType: "goal_event",
+  durationWeeks: 17,
+  trainingDays: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"],
+  races: [{ weekNumber: 17, priority: "A", date: "2026-11-21" }],
+  longRunDay: "sat",
+  hybridDays: ["sun"],
+};
+
+it("dump Levi reference skeleton", () => {
+  const skel = buildSkeleton(input);
+  writeFileSync("/tmp/levi_skeleton.json", JSON.stringify(skel, null, 2));
+});

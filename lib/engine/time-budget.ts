@@ -9,7 +9,7 @@
  * snapshot tests freeze the resulting skeletons for review.
  */
 import type { WeeklyHoursBand } from "@/lib/schemas";
-import type { PhaseName, ZoneDistribution } from "./types";
+import type { ExperienceLevel, PhaseName, ZoneDistribution } from "./types";
 
 /**
  * Starting weekly running mileage for a single-currency sport (HYROX / DEKA /
@@ -76,6 +76,28 @@ export const BAND_MIDDLE_DELTA: Record<WeeklyHoursBand, number> = {
 
 export function bandStartMileage(band: WeeklyHoursBand): number {
   return BAND_START_MILEAGE[band];
+}
+
+/**
+ * Batch 7 — running share of the band aerobic budget.
+ *
+ * The band start-mileage is calibrated for an experienced runner, and the total
+ * cardio-minute budget is fixed by the band; the reconciler routes whatever
+ * isn't run to low-impact cross-training. So scaling the RUNNING mileage down
+ * (a) starts beginners at a sane volume and (b) shifts a heavier athlete's
+ * aerobic load off high-impact running — WITHOUT changing total aerobic volume.
+ *
+ *   - Experience: a beginner runner starts at 60% of the band mileage; an
+ *     intermediate/advanced runner is unchanged (factor 1.0), so existing
+ *     intermediate snapshots are byte-identical.
+ *   - Bodyweight: above 185 lb the running share tapers ~0.3%/lb, floored at
+ *     0.8 (a −20% cap). Missing bodyweight ⇒ 1.0.
+ */
+export function runImpactFactor(exp: ExperienceLevel, bodyWeightLbs?: number): number {
+  const expF = exp === "beginner" ? 0.6 : 1.0;
+  const bw = bodyWeightLbs ?? 0;
+  const bwF = bw > 185 ? Math.max(0.8, 1 - (bw - 185) * 0.003) : 1.0;
+  return expF * bwF;
 }
 
 export function bandTriHours(band: WeeklyHoursBand): [number, number] {

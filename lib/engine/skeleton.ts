@@ -25,7 +25,7 @@ import { applyTapers } from "./taper";
 import { PEAK_VOLUME_FACTOR, startingCardioMinutes, startingMileage } from "./volume";
 import { assignDays, DEFAULT_COUNTS, type SessionCountTables } from "./slots";
 import { getSport, type SportConfig } from "./sports";
-import { applyBandZoneShift, bandPhaseZoneTargets, bandStartMileage, bandStartCardioMinutes, bandSessionCap, bandAnchorRunFloor } from "./time-budget";
+import { applyBandZoneShift, bandPhaseZoneTargets, bandStartMileage, bandStartCardioMinutes, bandSessionCap, bandAnchorRunFloor, runImpactFactor } from "./time-budget";
 import { buildTriathlonSkeleton, swimLevelFromCss, bikeLevelFromFtp } from "./sports/triathlon";
 import { analyzeNeedsForSport } from "./needs-atlas";
 import { clamp, round1 } from "./math";
@@ -93,7 +93,7 @@ export function buildSkeleton(input: EngineInput): ProgramSkeleton {
   const startMi =
     input.startMileage ??
     (input.weeklyHours
-      ? bandStartMileage(input.weeklyHours)
+      ? round1(bandStartMileage(input.weeklyHours) * runImpactFactor(input.runningExp, input.bodyWeightLbs))
       : cfg.volume.kind === "single_currency"
         ? cfg.volume.startMileageByExp[input.runningExp]
         : startingMileage(input.runningExp));
@@ -251,7 +251,7 @@ function buildRotationSkeleton(input: EngineInput, cfg: SportConfig, counts: Ses
   const startMi =
     input.startMileage ??
     (input.weeklyHours
-      ? bandStartMileage(input.weeklyHours)
+      ? round1(bandStartMileage(input.weeklyHours) * runImpactFactor(input.runningExp, input.bodyWeightLbs))
       : cfg.volume.kind === "single_currency"
         ? cfg.volume.startMileageByExp[input.runningExp]
         : startingMileage(input.runningExp));
@@ -326,6 +326,11 @@ const MS_PER_WEEK = 7 * 24 * 60 * 60 * 1000;
  * any races are positioned relative to the start.
  */
 /** Body weight in kilograms (bike W/kg needs kg regardless of the athlete's unit). */
+function toLbs(weight: number | undefined, unit: "lbs" | "kg" | undefined): number | undefined {
+  if (weight === undefined || !(weight > 0)) return undefined;
+  return unit === "kg" ? weight * 2.2046226218 : weight;
+}
+
 function toKg(weight: number | undefined, unit: "lbs" | "kg" | undefined): number | undefined {
   if (!weight || weight <= 0) return undefined;
   return unit === "lbs" ? weight * 0.453592 : weight;
@@ -390,6 +395,7 @@ export function toEngineInput(input: GenerationInput, startDate?: string): Engin
     races,
     startMileage: input.startMileage,
     startCardioMinutes: input.startCardioMinutes,
+    bodyWeightLbs: toLbs(input.profile.bodyWeight, input.profile.weightUnit),
     longRunDay: input.profile.dayPreferences?.longRunDay,
     restDays: input.profile.dayPreferences?.restDays,
     liftDays: input.profile.dayPreferences?.liftDays,

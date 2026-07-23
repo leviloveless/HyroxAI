@@ -82,6 +82,9 @@ export interface EngineInput {
    *  (Review #1). When omitted the engine runs with a neutral (unbiased)
    *  program, exactly as before this feature. */
   needs?: NeedsAnalysis;
+  /** Athlete bodyweight normalized to LBS. Batch 7: shifts the running share of
+   *  the band aerobic budget down for heavier athletes (impact routing). */
+  bodyWeightLbs?: number;
 }
 
 // --- Allocation ---
